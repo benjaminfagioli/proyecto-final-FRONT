@@ -3,9 +3,11 @@ import Navbar from "./components/navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Room from "./components/room";
 const URL_BASE = "http://localhost:8080";
+import Carrousel from "./components/carrousel";
 
 const App = () => {
   const [rooms, setRooms] = useState([]);
+
   const getRooms = async (set) => {
     try {
       const data = await fetch(`${URL_BASE}/rooms/allrooms`);
@@ -16,12 +18,14 @@ const App = () => {
       console.log(error.message);
     }
   };
+
   useEffect(() => {
     getRooms(setRooms);
   }, []);
   return (
     <>
       <Navbar />
+      <Carrousel />
       <div id="roomCardsContainer">
         {rooms.map((r) => (
           <Room image={r.images[0]} title={r.number} text={r.description} />
