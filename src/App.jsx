@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./components/navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Room from "./components/room";
-const URL_BASE = "http://localhost:8080";
+const URL_BASE = import.meta.env.VITE_URL_BASE;
 import Carrousel from "./components/carrousel";
 
 const App = () => {
@@ -19,6 +19,7 @@ const App = () => {
     }
   };
 
+  console.log(rooms);
   useEffect(() => {
     getRooms(setRooms);
   }, []);
