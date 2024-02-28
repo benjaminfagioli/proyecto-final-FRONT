@@ -1,14 +1,23 @@
+import App from "../App";
+
 export const routes = [
   {
-    path: "/",
-    Element: Home,
+    Path: "/",
+    Element: App,
   },
   {
-    path: "/login",
-    Element: Login,
+    ///Path: "/login",
+    //Element: Login,
   },
   {
-    path: "/signup",
-    Element: SignUp,
+    //Path: "/signup",
+    //Element: SignUp,
+  },
+  {
+    //Path: "/error",
+    //Element: Eror,
+  },
+  {
+    //Path: "/admin",
   },
 ];
