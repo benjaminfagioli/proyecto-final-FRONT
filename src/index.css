@@ -10,3 +10,18 @@ html {
 .btn:active {
   border-color: transparent !important;
 }
+.swiper-pagination-bullet {
+  background: var(--Color-principal) !important;
+}
+.swiper-pagination {
+  background: var(--Color-secundario);
+  padding: 3px;
+  border-radius: 5px;
+}
+#roomSection {
+  padding: 15px 0 40px;
+  background: url("/public/home-bg-1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: var(--Color-principal);
+}

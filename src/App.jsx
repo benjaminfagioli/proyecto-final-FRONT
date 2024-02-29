@@ -4,13 +4,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Room from "./components/room";
 import Carrousel from "./components/carrousel";
 import { Container } from "react-bootstrap";
-import getRooms from "./utils/getRooms";
+import getAllRooms from "./utils/getAllRooms";
 
 const App = () => {
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    getRooms(setRooms);
+    getAllRooms(setRooms);
   }, []);
   return (
     <>
