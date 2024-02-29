@@ -1,4 +1,5 @@
 import App from "../App";
+import RoomView from "../views/RoomView";
 
 export const routes = [
   {
@@ -19,5 +20,9 @@ export const routes = [
   },
   {
     //Path: "/admin",
+  },
+  {
+    Path: "/room/:number",
+    Element: RoomView,
   },
 ];

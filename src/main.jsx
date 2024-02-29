@@ -10,15 +10,15 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { routes } from "./routes/routes.js";
-import layout from "./components/layout.jsx";
+import RootLayout from "./components/layout.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<layout />}>
-      {routes.map(({ Path, Element }) => (
-        <Route path={Path} element={<Element />} />
-      ))}
-      <Route path="*" element={<Error />} />
+    <Route element={<RootLayout />}>
+      {routes.map(({ Path, Element }) => {
+        return <Route path={Path} key={Path} Component={Element} />;
+      })}
+      <Route path="*" Component={Error} />
     </Route>
   )
 );
@@ -26,6 +26,5 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-    <App />
   </React.StrictMode>
 );
