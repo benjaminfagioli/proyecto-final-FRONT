@@ -12,7 +12,7 @@ export default function App() {
         effect={"cards"}
         grabCursor={true}
         modules={[EffectCards, Navigation]}
-        navigation={true}
+        // navigation={true}
         className="mySwiper"
       >
         <SwiperSlide>

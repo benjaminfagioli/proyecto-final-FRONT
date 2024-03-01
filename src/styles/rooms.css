@@ -10,7 +10,7 @@
     position: relative;
     .card-title {
       font-weight: normal;
-      transition: 0.7s;
+      transition: 0.9s;
       padding: 10px 8px;
       position: absolute;
       bottom: 0;
@@ -26,12 +26,12 @@
       overflow: hidden;
     }
     & img {
-      transition: 0.5s;
+      transition: 0.7s;
     }
   }
 }
 .roomCard:hover * img {
-  scale: 1.1;
+  scale: 1.05;
 }
 .card-title:hover {
   background-color: #dddddd62 !important;
