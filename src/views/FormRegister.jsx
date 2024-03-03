@@ -23,14 +23,9 @@ function FormRegister() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const validation = await validateFormData(userData);
-      if (!validation.isValid) {
-        let errorMessage =
-          "Por favor completa todos los campos y sigue los siguientes requisitos para la contraseña:<br>";
-        errorMessage +=
-          "- La contraseña debe tener mínimo 8 caracteres y máximo 30.<br>";
-        errorMessage +=
-          "- Debe contener al menos una letra y un número. No se permiten espacios ni caracteres especiales.<br>";
+      const { isValid, errorMessage } = await validateFormData(userData);
+
+      if (!isValid) {
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -38,8 +33,10 @@ function FormRegister() {
         });
         return;
       }
+
       const response = await registerUser(userData);
       console.log("User creado :", response);
+
       Swal.fire({
         icon: "success",
         title: "¡Registro exitoso!",
@@ -59,7 +56,6 @@ function FormRegister() {
       });
     }
   };
-
   return (
     <Form className="login-box" onSubmit={handleSubmit}>
       <h2>Regístrate</h2>
