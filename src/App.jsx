@@ -6,6 +6,8 @@ import Carrousel from "./components/carrousel";
 import { Container } from "react-bootstrap";
 import getAllRooms from "./utils/getAllRooms";
 import Searcher from "./components/Searcher";
+import FormRegister from "./views/FormRegister";
+
 
 const App = () => {
   const [rooms, setRooms] = useState([]);
