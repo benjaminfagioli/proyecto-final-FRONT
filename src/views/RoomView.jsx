@@ -48,8 +48,10 @@ const RoomView = () => {
       <Container fluid id="roomSection">
         <Container>
           <section>
-            <h1 className="fw-bold">¡Conoce la habitación {room?.number}! </h1>
             <Col md={10} lg={9}>
+              <h1 className="fw-bold">
+                ¡Conoce nuestra habitación n°{room?.number}!{" "}
+              </h1>
               <p className="mb-3 fs-6 ">{room?.description}</p>
             </Col>
             <div className="row">
