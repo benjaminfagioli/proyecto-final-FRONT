@@ -10,9 +10,6 @@ import Searcher from "./components/Searcher";
 const App = () => {
   const [rooms, setRooms] = useState([]);
 
-  useEffect(() => {
-    // getAllRooms(setRooms);
-  }, []);
   return (
     <>
       <Container className="p-0 px-lg-5">
