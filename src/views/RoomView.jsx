@@ -33,6 +33,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "../styles/RoomView.css";
+import numberToOrdinal from "../utils/numberToOrdinal";
 
 const RoomView = () => {
   const { number } = useParams();
@@ -100,12 +101,12 @@ const RoomView = () => {
                     <FontAwesomeIcon icon={faStairs} />
                     <span
                       className={`ms-3 ${
-                        room?.properties?.floor == 0 ? "" : "me-3"
+                        room?.properties?.floor == 0 ? "" : "me-1"
                       }  fw-bold `}
                     >
                       {room?.properties?.floor == 0
                         ? ""
-                        : room?.properties?.floor}
+                        : numberToOrdinal(room?.properties?.floor)}
                     </span>
                     <span className=" fw-light ">
                       {room?.properties?.floor == 0 ? "Planta baja" : "Piso"}

@@ -3,7 +3,7 @@ import "../styles/navbar.css";
 
 const NavBar = () => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar expand="lg">
       <Navbar.Brand>Hotelera</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">

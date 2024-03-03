@@ -17,7 +17,7 @@ const App = () => {
       <Container className="p-0 px-lg-5">
         <Carrousel />
       </Container>
-      <Container>
+      <Container className="px-0">
         <h3>Explora nuestras habitaciones</h3>
         <Searcher set={setRooms} xd="lol" />
         <div id="roomCardsContainer">

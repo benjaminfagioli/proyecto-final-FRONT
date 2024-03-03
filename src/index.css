@@ -7,6 +7,13 @@
 html {
   overflow-x: hidden;
 }
+main {
+  background-color: #eacbb9;
+}
+nav {
+  background-color: #ab8171;
+}
+
 .btn:active {
   border-color: transparent !important;
 }
