@@ -1,20 +1,19 @@
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { Navbar, Nav } from "react-bootstrap";
 import "../styles/navbar.css";
 
 const NavBar = () => {
   return (
-    <Navbar bg="light" data-bs-theme="light">
-      <Container>
-        <Navbar.Brand>Hotelera</Navbar.Brand>
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand>Hotelera</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="#home">Inicio</Nav.Link>
           <Nav.Link href="#features">Registrate</Nav.Link>
           <Nav.Link href="#pricing">Inicio Sesion</Nav.Link>
           <Nav.Link href="#pricing">Panel de Administrador</Nav.Link>
         </Nav>
-      </Container>
+      </Navbar.Collapse>
     </Navbar>
   );
 };

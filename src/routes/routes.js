@@ -1,4 +1,5 @@
 import App from "../App";
+import FormRegister from "../views/FormRegister";
 import RoomView from "../views/RoomView";
 
 export const routes = [
@@ -7,8 +8,8 @@ export const routes = [
     Element: App,
   },
   {
-    ///Path: "/login",
-    //Element: Login,
+    Path: "/Register",
+    Element: FormRegister,
   },
   {
     //Path: "/signup",
