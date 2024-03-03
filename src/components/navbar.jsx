@@ -5,7 +5,7 @@ import "../styles/navbar.css";
 
 const NavBar = () => {
   return (
-    <Navbar bg="light" data-bs-theme="light">
+    <Navbar data-bs-theme="light">
       <Container>
         <Navbar.Brand>Hotelera</Navbar.Brand>
         <Nav className="me-auto">

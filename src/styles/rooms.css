@@ -1,8 +1,12 @@
 #roomCardsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   grid-auto-rows: auto;
+  background-color: #eacbb9;
+  /* padding: 20px; */
+  margin-top: 30px;
+  border-radius: 7px;
   .roomCard {
     color: #0e0e0e;
     border-radius: 10px;
@@ -17,7 +21,7 @@
       width: 100%;
       background: linear-gradient(
         0deg,
-        #d5d5d5 0%,
+        #d5d5d5ad 0%,
         #bfbfbfab 37%,
         #00000000 100%
       );

@@ -1,0 +1,65 @@
+#searchForm {
+  background-color: #ab8171;
+  margin: 20px 0 0px;
+  padding: 50px;
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  & div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  & input {
+    margin: 0 0 0 7px;
+    background-color: #eacbb9;
+    border: none;
+    padding-left: 5px;
+    border-radius: 5px;
+  }
+  & button {
+    border: none;
+    border-radius: 5px;
+    background-color: #eacbb9;
+    padding: 5px 10px;
+    box-shadow: 0 0 20px -2px #eacbb9;
+  }
+  & label {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+  }
+}
+.containerCbx {
+  cursor: pointer;
+  margin: 0 0 0 7px;
+}
+
+.containerCbx input {
+  display: none;
+}
+
+.containerCbx svg {
+  overflow: visible;
+}
+
+.path {
+  fill: none;
+  stroke: #eacbb9;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+  stroke-dasharray: 241 9999999;
+  stroke-dashoffset: 0;
+}
+
+.containerCbx input:checked ~ svg .path {
+  stroke-dasharray: 70.5096664428711 9999999;
+  stroke-dashoffset: -262.2723388671875;
+}
