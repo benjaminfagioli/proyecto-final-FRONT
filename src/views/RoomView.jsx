@@ -84,8 +84,8 @@ const RoomView = () => {
                     </span>
                     <span className=" fw-light ">
                       {room?.properties?.bedrooms == 1
-                        ? "Habitacion"
-                        : "Habitaciones"}
+                        ? "Dormitorio"
+                        : "Dormitorios"}
                     </span>
                   </div>
                   <div>

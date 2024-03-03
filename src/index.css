@@ -8,7 +8,10 @@ html {
   overflow-x: hidden;
 }
 main {
-  background-color: #eacbb9;
+  /* background: url("../public/cardboard-flat.png");
+  background-color: #b57f5b; */
+  background: url("../public/cartographer.png");
+  background-color: #ffe3d1;
 }
 nav {
   background-color: #ab8171;

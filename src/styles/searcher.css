@@ -1,13 +1,14 @@
 #searchForm {
   background-color: #ab8171;
-  margin: 20px 0 0px;
-  padding: 50px;
+  padding: 50px 0;
+  margin: 10px 0 0 0;
   display: flex;
-  border-radius: 10px;
+  border-radius: 7px;
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  z-index: 10000;
   & div {
     display: flex;
     align-items: center;

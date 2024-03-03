@@ -7,24 +7,43 @@ import { Container } from "react-bootstrap";
 import getAllRooms from "./utils/getAllRooms";
 import Searcher from "./components/Searcher";
 import FormRegister from "./views/FormRegister";
-
+import Loader from "./components/Loader";
 
 const App = () => {
   const [rooms, setRooms] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
-      <Container className="p-0 px-lg-5">
+      <Container className="mb-4 pt-3">
         <Carrousel />
       </Container>
-      <Container className="px-0">
+      <Container className="">
         <h3>Explora nuestras habitaciones</h3>
-        <Searcher set={setRooms} xd="lol" />
-        <div id="roomCardsContainer">
-          {rooms.map((r) => (
-            <Room image={r.images[0]} title={r.number} text={r.description} />
-          ))}
-        </div>
+      </Container>
+      <Container fluid id="roomCardsContainerBG" className="px-0">
+        <Searcher set={setRooms} setIsLoading={setIsLoading} />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Container className="">
+              <div id="roomCardsContainer">
+                {!rooms.length ? (
+                  <h1>Lo sentimos, no tenemos la habitacion que solicitas</h1>
+                ) : (
+                  rooms.map((r) => (
+                    <Room
+                      image={r.images[0]}
+                      title={r.number}
+                      text={r.description}
+                    />
+                  ))
+                )}
+              </div>
+            </Container>
+          </>
+        )}
       </Container>
     </>
   );
