@@ -1,20 +1,27 @@
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import "../styles/navbar.css";
+import { Link } from "react-router-dom";
 
-const navbar = () => {
+const NavBar = () => {
   return (
-    <Navbar bg="light" data-bs-theme="light">
+    <Navbar expand="lg">
       <Container>
-        <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#features">Features</Nav.Link>
-          <Nav.Link href="#pricing">Pricing</Nav.Link>
-        </Nav>
+        <Navbar.Brand>Hotelera</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Link to={"/"}>Inicio</Link>
+            <Link to={"/register"}>Registrate</Link>
+            <Link to={"/signup"}>Iniciar sesión</Link>
+            <Link to={"/admin"}>Panel de administrador</Link>
+            <Link to={"/profile"}>Mi perfil</Link>
+            <Link to={"/aboutUs"}>Sobre Nosotros</Link>{" "}
+            {/*esto iria en el footer*/}
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 };
 
-export default navbar;
+export default NavBar;

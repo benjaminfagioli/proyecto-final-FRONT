@@ -1,0 +1,107 @@
+#searchForm {
+  background-color: #ab8171;
+  padding: 50px 0;
+  margin: 10px 0 0 0;
+  display: flex;
+  border-radius: 7px;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  z-index: 10000;
+  & div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  & input,
+  select {
+    margin: 0 0 0 7px;
+    background-color: #eacbb9;
+    border: none;
+    padding-left: 5px;
+    border-radius: 5px;
+  }
+  & button {
+    border: none;
+    border-radius: 5px;
+    background-color: #eacbb9;
+    padding: 5px 10px;
+    box-shadow: 0 0 20px -2px #eacbb9;
+  }
+  & label {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+  }
+}
+.containerCbx {
+  cursor: pointer;
+  margin: 0 0 0 7px;
+}
+
+.containerCbx input {
+  display: none;
+}
+
+.containerCbx svg {
+  overflow: visible;
+}
+
+.path {
+  fill: none;
+  stroke: #eacbb9;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+  stroke-dasharray: 241 9999999;
+  stroke-dashoffset: 0;
+}
+
+.containerCbx input:checked ~ svg .path {
+  stroke-dasharray: 70.5096664428711 9999999;
+  stroke-dashoffset: -262.2723388671875;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background-image: none;
+  flex: 1;
+  padding: 0 1em;
+  padding-right: 2.5em;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+}
+select::-ms-expand {
+  display: none;
+}
+.select {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  border-radius: 0.25em;
+}
+.select::after {
+  content: "\25BC";
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 0.5em;
+  background: #d4b09c;
+  cursor: pointer;
+  pointer-events: none;
+  transition: 0.25s all ease;
+}
+.select:hover::after {
+  color: #8a644f;
+}
