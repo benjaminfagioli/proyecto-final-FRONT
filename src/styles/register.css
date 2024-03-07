@@ -15,11 +15,6 @@
   background-color: #000000;
 }
 
-.navbar-brand {
-  margin-right: auto;
-  padding: 0 20px;
-}
-
 .navbar-nav {
   margin-left: auto;
   display: flex;
@@ -34,10 +29,6 @@ html {
   height: 100%;
 }
 
-.form-register .login-box {
-  margin-top: 40px;
-}
-
 .login-box {
   position: relative;
   width: 100%;
@@ -47,7 +38,7 @@ html {
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
-  margin: 40px auto;
+  margin: 0px auto;
 }
 
 .login-box h2 {

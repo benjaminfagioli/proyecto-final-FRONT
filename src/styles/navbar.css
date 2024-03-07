@@ -1,8 +1,22 @@
 .navbar {
   font-weight: bold;
   background-color: #ab8171 !important;
+  & a {
+    text-decoration: none;
+    color: black;
+    transition: 0.4s;
+  }
+  & a:hover {
+    color: #f9f9f9;
+  }
 }
 
 .navbar-brand {
   font-size: 1.5rem;
+}
+.navbar-collapse {
+  flex-grow: 0 !important;
+  & div {
+    gap: 15px;
+  }
 }

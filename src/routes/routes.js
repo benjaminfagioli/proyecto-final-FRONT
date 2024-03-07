@@ -1,5 +1,8 @@
 import App from "../App";
+import AdminView from "../views/AdminView";
 import FormRegister from "../views/FormRegister";
+import LoginView from "../views/LoginView";
+import ProfileView from "../views/ProfileView";
 import RoomView from "../views/RoomView";
 
 export const routes = [
@@ -8,22 +11,23 @@ export const routes = [
     Element: App,
   },
   {
-    Path: "/Register",
+    Path: "/register",
     Element: FormRegister,
   },
   {
-    //Path: "/signup",
-    //Element: SignUp,
+    Path: "/signup",
+    Element: LoginView,
   },
   {
-    //Path: "/error",
-    //Element: Eror,
-  },
-  {
-    //Path: "/admin",
+    Path: "/admin",
+    Element: AdminView,
   },
   {
     Path: "/room/:number",
     Element: RoomView,
+  },
+  {
+    Path: "/profile",
+    Element: ProfileView,
   },
 ];
