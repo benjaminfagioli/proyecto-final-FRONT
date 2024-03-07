@@ -1,0 +1,13 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  flex: 1 0 30%;
+  margin: 10px;
+  box-sizing: border-box;
+  background: url("../public/cardboard-flat.png");
+  background-color: #b57f5b;
+  border-radius: 10px;
+}
