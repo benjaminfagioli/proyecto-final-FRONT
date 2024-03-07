@@ -1,5 +1,5 @@
 #roomCardsContainerBG {
-  background: url("/public/brick-wall.png");
+  background: url("/brick-wall.png");
   background-color: #ab8171 !important;
   /* padding-top: 150px; */
 }
@@ -20,6 +20,9 @@
     border-radius: 10px;
     overflow: hidden;
     position: relative;
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 5% cover 25%;
     .card-title {
       font-weight: normal;
       transition: 0.9s;
@@ -48,4 +51,25 @@
 .card-title:hover {
   /* background-color: #eacbb94c !important; */
   background-color: #ab8371b4 !important;
+}
+
+@keyframes reveal {
+  0% {
+    opacity: 0;
+    translate: 30px 40px;
+    scale: 0.9;
+  }
+  30% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media screen and (width<768px) {
+  .roomCard {
+    animation-range: entry 0% cover 20% !important;
+  }
 }

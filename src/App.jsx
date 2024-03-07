@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./components/navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Room from "./components/room";
+const URL_BASE = import.meta.env.VITE_URL_BASE;
 import Carrousel from "./components/carrousel";
 import { Container } from "react-bootstrap";
-import getAllRooms from "./utils/getAllRooms";
 import Searcher from "./components/Searcher";
-import FormRegister from "./views/FormRegister";
+
 import Loader from "./components/Loader";
 
 const App = () => {
@@ -32,8 +32,9 @@ const App = () => {
                 {!rooms.length ? (
                   <h1>Lo sentimos, no tenemos la habitacion que solicitas</h1>
                 ) : (
-                  rooms.map((r) => (
+                  rooms.map((r, i) => (
                     <Room
+                      key={i}
                       image={r.images[0]}
                       title={r.number}
                       text={r.description}

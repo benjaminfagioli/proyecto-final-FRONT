@@ -40,7 +40,6 @@ const RoomView = () => {
   const [room, setRoom] = useState(null);
   const [isLoading, setisLoading] = useState(null);
 
-  console.log(room);
   useEffect(() => {
     getASingleRoom(number, setRoom);
   }, []);
@@ -145,8 +144,4 @@ const RoomView = () => {
     </>
   );
 };
-// <i class="bi bi-arrows-fullscreen"></i>
-// <i class="fa-solid fa-bed"></i>
-// <i class="fa-solid fa-shower"></i> || <i class="fa-solid fa-bath"></i>
-// <i class="fa-solid fa-stairs"></i>
 export default RoomView;

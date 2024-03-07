@@ -7,7 +7,7 @@
   flex: 1 0 30%;
   margin: 10px;
   box-sizing: border-box;
-  background: url("../public/cardboard-flat.png");
+  background: url("/cardboard-flat.png");
   background-color: #b57f5b;
   border-radius: 10px;
 }
