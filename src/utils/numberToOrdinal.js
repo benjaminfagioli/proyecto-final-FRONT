@@ -1,4 +1,5 @@
 const numberToOrdinal = (number) => {
+  if (number === 0) return "Planta baja";
   if (number === 1) return "1er";
   if (number === 2) return "2do";
   if (number === 3) return "3er";

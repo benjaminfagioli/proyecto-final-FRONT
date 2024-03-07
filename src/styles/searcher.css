@@ -15,7 +15,8 @@
     flex-wrap: wrap;
     gap: 15px;
   }
-  & input {
+  & input,
+  select {
     margin: 0 0 0 7px;
     background-color: #eacbb9;
     border: none;
@@ -63,4 +64,44 @@
 .containerCbx input:checked ~ svg .path {
   stroke-dasharray: 70.5096664428711 9999999;
   stroke-dashoffset: -262.2723388671875;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background-image: none;
+  flex: 1;
+  padding: 0 1em;
+  padding-right: 2.5em;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+}
+select::-ms-expand {
+  display: none;
+}
+.select {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  border-radius: 0.25em;
+}
+.select::after {
+  content: "\25BC";
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 0.5em;
+  background: #d4b09c;
+  cursor: pointer;
+  pointer-events: none;
+  transition: 0.25s all ease;
+}
+.select:hover::after {
+  color: #8a644f;
 }

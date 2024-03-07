@@ -6,6 +6,7 @@ import switchOnOffToBoolean from "../utils/switchOnOffToBoolean";
 import "../styles/searcher.css";
 import { Container } from "react-bootstrap";
 import cadenaABooleano from "../utils/cadenaABooleano";
+import convertStarsToString from "../utils/convertStarstoString";
 const Searcher = ({ set, setIsLoading }) => {
   const [useParams, setUseParams] = useSearchParams({});
   const filters = useRef();
@@ -20,6 +21,7 @@ const Searcher = ({ set, setIsLoading }) => {
 
   const reset = (e) => {
     filters.current = {};
+    console.log(e.target.form);
     e.target.form.reset();
     setUseParams({});
   };
@@ -56,44 +58,70 @@ const Searcher = ({ set, setIsLoading }) => {
         <Container className="display-flex justify-content-between">
           <div className="fs-6 fw-bold">
             <label htmlFor="">
-              Estrellas
-              <input
-                name="stars"
-                type="number"
-                defaultValue={filters.current?.stars}
-                min={1}
-                max={3}
-              />
+              Tipo
+              <div className="select">
+                <select name="stars" defaultValue={filters.current?.stars}>
+                  <option selected hidden value="">
+                    {convertStarsToString(filters.current?.stars)}
+                  </option>
+                  <option value="1">Basica</option>
+                  <option value="2">Media</option>
+                  <option value="3">Premium</option>
+                </select>
+              </div>
             </label>
             <label htmlFor="">
               Dormitorios
-              <input
-                name="bedrooms"
-                defaultValue={filters.current?.bedrooms}
-                type="number"
-                min={1}
-                max={3}
-              />
+              <div className="select">
+                <select
+                  name="bedrooms"
+                  defaultValue={filters.current?.bedrooms}
+                >
+                  <option selected hidden class="default" value="">
+                    {filters.current?.bedrooms}
+                  </option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
             </label>
             <label htmlFor="">
               Baños
-              <input
-                name="bathrooms"
-                defaultValue={filters.current?.bathrooms}
-                type="number"
-                min={1}
-                max={3}
-              />
+              <div className="select">
+                <select
+                  name="bathrooms"
+                  defaultValue={filters.current?.bathrooms}
+                >
+                  <option selected hidden class="default" value="">
+                    {filters.current?.bathrooms}
+                  </option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
             </label>
             <label htmlFor="">
               Planta
-              <input
-                name="floor"
-                defaultValue={filters.current?.floor}
-                type="number"
-                min={0}
-                max={10}
-              />
+              <div className="select">
+                <select name="floor" defaultValue={filters.current?.floor}>
+                  <option selected hidden class="default" value="">
+                    {filters.current?.bathrooms}
+                  </option>
+                  <option value="0">Planta baja</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
             </label>
             <label htmlFor="">
               Wifi
