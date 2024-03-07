@@ -61,7 +61,7 @@ const Searcher = ({ set, setIsLoading }) => {
               Tipo
               <div className="select">
                 <select name="stars" defaultValue={filters.current?.stars}>
-                  <option selected hidden value="">
+                  <option hidden value="">
                     {convertStarsToString(filters.current?.stars)}
                   </option>
                   <option value="1">Basica</option>
@@ -77,7 +77,7 @@ const Searcher = ({ set, setIsLoading }) => {
                   name="bedrooms"
                   defaultValue={filters.current?.bedrooms}
                 >
-                  <option selected hidden class="default" value="">
+                  <option hidden class="default" value="">
                     {filters.current?.bedrooms}
                   </option>
                   <option value="1">1</option>
@@ -93,7 +93,7 @@ const Searcher = ({ set, setIsLoading }) => {
                   name="bathrooms"
                   defaultValue={filters.current?.bathrooms}
                 >
-                  <option selected hidden class="default" value="">
+                  <option hidden class="default" value="">
                     {filters.current?.bathrooms}
                   </option>
                   <option value="1">1</option>
@@ -106,7 +106,7 @@ const Searcher = ({ set, setIsLoading }) => {
               Planta
               <div className="select">
                 <select name="floor" defaultValue={filters.current?.floor}>
-                  <option selected hidden class="default" value="">
+                  <option hidden class="default" value="">
                     {filters.current?.bathrooms}
                   </option>
                   <option value="0">Planta baja</option>
