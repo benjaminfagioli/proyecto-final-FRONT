@@ -11,14 +11,12 @@ const NavBar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Link to={"/"}>Inicio</Link>
-
             <Link to={"/register"}>Registrate</Link>
-
             <Link to={"/signup"}>Iniciar sesión</Link>
-
             <Link to={"/admin"}>Panel de administrador</Link>
-
             <Link to={"/profile"}>Mi perfil</Link>
+            <Link to={"/aboutUs"}>Sobre Nosotros</Link>{" "}
+            {/*esto iria en el footer*/}
           </Nav>
         </Navbar.Collapse>
       </Container>

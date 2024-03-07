@@ -32,7 +32,7 @@ export const routes = [
     Element: ProfileView,
   },
   {
-    Path: "/Sobre-nosotros",
+    Path: "/aboutUs",
     Element: SobreNosotros,
   },
 ];
