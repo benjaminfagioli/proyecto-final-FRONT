@@ -14,7 +14,6 @@ const AdminView = () => {
         const roomsData = await getAllRooms();
         setRooms(roomsData);
 
-        // Obtener lista de usuarios actualmente no muestra users porque solo puede el admin, y actualmente el login no funciona
         const usersData = await getAllUsers();
         setUsers(usersData);
       } catch (error) {
@@ -39,7 +38,6 @@ const AdminView = () => {
     console.log(`Editar descripción de la habitación ${roomId}`);
   };
 
-  // Función para editar la habitación
   const editRoom = (roomId) => {
     // Aquí iría la lógica para editar la habitación
     console.log(`Editar habitación ${roomId}`);
@@ -76,7 +74,7 @@ const AdminView = () => {
               <th>Visible</th>
               <th>Ocupada</th>
               <th>Descripción</th>
-              <th>Editar</th> {/* Nueva columna para editar */}
+              <th>Editar</th>
             </tr>
           </thead>
           <tbody>
