@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import regexEmail from "../utils/regexEmail";
 import { useState } from "react";
+
 const LoginView = () => {
   const handleClick = (e) => {
     e.preventDefault();
