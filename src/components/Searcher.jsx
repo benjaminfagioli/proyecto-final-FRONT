@@ -11,7 +11,6 @@ const Searcher = ({ set, setIsLoading }) => {
   const [useParams, setUseParams] = useSearchParams({});
   const filters = useRef();
 
-  console.log(filters.current);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.target));
@@ -77,7 +76,7 @@ const Searcher = ({ set, setIsLoading }) => {
                   name="bedrooms"
                   defaultValue={filters.current?.bedrooms}
                 >
-                  <option hidden class="default" value="">
+                  <option hidden className="default" value="">
                     {filters.current?.bedrooms}
                   </option>
                   <option value="1">1</option>
@@ -93,7 +92,7 @@ const Searcher = ({ set, setIsLoading }) => {
                   name="bathrooms"
                   defaultValue={filters.current?.bathrooms}
                 >
-                  <option hidden class="default" value="">
+                  <option hidden className="default" value="">
                     {filters.current?.bathrooms}
                   </option>
                   <option value="1">1</option>
@@ -106,7 +105,7 @@ const Searcher = ({ set, setIsLoading }) => {
               Planta
               <div className="select">
                 <select name="floor" defaultValue={filters.current?.floor}>
-                  <option hidden class="default" value="">
+                  <option hidden className="default" value="">
                     {filters.current?.bathrooms}
                   </option>
                   <option value="0">Planta baja</option>
