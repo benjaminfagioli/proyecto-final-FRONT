@@ -1,39 +1,106 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "../styles/loginForm.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import regexEmail from "../utils/regexEmail";
 import { useState } from "react";
+import axios from "axios";
+import { URL_BASE } from "../config/config";
+import Swal from "sweetalert2";
+import Loader from "../components/Loader";
 
 const LoginView = () => {
-  const handleClick = (e) => {
-    e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.target.form));
-    const { email, password } = formData;
-    console.log(formData);
-  };
+  const [isLoading, setisLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
+  const onSubmit = async (data) => {
+    setisLoading(true);
+    const { email, password } = data;
+    try {
+      const res = await axios.post(`${URL_BASE}/users/login`, data);
+      console.log(res);
+      Swal.fire({
+        icon: "success",
+        title: "¡Registro exitoso!",
+        text: "El usuario se ha registrado correctamente.",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      }).then(() => {
+        localStorage.setItem("token", res.data.token);
+        navigate("/");
+      });
+    } catch (error) {
+      const myErrors = [];
 
+      error.response.data.errors.forEach((e) => myErrors.push(e.msg));
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        html: myErrors.length > 0 && myErrors.join("<br>"),
+      });
+    } finally {
+      setisLoading(false);
+    }
+  };
   return (
     <>
       <Container>
         <div className="d-flex justify-content-center py-5">
-          <form className="loginForm">
+          <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
             <p className="loginForm-title">Ingresa a tu cuenta</p>
             <div className="input-container">
               <input
                 name="email"
-                type="email"
+                type="text"
                 placeholder="Ingresa tu email "
+                {...register("email", {
+                  required: {
+                    value: true,
+                    message: "Debes ingresar un correo",
+                  },
+                  pattern: {
+                    value: regexEmail,
+                    message: "Debe tener un formato de correo",
+                  },
+                })}
               />
+              {errors?.email?.message && (
+                <div className="d-flex align-items-center text-danger">
+                  <i className="bi fs-5 bi-exclamation-lg"></i>
+                  <span>{errors?.email?.message}</span>
+                </div>
+              )}
             </div>
             <div className="input-container">
               <input
                 name="password"
                 type="password"
                 placeholder="Ingresa tu contraseña"
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: "Debes ingresar una contraseña",
+                  },
+                  minLength: {
+                    value: 8,
+                    message: "Ingresa al menos 8 caracteres",
+                  },
+                })}
               />
+              {errors?.password?.message && (
+                <div className="d-flex align-items-center text-danger">
+                  <i className="bi fs-5 bi-exclamation-lg"></i>
+                  <span>{errors?.password?.message}</span>
+                </div>
+              )}
             </div>
-            <button onClick={handleClick} className="submit">
+            <button type="submit" className="submit">
               Ingresar
             </button>
 
@@ -46,6 +113,7 @@ const LoginView = () => {
           </form>
         </div>
       </Container>
+      {isLoading && <Loader />}
     </>
   );
 };
