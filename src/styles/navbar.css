@@ -1,12 +1,18 @@
 .navbar {
   font-weight: bold;
   background-color: #ab8171 !important;
-  & a {
+  & a,
+  & button {
     text-decoration: none;
     color: black;
     transition: 0.4s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
   }
-  & a:hover {
+  & a:hover,
+  & button:hover {
     color: #f9f9f9;
   }
 }
