@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import regexEmail from "../utils/regexEmail";
-import { useState } from "react";
 import axios from "axios";
 import { URL_BASE } from "../config/config";
 import Swal from "sweetalert2";

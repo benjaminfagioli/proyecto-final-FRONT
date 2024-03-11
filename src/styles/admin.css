@@ -54,9 +54,13 @@
 /* Modal estilos */
 
 .formularioRoom {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   width: 300px;
-  margin: 0 auto;
+  height: 300px;
+  margin: auto;
 }
 
 .formularioRoom input,

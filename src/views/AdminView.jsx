@@ -8,12 +8,14 @@ import Swal from "sweetalert2";
 import "../styles/admin.css";
 import { crearRoom } from "../utils/agregarRoom.js";
 import Modal from "react-modal";
+import registerUser from "../utils/registerUsers.js";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [newRoomData, setNewRoomData] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [newUserData, setNewUserData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,8 +81,16 @@ const AdminView = () => {
       );
     }
   };
-  const crearUsuario = () => {
-    console.log("Crear usuario");
+  const crearUsuario = async () => {
+    try {
+      await registerUser(newUserData);
+      const updateUserData = await getAllUsers();
+      setUsers(updateUserData);
+      setNewRoomData({});
+      closeModal();
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
   };
 
   const crearHabitacion = async () => {
@@ -127,6 +137,32 @@ const AdminView = () => {
           Crear Usuario
         </button>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Crear Usuario"
+        className="formularioRoom"
+      >
+        <h2>Crear Usuario</h2>
+        <input
+          type="text"
+          placeholder="Nombre"
+          value={newUserData.name}
+          onChange={(e) =>
+            setNewUserData({ ...newUserData, name: e.target.value })
+          }
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={newUserData.email}
+          onChange={(e) =>
+            setNewUserData({ ...newUserData, email: e.target.value })
+          }
+        />
+        <button onClick={crearUsuario}>Guardar</button>
+        <button onClick={closeModal}>Cancelar</button>
+      </Modal>
       <div className="admin-table">
         <h2>Habitaciones</h2>
         <table>
@@ -197,29 +233,36 @@ const AdminView = () => {
         contentLabel="Crear Habitación"
         className="formularioRoom"
       >
-        <h2>Crear Habitación</h2>
         <input
-          type="text"
+          type="number"
           placeholder="Número"
           value={newRoomData.number}
-          onChange={(e) =>
-            setNewRoomData({ ...newRoomData, number: e.target.value })
-          }
+          onChange={(e) => {
+            const value = Math.min(Math.max(parseInt(e.target.value), 1), 999); // Limita el valor entre 1 y 999
+            setNewRoomData({ ...newRoomData, number: value });
+          }}
+          min="1"
+          max="999"
         />
         <input
-          type="text"
-          placeholder="Estrellas"
+          type="number"
+          placeholder="Nivel"
           value={newRoomData.stars}
-          onChange={(e) =>
-            setNewRoomData({ ...newRoomData, stars: e.target.value })
-          }
+          onChange={(e) => {
+            const value = Math.min(Math.max(parseInt(e.target.value), 1), 3); // Limita el valor entre 1 y 3
+            setNewRoomData({ ...newRoomData, stars: value });
+          }}
+          min="1"
+          max="3"
         />
         <textarea
           placeholder="Descripción"
           value={newRoomData.description}
-          onChange={(e) =>
-            setNewRoomData({ ...newRoomData, description: e.target.value })
-          }
+          onChange={(e) => {
+            const value = e.target.value.slice(0, 100);
+            setNewRoomData({ ...newRoomData, description: value });
+          }}
+          maxLength="100"
         />
         <button onClick={crearHabitacion}>Guardar</button>
         <button onClick={closeModal}>Cancelar</button>
