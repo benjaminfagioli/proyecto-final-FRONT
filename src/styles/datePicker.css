@@ -1,0 +1,26 @@
+.rdrDayDisabled {
+  background-color: #ededed !important;
+  & span {
+    color: gray !important;
+  }
+}
+
+.rdrDayToday .rdrDayNumber span:after {
+  background: #ffffff !important;
+}
+.rdrStartEdge,
+.rdrInRange,
+.rdrEndEdge {
+  color: #ffdecb !important;
+}
+.rdrDay:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span,
+.rdrDay:not(.rdrDayPassive) .rdrStartEdge ~ .rdrDayNumber span,
+.rdrDay:not(.rdrDayPassive) .rdrEndEdge ~ .rdrDayNumber span,
+.rdrDay:not(.rdrDayPassive) .rdrSelected ~ .rdrDayNumber span {
+  color: gray !important;
+}
+.rdrDateRangeWrapper {
+  max-width: 100%;
+  border-radius: 7px !important;
+  overflow: hidden;
+}
