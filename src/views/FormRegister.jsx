@@ -57,7 +57,7 @@ function FormRegister() {
     }
   };
   return (
-    <Form className="login-box" onSubmit={handleSubmit}>
+    <Form className="login-box register-box" onSubmit={handleSubmit}>
       <h2>Regístrate</h2>
       <Form.Group className="user-box mb-3" controlId="name">
         <Form.Control
@@ -94,6 +94,10 @@ function FormRegister() {
       <div className="styled-button-container">
         <Button variant="primary" type="submit" className="styled-button">
           Enviar
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </Button>
       </div>
     </Form>
