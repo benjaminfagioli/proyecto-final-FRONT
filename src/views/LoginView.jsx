@@ -58,9 +58,9 @@ const LoginView = () => {
     <>
       <Container>
         <div className="d-flex justify-content-center py-5">
-          <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
-            <p className="loginForm-title">Ingresa a tu cuenta</p>
-            <div className="input-container">
+          <form className="login-box" onSubmit={handleSubmit(onSubmit)}>
+            <h2>Ingresa a tu cuenta</h2>
+            <div className="user-box">
               <input
                 name="email"
                 type="text"
@@ -76,6 +76,7 @@ const LoginView = () => {
                   },
                 })}
               />
+              <label>Email</label>
               {errors?.email?.message && (
                 <div className="d-flex align-items-center text-danger">
                   <i className="bi fs-5 bi-exclamation-lg"></i>
@@ -83,7 +84,7 @@ const LoginView = () => {
                 </div>
               )}
             </div>
-            <div className="input-container">
+            <div className="user-box">
               <input
                 name="password"
                 type="password"
@@ -99,6 +100,7 @@ const LoginView = () => {
                   },
                 })}
               />
+              <label>Contraseña</label>
               {errors?.password?.message && (
                 <div className="d-flex align-items-center text-danger">
                   <i className="bi fs-5 bi-exclamation-lg"></i>
@@ -106,7 +108,11 @@ const LoginView = () => {
                 </div>
               )}
             </div>
-            <button type="submit" className="submit">
+            <button type="submit" className="styled-button">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
               Ingresar
             </button>
 

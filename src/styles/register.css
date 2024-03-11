@@ -36,7 +36,7 @@ html {
   padding: 20px;
   background: rgba(0, 0, 0, 0.5);
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 15px 25px rgb(3, 3, 3);
   border-radius: 10px;
   margin: 0px auto;
 }
@@ -63,6 +63,9 @@ html {
   outline: none;
   background: transparent;
 }
+.login-box .user-box input::placeholder {
+  color: white;
+}
 
 .login-box .user-box label {
   position: absolute;
@@ -70,7 +73,7 @@ html {
   left: 0;
   padding: 10px 0;
   font-size: 16px;
-  color: var(--color-text);
+  color: var(--color-bg-top);
   pointer-events: none;
   transition: 0.5s;
 }
