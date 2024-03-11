@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import getASingleRoom from "../utils/getASingleRoom";
-import { Col, Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -31,15 +31,86 @@ import {
   faWifi,
   faWind,
 } from "@fortawesome/free-solid-svg-icons";
-
+import { useNavigate } from "react-router-dom";
 import "../styles/RoomView.css";
 import numberToOrdinal from "../utils/numberToOrdinal";
-
+import DatePicker from "../components/DatePicker";
+import { addDays, differenceInCalendarDays } from "date-fns";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { URL_BASE } from "../config/config";
 const RoomView = () => {
   const { number } = useParams();
   const [room, setRoom] = useState(null);
   const [isLoading, setisLoading] = useState(null);
-
+  const infoReserve = useRef({
+    from: "",
+    to: "",
+    room: Number(number),
+  });
+  const navigate = useNavigate();
+  const handleReserve = async () => {
+    console.log(new Date(infoReserve.current.from).toLocaleDateString("es-AR"));
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return Swal.fire({
+        title: "Para realizar una reserva debes estar logueado",
+        text: "Inicia sesión para disfrutar de todas las caracteristicas de nuestra página!",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Iniciar sesion",
+        cancelButtonText: "Ahora no",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signup");
+        }
+      });
+    }
+    console.log(token);
+    try {
+      const res = await axios.post(
+        `${URL_BASE}/rooms/reserve`,
+        infoReserve.current,
+        {
+          headers: {
+            "auth-token": token,
+          },
+        }
+      );
+      if (res.status == 200)
+        Swal.fire({
+          icon: "success",
+          title: "Reservada con éxito",
+          html: `Has reservado la habitacion <b>n°${number}</b> desde <b>${new Date(
+            infoReserve.current.from
+          ).toLocaleDateString("es-AR")}</b> hasta <b>${new Date(
+            infoReserve.current.to
+          ).toLocaleDateString("es-AR")}</b>. Disfruta tu estadía en el Hotel`,
+          showConfirmButton: true,
+        }).then(() => {
+          navigate(`/room/${number}`);
+        });
+    } catch (error) {
+      if (error.response.status == 401);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data.error}`,
+        showConfirmButton: true,
+      });
+      if (error.response.status == 400)
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          html: `${error.response.data.errors.map((e) => `${e.msg} <br>`)}`,
+          showConfirmButton: true,
+        });
+      console.log(error);
+    }
+  };
+  console.log(room);
   useEffect(() => {
     getASingleRoom(number, setRoom);
   }, []);
@@ -67,8 +138,8 @@ const RoomView = () => {
                   spaceBetween={7}
                   // loop={true}
                 >
-                  {room?.images?.map((imagen) => (
-                    <SwiperSlide>
+                  {room?.images?.map((imagen, i) => (
+                    <SwiperSlide key={i}>
                       <img src={imagen} alt="" />
                     </SwiperSlide>
                   ))}
@@ -138,8 +209,15 @@ const RoomView = () => {
           </section>
         </Container>
       </Container>
-      <Container fluid id="roomSecondSection">
-        <Container></Container>
+      <Container id="roomSecondSection">
+        <Row className="my-3">
+          <Col md={8} lg={7}>
+            <DatePicker room={room} infoReserve={infoReserve} />
+          </Col>
+          <Col lg={5}>
+            <button onClick={handleReserve}>Reservar</button>
+          </Col>
+        </Row>
       </Container>
     </>
   );
