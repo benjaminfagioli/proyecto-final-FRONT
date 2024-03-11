@@ -31,14 +31,26 @@ const LoginView = () => {
         timer: 3000,
         timerProgressBar: true,
       }).then(() => {
+        let fixedToken;
+        if (res.data.isadmin) {
+          fixedToken = "2c128f52-26da-4bc9-bfc3-1014cd10b04a";
+        } else {
+          fixedToken = "42c08349-9d0b-4b43-80ab-7241767da1b7";
+        }
+        localStorage.setItem("token-Auth", fixedToken);
         localStorage.setItem("token", res.data.token);
         navigate("/");
+        window.location.reload();
       });
     } catch (error) {
       const myErrors = [];
+      if (error?.response?.data?.errors) {
+        error.response.data.errors.forEach((e) => myErrors.push(e.msg));
+      } else {
+        myErrors.push(error.message);
+      }
 
-      error.response.data.errors.forEach((e) => myErrors.push(e.msg));
-      Swal.fire({
+      return Swal.fire({
         icon: "error",
         title: "Error",
         html: myErrors.length > 0 && myErrors.join("<br>"),
@@ -51,9 +63,9 @@ const LoginView = () => {
     <>
       <Container>
         <div className="d-flex justify-content-center py-5">
-          <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
-            <p className="loginForm-title">Ingresa a tu cuenta</p>
-            <div className="input-container">
+          <form className="login-box" onSubmit={handleSubmit(onSubmit)}>
+            <h2>Ingresa a tu cuenta</h2>
+            <div className="user-box">
               <input
                 name="email"
                 type="text"
@@ -69,6 +81,7 @@ const LoginView = () => {
                   },
                 })}
               />
+              <label>Email</label>
               {errors?.email?.message && (
                 <div className="d-flex align-items-center text-danger">
                   <i className="bi fs-5 bi-exclamation-lg"></i>
@@ -76,7 +89,7 @@ const LoginView = () => {
                 </div>
               )}
             </div>
-            <div className="input-container">
+            <div className="user-box">
               <input
                 name="password"
                 type="password"
@@ -92,6 +105,7 @@ const LoginView = () => {
                   },
                 })}
               />
+              <label>Contraseña</label>
               {errors?.password?.message && (
                 <div className="d-flex align-items-center text-danger">
                   <i className="bi fs-5 bi-exclamation-lg"></i>
@@ -99,7 +113,11 @@ const LoginView = () => {
                 </div>
               )}
             </div>
-            <button type="submit" className="submit">
+            <button type="submit" className="styled-button">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
               Ingresar
             </button>
 

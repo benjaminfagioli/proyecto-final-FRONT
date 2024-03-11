@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const URL_BASE = import.meta.env.VITE_URL_BASE;
 
 export const crearRoom = async (roomData) => {
@@ -16,7 +15,7 @@ export const crearRoom = async (roomData) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error creating room:", error);
-    throw new Error("Error creating room");
+    console.error("Error creating room:", error.response.data); // Imprime el mensaje de error devuelto por Axios
+    throw new Error(error.response.data.message || "Error creating room"); // Lanza un nuevo error con el mensaje de error devuelto por Axios
   }
 };

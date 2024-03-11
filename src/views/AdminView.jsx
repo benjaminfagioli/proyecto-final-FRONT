@@ -2,20 +2,17 @@ import React, { useState, useEffect } from "react";
 import getAllRooms from "../utils/getAllRooms.js";
 import getAllUsers from "../utils/getAllUsers.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { eliminarRoomById } from "../utils/eliminarRooms.js";
 import Swal from "sweetalert2";
 import "../styles/admin.css";
 import { crearRoom } from "../utils/agregarRoom.js";
-import Modal from "react-modal";
-import registerUser from "../utils/registerUsers.js";
+import ModalRoomAdmin from "../components/modalRoomAdmin.jsx";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
-  const [newRoomData, setNewRoomData] = useState({});
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [newUserData, setNewUserData] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,10 +32,6 @@ const AdminView = () => {
 
   const toggleIsBusy = (roomId) => {
     console.log("cambiando estado isBusy de", roomId);
-  };
-
-  const editDescription = (roomId) => {
-    console.log(`Editar descripción de la habitación ${roomId}`);
   };
 
   const editRoom = (roomId) => {
@@ -81,88 +74,23 @@ const AdminView = () => {
       );
     }
   };
-  const crearUsuario = async () => {
-    try {
-      await registerUser(newUserData);
-      const updateUserData = await getAllUsers();
-      setUsers(updateUserData);
-      setNewRoomData({});
-      closeModal();
-    } catch (error) {
-      console.error("Error creating user:", error);
-    }
-  };
 
-  const crearHabitacion = async () => {
+  const guardarHabitacion = async (newRoomData) => {
     try {
       await crearRoom(newRoomData);
-      const updatedRoomsData = await getAllRooms();
-      setRooms(updatedRoomsData);
-      setNewRoomData({});
-      closeModal();
+      setShowModal(false);
+      const updatedRooms = await getAllRooms();
+      setRooms(updatedRooms);
     } catch (error) {
       console.error("Error creating room:", error);
     }
-  };
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
   };
 
   return (
     <div className="admin-container">
       <div className="admin-table">
         <h2>Usuarios</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button onClick={crearUsuario} className="create-button">
-          Crear Usuario
-        </button>
       </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Crear Usuario"
-        className="formularioRoom"
-      >
-        <h2>Crear Usuario</h2>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={newUserData.name}
-          onChange={(e) =>
-            setNewUserData({ ...newUserData, name: e.target.value })
-          }
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={newUserData.email}
-          onChange={(e) =>
-            setNewUserData({ ...newUserData, email: e.target.value })
-          }
-        />
-        <button onClick={crearUsuario}>Guardar</button>
-        <button onClick={closeModal}>Cancelar</button>
-      </Modal>
       <div className="admin-table">
         <h2>Habitaciones</h2>
         <table>
@@ -172,7 +100,6 @@ const AdminView = () => {
               <th>Estrellas</th>
               <th>Visible</th>
               <th>Ocupada</th>
-              <th>Descripción</th>
               <th>Editar</th>
               <th>Eliminar</th>
             </tr>
@@ -200,13 +127,6 @@ const AdminView = () => {
                 </td>
                 <td>
                   <FontAwesomeIcon
-                    icon={faBookOpen}
-                    className="admin-icon"
-                    onClick={() => editDescription(room._id)}
-                  />
-                </td>
-                <td>
-                  <FontAwesomeIcon
                     icon={faEdit}
                     className="admin-icon"
                     onClick={() => editRoom(room._id)}
@@ -223,50 +143,15 @@ const AdminView = () => {
             ))}
           </tbody>
         </table>
-        <button onClick={openModal} className="create-button">
+        <button onClick={() => setShowModal(true)} className="create-button">
           Crear Habitación
         </button>
       </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Crear Habitación"
-        className="formularioRoom"
-      >
-        <input
-          type="number"
-          placeholder="Número"
-          value={newRoomData.number}
-          onChange={(e) => {
-            const value = Math.min(Math.max(parseInt(e.target.value), 1), 999); // Limita el valor entre 1 y 999
-            setNewRoomData({ ...newRoomData, number: value });
-          }}
-          min="1"
-          max="999"
-        />
-        <input
-          type="number"
-          placeholder="Nivel"
-          value={newRoomData.stars}
-          onChange={(e) => {
-            const value = Math.min(Math.max(parseInt(e.target.value), 1), 3); // Limita el valor entre 1 y 3
-            setNewRoomData({ ...newRoomData, stars: value });
-          }}
-          min="1"
-          max="3"
-        />
-        <textarea
-          placeholder="Descripción"
-          value={newRoomData.description}
-          onChange={(e) => {
-            const value = e.target.value.slice(0, 100);
-            setNewRoomData({ ...newRoomData, description: value });
-          }}
-          maxLength="100"
-        />
-        <button onClick={crearHabitacion}>Guardar</button>
-        <button onClick={closeModal}>Cancelar</button>
-      </Modal>
+      <ModalRoomAdmin
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        guardarHabitacion={guardarHabitacion}
+      />
     </div>
   );
 };
