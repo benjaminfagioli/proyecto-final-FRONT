@@ -43,9 +43,13 @@ const LoginView = () => {
       });
     } catch (error) {
       const myErrors = [];
+      if (error?.response?.data?.errors) {
+        error.response.data.errors.forEach((e) => myErrors.push(e.msg));
+      } else {
+        myErrors.push(error.message);
+      }
 
-      error.response.data.errors.forEach((e) => myErrors.push(e.msg));
-      Swal.fire({
+      return Swal.fire({
         icon: "error",
         title: "Error",
         html: myErrors.length > 0 && myErrors.join("<br>"),
