@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import getASingleRoom from "../utils/getASingleRoom";
-import { Col, Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -31,10 +31,14 @@ import {
   faWifi,
   faWind,
 } from "@fortawesome/free-solid-svg-icons";
-
+import { useNavigate } from "react-router-dom";
 import "../styles/RoomView.css";
 import numberToOrdinal from "../utils/numberToOrdinal";
-
+import DatePicker from "../components/DatePicker";
+import { addDays, differenceInCalendarDays } from "date-fns";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { URL_BASE } from "../config/config";
 const RoomView = () => {
   const { number } = useParams();
   const [room, setRoom] = useState(null);
@@ -86,7 +90,7 @@ const RoomView = () => {
           ).toLocaleDateString("es-AR")}</b>. Disfruta tu estadía en el Hotel`,
           showConfirmButton: true,
         }).then(() => {
-          navigate(`/room/${number}`);
+          navigate(`/`);
         });
     } catch (error) {
       if (error.response.status == 401);
@@ -134,8 +138,8 @@ const RoomView = () => {
                   spaceBetween={7}
                   // loop={true}
                 >
-                  {room?.images?.map((imagen) => (
-                    <SwiperSlide>
+                  {room?.images?.map((imagen, i) => (
+                    <SwiperSlide key={i}>
                       <img src={imagen} alt="" />
                     </SwiperSlide>
                   ))}
@@ -205,8 +209,15 @@ const RoomView = () => {
           </section>
         </Container>
       </Container>
-      <Container fluid id="roomSecondSection">
-        <Container></Container>
+      <Container id="roomSecondSection" className="py-4">
+        <Row>
+          <Col md={8} lg={7} className="d-flex justify-content-center">
+            <DatePicker room={room} infoReserve={infoReserve} />
+          </Col>
+          <Col lg={5}>
+            <button onClick={handleReserve}>Reservar</button>
+          </Col>
+        </Row>
       </Container>
     </>
   );

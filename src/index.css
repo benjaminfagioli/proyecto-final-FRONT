@@ -12,6 +12,7 @@ main {
   background-color: #b57f5b; */
   background: url("/cartographer.png");
   background-color: #ffe3d1;
+  min-height: calc(100vh - 60px);
 }
 nav {
   background-color: #ab8171;

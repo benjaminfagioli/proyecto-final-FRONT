@@ -1,0 +1,71 @@
+:root {
+  --Color-principal: #ab8171;
+  --Color-secundario: #eacbb9;
+  --Color-opcional: #ffe3d1;
+}
+
+.admin-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin-table {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.admin-table:last-child {
+  margin-right: 0;
+}
+
+.admin-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.admin-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+.admin-icon {
+  cursor: pointer;
+}
+
+.create-button {
+  background-color: var(--Color-principal);
+  color: #000000;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create-button:hover {
+  background-color: var(--Color-secundario);
+}
+/* Modal estilos */
+
+.formularioRoom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+}
+
+.formularioRoom input,
+.formularioRoom textarea,
+.formularioRoom button {
+  display: block;
+  margin-bottom: 10px;
+}

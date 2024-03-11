@@ -25,8 +25,8 @@ const LoginView = () => {
       console.log(res);
       Swal.fire({
         icon: "success",
-        title: "¡Registro exitoso!",
-        text: "El usuario se ha registrado correctamente.",
+        title: "¡Inicio de sesión exitoso!",
+        text: "Te has logueado correctamente.",
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
