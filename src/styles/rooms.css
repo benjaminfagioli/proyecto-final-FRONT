@@ -22,7 +22,7 @@
     position: relative;
     animation: reveal linear both;
     animation-timeline: view();
-    animation-range: entry 5% cover 25%;
+    animation-range: entry 0% cover 15%;
     .card-title {
       font-weight: normal;
       transition: 0.9s;
@@ -56,11 +56,11 @@
 @keyframes reveal {
   0% {
     opacity: 0;
-    translate: 30px 40px;
-    scale: 0.9;
+    translate: 0px 70px;
+    /* scale: 0.8; */
   }
-  30% {
-    opacity: 0;
+  50% {
+    opacity: 0.3;
   }
   to {
     opacity: 1;
