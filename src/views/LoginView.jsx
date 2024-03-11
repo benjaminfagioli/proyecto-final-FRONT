@@ -31,8 +31,15 @@ const LoginView = () => {
         timer: 3000,
         timerProgressBar: true,
       }).then(() => {
-        localStorage.setItem("token", res.data.token);
+        let fixedToken;
+        if (res.data.isadmin) {
+          fixedToken = "2c128f52-26da-4bc9-bfc3-1014cd10b04a";
+        } else {
+          fixedToken = "42c08349-9d0b-4b43-80ab-7241767da1b7";
+        }
+        localStorage.setItem("token-Auth", fixedToken);
         navigate("/");
+        window.location.reload();
       });
     } catch (error) {
       const myErrors = [];
