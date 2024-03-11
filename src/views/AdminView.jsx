@@ -2,11 +2,18 @@ import React, { useState, useEffect } from "react";
 import getAllRooms from "../utils/getAllRooms.js";
 import getAllUsers from "../utils/getAllUsers.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faBookOpen, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { eliminarRoomById } from "../utils/eliminarRooms.js";
+import Swal from "sweetalert2";
+import "../styles/admin.css";
+import { crearRoom } from "../utils/agregarRoom.js";
+import Modal from "react-modal";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [newRoomData, setNewRoomData] = useState({});
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,27 +32,80 @@ const AdminView = () => {
   }, []);
 
   const toggleIsBusy = (roomId) => {
-    // Aquí iría la lógica para cambiar el estado de isBusy
-    setRooms((prevRooms) =>
-      prevRooms.map((room) =>
-        room._id === roomId ? { ...room, isBusy: !room.isBusy } : room
-      )
-    );
+    console.log("cambiando estado isBusy de", roomId);
   };
 
   const editDescription = (roomId) => {
-    // Aquí iría la lógica para editar la descripción
     console.log(`Editar descripción de la habitación ${roomId}`);
   };
 
   const editRoom = (roomId) => {
-    // Aquí iría la lógica para editar la habitación
     console.log(`Editar habitación ${roomId}`);
   };
 
+  const confirmarEliminarRoom = async (roomId) => {
+    const confirmed = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción eliminará la habitación permanentemente",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (confirmed.isConfirmed) {
+      eliminarRoom(roomId);
+    }
+  };
+
+  const eliminarRoom = async (roomId) => {
+    try {
+      await eliminarRoomById(roomId);
+      const updatedRooms = rooms.filter((room) => room._id !== roomId);
+      setRooms(updatedRooms);
+      await Swal.fire(
+        "¡Eliminada!",
+        "La habitación ha sido eliminada correctamente",
+        "success"
+      );
+    } catch (error) {
+      console.error("Error deleting room:", error);
+      Swal.fire(
+        "Error",
+        "Hubo un error al eliminar la habitación. Por favor, inténtalo de nuevo más tarde",
+        "error"
+      );
+    }
+  };
+  const crearUsuario = () => {
+    console.log("Crear usuario");
+  };
+
+  const crearHabitacion = async () => {
+    try {
+      await crearRoom(newRoomData);
+      const updatedRoomsData = await getAllRooms();
+      setRooms(updatedRoomsData);
+      setNewRoomData({});
+      closeModal();
+    } catch (error) {
+      console.error("Error creating room:", error);
+    }
+  };
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   return (
-    <div>
-      <div style={{ float: "left", width: "50%" }}>
+    <div className="admin-container">
+      <div className="admin-table">
         <h2>Usuarios</h2>
         <table>
           <thead>
@@ -63,8 +123,11 @@ const AdminView = () => {
             ))}
           </tbody>
         </table>
+        <button onClick={crearUsuario} className="create-button">
+          Crear Usuario
+        </button>
       </div>
-      <div style={{ float: "right", width: "50%" }}>
+      <div className="admin-table">
         <h2>Habitaciones</h2>
         <table>
           <thead>
@@ -75,6 +138,7 @@ const AdminView = () => {
               <th>Ocupada</th>
               <th>Descripción</th>
               <th>Editar</th>
+              <th>Eliminar</th>
             </tr>
           </thead>
           <tbody>
@@ -101,22 +165,65 @@ const AdminView = () => {
                 <td>
                   <FontAwesomeIcon
                     icon={faBookOpen}
-                    style={{ cursor: "pointer" }}
+                    className="admin-icon"
                     onClick={() => editDescription(room._id)}
                   />
                 </td>
                 <td>
                   <FontAwesomeIcon
                     icon={faEdit}
-                    style={{ cursor: "pointer" }}
+                    className="admin-icon"
                     onClick={() => editRoom(room._id)}
+                  />
+                </td>
+                <td>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="admin-icon"
+                    onClick={() => confirmarEliminarRoom(room._id)}
                   />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <button onClick={openModal} className="create-button">
+          Crear Habitación
+        </button>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Crear Habitación"
+        className="formularioRoom"
+      >
+        <h2>Crear Habitación</h2>
+        <input
+          type="text"
+          placeholder="Número"
+          value={newRoomData.number}
+          onChange={(e) =>
+            setNewRoomData({ ...newRoomData, number: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Estrellas"
+          value={newRoomData.stars}
+          onChange={(e) =>
+            setNewRoomData({ ...newRoomData, stars: e.target.value })
+          }
+        />
+        <textarea
+          placeholder="Descripción"
+          value={newRoomData.description}
+          onChange={(e) =>
+            setNewRoomData({ ...newRoomData, description: e.target.value })
+          }
+        />
+        <button onClick={crearHabitacion}>Guardar</button>
+        <button onClick={closeModal}>Cancelar</button>
+      </Modal>
     </div>
   );
 };
