@@ -39,7 +39,74 @@ const RoomView = () => {
   const { number } = useParams();
   const [room, setRoom] = useState(null);
   const [isLoading, setisLoading] = useState(null);
-
+  const infoReserve = useRef({
+    from: "",
+    to: "",
+    room: Number(number),
+  });
+  const navigate = useNavigate();
+  const handleReserve = async () => {
+    console.log(new Date(infoReserve.current.from).toLocaleDateString("es-AR"));
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return Swal.fire({
+        title: "Para realizar una reserva debes estar logueado",
+        text: "Inicia sesión para disfrutar de todas las caracteristicas de nuestra página!",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Iniciar sesion",
+        cancelButtonText: "Ahora no",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signup");
+        }
+      });
+    }
+    console.log(token);
+    try {
+      const res = await axios.post(
+        `${URL_BASE}/rooms/reserve`,
+        infoReserve.current,
+        {
+          headers: {
+            "auth-token": token,
+          },
+        }
+      );
+      if (res.status == 200)
+        Swal.fire({
+          icon: "success",
+          title: "Reservada con éxito",
+          html: `Has reservado la habitacion <b>n°${number}</b> desde <b>${new Date(
+            infoReserve.current.from
+          ).toLocaleDateString("es-AR")}</b> hasta <b>${new Date(
+            infoReserve.current.to
+          ).toLocaleDateString("es-AR")}</b>. Disfruta tu estadía en el Hotel`,
+          showConfirmButton: true,
+        }).then(() => {
+          navigate(`/room/${number}`);
+        });
+    } catch (error) {
+      if (error.response.status == 401);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data.error}`,
+        showConfirmButton: true,
+      });
+      if (error.response.status == 400)
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          html: `${error.response.data.errors.map((e) => `${e.msg} <br>`)}`,
+          showConfirmButton: true,
+        });
+      console.log(error);
+    }
+  };
+  console.log(room);
   useEffect(() => {
     getASingleRoom(number, setRoom);
   }, []);
