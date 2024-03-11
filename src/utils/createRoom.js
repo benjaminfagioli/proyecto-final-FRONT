@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const URL_BASE = import.meta.env.VITE_URL_BASE;
 
 export const crearRoom = async (roomData) => {
@@ -20,3 +19,5 @@ export const crearRoom = async (roomData) => {
     throw new Error("Error creating room");
   }
 };
+
+export default crearRoom;
