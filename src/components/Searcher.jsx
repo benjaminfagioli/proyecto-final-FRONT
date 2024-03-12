@@ -9,11 +9,12 @@ import cadenaABooleano from "../utils/cadenaABooleano";
 import convertStarsToString from "../utils/convertStarstoString";
 const Searcher = ({ set, setIsLoading }) => {
   const [useParams, setUseParams] = useSearchParams({});
-  const filters = useRef();
+  const filters = useRef({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.target));
+    console.log(formData);
     switchOnOffToBoolean(formData);
     setUseParams(formData);
   };
@@ -35,17 +36,16 @@ const Searcher = ({ set, setIsLoading }) => {
       set(request.data);
     } catch (error) {
       set([]);
-      console.log(error.message);
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   };
-  // console.log(useParams.get("stars"));
   useEffect(() => {
     updateStateWithQuery();
   }, [useParams]);
   useEffect(() => {
-    filters.current = {};
+    // filters.current = {};
     useParams.forEach(
       (c, v) =>
         (filters.current[v] = isNaN(c) ? cadenaABooleano(c) : parseInt(c))
@@ -54,8 +54,29 @@ const Searcher = ({ set, setIsLoading }) => {
   return (
     <>
       <form id="searchForm" onSubmit={handleSubmit}>
-        <Container className="display-flex justify-content-between">
+        <Container className="display-flex justify-content-between w-100 position-relative pb-5">
           <div className="fs-6 fw-bold">
+            <label htmlFor="">
+              Precio
+              <div className="d-flex flex-column gap-2">
+                <span className="fw-light ms-2">
+                  desde
+                  <input
+                    type="number"
+                    name="lowerPrice"
+                    className="inputNumber ms-1"
+                  />
+                </span>
+                <span className="fw-light ms-2">
+                  hasta
+                  <input
+                    type="number"
+                    name="highestPrice"
+                    className="inputNumber ms-1"
+                  />
+                </span>
+              </div>
+            </label>
             <label htmlFor="">
               Tipo
               <div className="select">
@@ -157,7 +178,7 @@ const Searcher = ({ set, setIsLoading }) => {
               </label>
             </label>
           </div>
-          <div>
+          <div className="endButtons">
             <button type="submit">Buscar</button>
             <button onClick={reset}>Limpiar filtros</button>
           </div>
