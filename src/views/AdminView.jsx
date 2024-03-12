@@ -107,9 +107,7 @@ const AdminView = () => {
 
   return (
     <div className="admin-container">
-      <div className="admin-table">
-        <h2>Usuarios</h2>
-      </div>
+      <div className="admin-buttons"></div>
       <div className="admin-table">
         <h2>Habitaciones</h2>
         <table>
