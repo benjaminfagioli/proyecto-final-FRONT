@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { crearRoom } from "../utils/agregarRoom.js";
+import validateImages from "../validators/validateImages.js";
+import existsNumberRoom from "../validators/existisNumberRoom.js";
+import Swal from "sweetalert2";
 
 const ModalRoomAdmin = ({ show, handleClose }) => {
   const [number, setNumber] = useState("");
@@ -8,34 +11,105 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
   const [description, setDescription] = useState("");
   const [isVisible, setIsVisible] = useState(true);
   const [imageURL, setImageURL] = useState("");
-  const [properties, setProperties] = useState({
-    bedrooms: "",
-    bathrooms: "",
-    m2: "",
-    floor: "",
-    wifi: false,
-    airConditional: false,
-  });
+  const [bedrooms, setBedrooms] = useState("");
+  const [bathrooms, setBathrooms] = useState("");
+  const [m2, setM2] = useState("");
+  const [floor, setFloor] = useState("");
+  const [wifi, setWifi] = useState(false);
+  const [airConditional, setAirConditional] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (description.length < 10 || description.length > 800) {
+      Swal.fire({
+        icon: "error",
+        title: "Error de validación",
+        text: "La descripción debe tener entre 10 y 800 caracteres.",
+      });
+      return;
+    }
+
+    try {
+      validateImages([imageURL]);
+    } catch (error) {
+      console.error("Error validating images:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error de validación",
+        text: "La URL de la imagen no es válida.",
+      });
+      return;
+    }
+
+    try {
+      const roomExists = await existsNumberRoom(number);
+      if (roomExists) {
+        Swal.fire({
+          icon: "error",
+          title: "Error al crear la habitación",
+          text: `Ya existe una habitación con el número ${number}.`,
+        });
+        return;
+      }
+    } catch (error) {
+      console.error(
+        "Error al verificar la existencia de la habitación:",
+        error
+      );
+      Swal.fire({
+        icon: "error",
+        title: "Error al verificar la existencia de la habitación",
+        text: "Ocurrió un error al verificar si la habitación ya existe. Por favor, inténtalo de nuevo más tarde.",
+      });
+      return;
+    }
+
     const newRoom = {
       number: parseInt(number),
       stars: parseInt(stars),
       description,
       isVisible,
       images: [imageURL],
-      properties,
+      properties: {
+        bedrooms: parseInt(bedrooms),
+        bathrooms: parseInt(bathrooms),
+        m2: parseInt(m2),
+        floor: parseInt(floor),
+        wifi,
+        airConditional,
+      },
       reserves: [],
     };
+
     try {
       await crearRoom(newRoom);
       handleClose();
+      Swal.fire({
+        icon: "success",
+        title: "Habitación creada",
+        text: "La habitación se ha creado exitosamente.",
+      });
     } catch (error) {
       console.error("Error creating room:", error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Error al crear la habitación",
+          text: error.response.data.message,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error al crear la habitación",
+          text: "Ha ocurrido un error al intentar crear la habitación. Por favor, inténtelo de nuevo más tarde.",
+        });
+      }
     }
   };
-
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -86,13 +160,8 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
             <Form.Label>Dormitorios:</Form.Label>
             <Form.Control
               type="number"
-              value={properties.bedrooms}
-              onChange={(e) =>
-                setProperties({
-                  ...properties,
-                  bedrooms: parseInt(e.target.value),
-                })
-              }
+              value={bedrooms}
+              onChange={(e) => setBedrooms(e.target.value)}
               min="1"
               required
             />
@@ -101,13 +170,8 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
             <Form.Label>Baños:</Form.Label>
             <Form.Control
               type="number"
-              value={properties.bathrooms}
-              onChange={(e) =>
-                setProperties({
-                  ...properties,
-                  bathrooms: parseInt(e.target.value),
-                })
-              }
+              value={bathrooms}
+              onChange={(e) => setBathrooms(e.target.value)}
               min="1"
               required
             />
@@ -116,13 +180,8 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
             <Form.Label>Metros Cuadrados:</Form.Label>
             <Form.Control
               type="number"
-              value={properties.m2}
-              onChange={(e) =>
-                setProperties({
-                  ...properties,
-                  m2: parseInt(e.target.value),
-                })
-              }
+              value={m2}
+              onChange={(e) => setM2(e.target.value)}
               min="1"
               required
             />
@@ -131,13 +190,8 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
             <Form.Label>Piso:</Form.Label>
             <Form.Control
               type="number"
-              value={properties.floor}
-              onChange={(e) =>
-                setProperties({
-                  ...properties,
-                  floor: parseInt(e.target.value),
-                })
-              }
+              value={floor}
+              onChange={(e) => setFloor(e.target.value)}
               min="1"
               required
             />
@@ -146,26 +200,16 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
             <Form.Check
               type="checkbox"
               label="WiFi"
-              checked={properties.wifi}
-              onChange={(e) =>
-                setProperties({
-                  ...properties,
-                  wifi: e.target.checked,
-                })
-              }
+              checked={wifi}
+              onChange={(e) => setWifi(e.target.checked)}
             />
           </Form.Group>
           <Form.Group controlId="formAirConditional">
             <Form.Check
               type="checkbox"
               label="Aire Acondicionado"
-              checked={properties.airConditional}
-              onChange={(e) =>
-                setProperties({
-                  ...properties,
-                  airConditional: e.target.checked,
-                })
-              }
+              checked={airConditional}
+              onChange={(e) => setAirConditional(e.target.checked)}
             />
           </Form.Group>
           <Form.Group controlId="formImageURL">
