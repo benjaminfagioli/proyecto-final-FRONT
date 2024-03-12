@@ -10,7 +10,6 @@ import { crearRoom } from "../utils/agregarRoom.js";
 import ModalRoomAdmin from "../components/modalRoomAdmin.jsx";
 import registerUser from "../utils/registerUsers.js";
 
-
 const AdminView = () => {
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
@@ -19,7 +18,6 @@ const AdminView = () => {
 
   const [newRoomData, setNewRoomData] = useState({});
   const [newUserData, setNewUserData] = useState({});
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,8 +80,6 @@ const AdminView = () => {
     }
   };
 
-
-
   const crearUsuario = async () => {
     try {
       await registerUser(newUserData);
@@ -94,7 +90,6 @@ const AdminView = () => {
       console.error("Error creating user:", error);
     }
   };
-
 
   const guardarHabitacion = async (newRoomData) => {
     try {
@@ -177,12 +172,6 @@ const AdminView = () => {
         handleClose={() => setShowModal(false)}
         guardarHabitacion={guardarHabitacion}
       />
-
-        <button onClick={crearHabitacion} className="create-button">
-          Crear Habitación
-        </button>
-      </div>
-
     </div>
   );
 };

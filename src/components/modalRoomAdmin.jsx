@@ -28,6 +28,9 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
       properties,
       reserves: [],
     };
+
+    console.log("Nuevo room:", newRoom);
+
     try {
       await crearRoom(newRoom);
       handleClose();
