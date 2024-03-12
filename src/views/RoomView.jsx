@@ -90,7 +90,7 @@ const RoomView = () => {
           ).toLocaleDateString("es-AR")}</b>. Disfruta tu estadía en el Hotel`,
           showConfirmButton: true,
         }).then(() => {
-          navigate(`/room/${number}`);
+          navigate(`/`);
         });
     } catch (error) {
       if (error.response.status == 401);
@@ -209,9 +209,9 @@ const RoomView = () => {
           </section>
         </Container>
       </Container>
-      <Container id="roomSecondSection">
-        <Row className="my-3">
-          <Col md={8} lg={7}>
+      <Container id="roomSecondSection" className="py-4">
+        <Row>
+          <Col md={8} lg={7} className="d-flex justify-content-center">
             <DatePicker room={room} infoReserve={infoReserve} />
           </Col>
           <Col lg={5}>

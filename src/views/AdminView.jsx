@@ -8,11 +8,18 @@ import Swal from "sweetalert2";
 import "../styles/admin.css";
 import { crearRoom } from "../utils/agregarRoom.js";
 import ModalRoomAdmin from "../components/modalRoomAdmin.jsx";
+import registerUser from "../utils/registerUsers.js";
+
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
+
   const [showModal, setShowModal] = useState(false);
+
+  const [newRoomData, setNewRoomData] = useState({});
+  const [newUserData, setNewUserData] = useState({});
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,12 +82,29 @@ const AdminView = () => {
     }
   };
 
+
+
+  const crearUsuario = async () => {
+    try {
+      await registerUser(newUserData);
+      const updateUserData = await getAllUsers();
+      setUsers(updateUserData);
+      setNewRoomData({});
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
+  };
+
+
   const guardarHabitacion = async (newRoomData) => {
     try {
       await crearRoom(newRoomData);
       setShowModal(false);
       const updatedRooms = await getAllRooms();
       setRooms(updatedRooms);
+      const updatedRoomsData = await getAllRooms();
+      setRooms(updatedRoomsData);
+      setNewRoomData({});
     } catch (error) {
       console.error("Error creating room:", error);
     }
@@ -143,6 +167,7 @@ const AdminView = () => {
             ))}
           </tbody>
         </table>
+
         <button onClick={() => setShowModal(true)} className="create-button">
           Crear Habitación
         </button>
@@ -152,6 +177,12 @@ const AdminView = () => {
         handleClose={() => setShowModal(false)}
         guardarHabitacion={guardarHabitacion}
       />
+
+        <button onClick={crearHabitacion} className="create-button">
+          Crear Habitación
+        </button>
+      </div>
+
     </div>
   );
 };
