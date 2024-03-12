@@ -2,18 +2,24 @@ import React, { useState, useEffect } from "react";
 import getAllRooms from "../utils/getAllRooms.js";
 import getAllUsers from "../utils/getAllUsers.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { eliminarRoomById } from "../utils/eliminarRooms.js";
 import Swal from "sweetalert2";
 import "../styles/admin.css";
 import { crearRoom } from "../utils/agregarRoom.js";
+import ModalRoomAdmin from "../components/modalRoomAdmin.jsx";
 import registerUser from "../utils/registerUsers.js";
+
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
+
+  const [showModal, setShowModal] = useState(false);
+
   const [newRoomData, setNewRoomData] = useState({});
   const [newUserData, setNewUserData] = useState({});
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,10 +39,6 @@ const AdminView = () => {
 
   const toggleIsBusy = (roomId) => {
     console.log("cambiando estado isBusy de", roomId);
-  };
-
-  const editDescription = (roomId) => {
-    console.log(`Editar descripción de la habitación ${roomId}`);
   };
 
   const editRoom = (roomId) => {
@@ -80,6 +82,8 @@ const AdminView = () => {
     }
   };
 
+
+
   const crearUsuario = async () => {
     try {
       await registerUser(newUserData);
@@ -91,9 +95,13 @@ const AdminView = () => {
     }
   };
 
-  const crearHabitacion = async () => {
+
+  const guardarHabitacion = async (newRoomData) => {
     try {
       await crearRoom(newRoomData);
+      setShowModal(false);
+      const updatedRooms = await getAllRooms();
+      setRooms(updatedRooms);
       const updatedRoomsData = await getAllRooms();
       setRooms(updatedRoomsData);
       setNewRoomData({});
@@ -106,25 +114,6 @@ const AdminView = () => {
     <div className="admin-container">
       <div className="admin-table">
         <h2>Usuarios</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button onClick={crearUsuario} className="create-button">
-          Crear Usuario
-        </button>
       </div>
       <div className="admin-table">
         <h2>Habitaciones</h2>
@@ -178,10 +167,22 @@ const AdminView = () => {
             ))}
           </tbody>
         </table>
+
+        <button onClick={() => setShowModal(true)} className="create-button">
+          Crear Habitación
+        </button>
+      </div>
+      <ModalRoomAdmin
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        guardarHabitacion={guardarHabitacion}
+      />
+
         <button onClick={crearHabitacion} className="create-button">
           Crear Habitación
         </button>
       </div>
+
     </div>
   );
 };
