@@ -5,7 +5,7 @@
 }
 #roomCardsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 
   /* grid-auto-rows: auto; */
@@ -23,6 +23,7 @@
     animation: reveal linear both;
     animation-timeline: view();
     animation-range: entry 0% cover 15%;
+    aspect-ratio: 3/2;
     .card-title {
       font-weight: normal;
       transition: 0.9s;

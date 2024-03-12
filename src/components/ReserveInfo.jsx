@@ -31,8 +31,7 @@ const ReserveInfo = ({ from, to, userId, room }) => {
           );
           if (res.status == 200) {
             Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
+              title: "Eliminada!",
               icon: "success",
             }).then(() => {
               location.reload();

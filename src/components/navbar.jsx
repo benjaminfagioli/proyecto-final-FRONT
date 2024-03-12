@@ -10,6 +10,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token-Auth");
+    localStorage.removeItem("token");
     window.location.href = "/";
   };
 

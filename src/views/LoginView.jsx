@@ -37,6 +37,7 @@ const LoginView = () => {
         } else {
           fixedToken = "42c08349-9d0b-4b43-80ab-7241767da1b7";
         }
+        localStorage.setItem("token", res.data.token);
         localStorage.setItem("token-Auth", fixedToken);
         navigate("/");
         window.location.reload();
