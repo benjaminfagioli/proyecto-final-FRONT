@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { URL_BASE } from "../config/config";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import Room from "../components/room";
 import Loader from "../components/Loader";
 import ReserveInfo from "../components/ReserveInfo";
@@ -11,6 +11,7 @@ const ProfileView = () => {
   const [rooms, setRooms] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const token = localStorage.getItem("token");
+
   const getProfile = async (token, set) => {
     setisLoading(true);
     try {
@@ -26,6 +27,7 @@ const ProfileView = () => {
       setisLoading(false);
     }
   };
+  let reserves = 0;
   const getMyRooms = async (token, set) => {
     setisLoading(true);
     try {
@@ -53,38 +55,59 @@ const ProfileView = () => {
   }, [user]);
   return (
     <>
-      <Container>
-        <h1>Perfil</h1>
+      <Container className="py-4">
+        <h3 className="display-6  mb-0">Perfil</h3>
         {isLoading ? <Loader /> : ""}
         {user && (
           <>
-            <h1>{user.name}</h1>
-            <h3>{user.email}</h3>
+            <span className="fs-4">{user.name} - </span>
+            <span className="fs-4 fw-bold">{user.email}</span>
           </>
         )}
-        <h1>Mis habitaciones</h1>
+        <h3 className="mt-3 display-6  ">
+          {rooms.length > 1 ? "Mis habitaciones" : "Mi habitacion"}
+        </h3>
         {isLoading ? <Loader /> : ""}
         {rooms.length > 0 ? (
-          <Container id="roomCardsContainer" className="px-0">
-            {rooms.map((room) => (
-              <>
-                <Room image={room.images[0]} title={room.number} />
-                <span className="fs-4">
-                  Reserva/s:{" "}
-                  {room.reserves.map(
-                    (reserve) =>
-                      reserve.userId == user.id && (
-                        <ReserveInfo
-                          from={reserve.from}
-                          to={reserve.to}
-                          userId={reserve.userId}
-                          room={room.number}
-                        />
-                      )
-                  )}
-                </span>
-              </>
-            ))}
+          <Container id="" className="px-0">
+            <Row
+              style={{
+                gap: window.matchMedia("(max-width:768px)").matches
+                  ? "0"
+                  : "35px 0",
+              }}
+            >
+              {rooms.map((room) => (
+                <>
+                  <Col className="d-flex align-items-start" md={7} lg={3}>
+                    <Room image={room.images[0]} title={room.number} />
+                  </Col>
+                  <Col
+                    className="d-flex flex-column mt-1 mb-5 my-md-0"
+                    md={4}
+                    lg={3}
+                  >
+                    <span className="fs-5 order-1 ">
+                      {room.reserves.map((reserve, i) => {
+                        if (reserve.userId == user.id) reserves = i;
+                        if (reserve.userId == user.id)
+                          return (
+                            <ReserveInfo
+                              from={reserve.from}
+                              to={reserve.to}
+                              userId={reserve.userId}
+                              room={room.number}
+                            />
+                          );
+                      })}
+                    </span>
+                    <span className="fs-4  d-grid order-0">
+                      {reserves != 0 ? "Reservas" : "Reservas"}
+                    </span>
+                  </Col>
+                </>
+              ))}
+            </Row>
           </Container>
         ) : (
           <h4>No se encontraron habitaciones</h4>

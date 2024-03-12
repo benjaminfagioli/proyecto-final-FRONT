@@ -3,6 +3,7 @@ import React from "react";
 import { URL_BASE } from "../config/config";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import "../styles/reserveInfo.css";
 
 const ReserveInfo = ({ from, to, userId, room }) => {
   const navigate = useNavigate();
@@ -44,12 +45,12 @@ const ReserveInfo = ({ from, to, userId, room }) => {
     });
   };
   return (
-    <div className="display-inline-block">
+    <div className="d-flex justify-content-between align-items-center mb-2 fs-5">
       <span>
-        {`${new Date(from).toLocaleDateString("es-ar")} al a
-      ${new Date(to).toLocaleDateString("es-ar")}. `}
+        <b>{new Date(from).toLocaleDateString("es-ar")}</b> al{" "}
+        <b>{new Date(to).toLocaleDateString("es-ar")}</b>
       </span>
-      <button onClick={handleClick} className="fs-6">
+      <button onClick={handleClick} className=" deleteReserve">
         Eliminar
       </button>
     </div>

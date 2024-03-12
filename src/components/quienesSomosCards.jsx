@@ -3,8 +3,8 @@ import Card from "react-bootstrap/Card";
 
 function PersonaCard({ name, role, image, text }) {
   return (
-    <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src={image} />
+    <Card>
+      <Card.Img variant="top" style={{ aspectRatio: "1" }} src={image} />
       <Card.Body>
         <Card.Title>
           {name} como {role}

@@ -1,5 +1,5 @@
 .rdrDayDisabled {
-  background-color: #ededed !important;
+  background-color: #e3e3e3 !important;
   & span {
     color: gray !important;
   }
