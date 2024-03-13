@@ -17,6 +17,7 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
   const [floor, setFloor] = useState("");
   const [wifi, setWifi] = useState(false);
   const [airConditional, setAirConditional] = useState(false);
+  const [price, setPrice] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +26,21 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
         icon: "error",
         title: "Error de validación",
         text: "La descripción debe tener entre 10 y 800 caracteres.",
+      });
+      return;
+    }
+
+    try {
+      const parsedPrice = parseInt(price);
+      if (parsedPrice < 30000 || parsedPrice > 500000) {
+        throw new Error("El precio debe estar entre $30,000 y $500,000.");
+      }
+    } catch (error) {
+      console.error("Error de validación de precio:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error de validación",
+        text: error.message,
       });
       return;
     }
@@ -77,6 +93,7 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
         floor: parseInt(floor),
         wifi,
         airConditional,
+        price: parseInt(price),
       },
       reserves: [],
     };
@@ -110,6 +127,7 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
       }
     }
   };
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -144,7 +162,7 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
               as="textarea"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              maxLength="150"
+              maxLength="800"
               required
             />
           </Form.Group>
@@ -210,6 +228,15 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
               label="Aire Acondicionado"
               checked={airConditional}
               onChange={(e) => setAirConditional(e.target.checked)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formPrice">
+            <Form.Label>Precio (Pesos):</Form.Label>
+            <Form.Control
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formImageURL">
