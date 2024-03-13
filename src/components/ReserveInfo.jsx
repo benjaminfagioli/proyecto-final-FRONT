@@ -51,7 +51,7 @@ const ReserveInfo = ({ from, to, userId, room }) => {
         <b>{new Date(to).toLocaleDateString("es-ar")}</b>
       </span>
       <button onClick={handleClick} className=" deleteReserve">
-        Eliminar
+        <i className="bi bi-trash fs-5"></i>{" "}
       </button>
     </div>
   );

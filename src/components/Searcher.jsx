@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 const URL_BASE = import.meta.env.VITE_URL_BASE;
 import switchOnOffToBoolean from "../utils/switchOnOffToBoolean";
@@ -10,6 +10,7 @@ import convertStarsToString from "../utils/convertStarstoString";
 import { NumberInput } from "@mui/base/Unstable_NumberInput/NumberInput";
 const Searcher = ({ set, setIsLoading }) => {
   const [useParams, setUseParams] = useSearchParams({});
+  const [dataForInputs, setDataForInputs] = useState({});
   const filters = useRef({});
 
   const handleSubmit = async (e) => {
@@ -41,11 +42,21 @@ const Searcher = ({ set, setIsLoading }) => {
       setIsLoading(false);
     }
   };
+
+  const getDataToRender = async () => {
+    try {
+      const { data } = await axios.get(`${URL_BASE}/rooms/getDataToSearcher`);
+      await setDataForInputs(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(dataForInputs);
   useEffect(() => {
     updateStateWithQuery();
   }, [useParams]);
   useEffect(() => {
-    // filters.current = {};
+    getDataToRender();
     useParams.forEach(
       (c, v) =>
         (filters.current[v] = isNaN(c) ? cadenaABooleano(c) : parseInt(c))
@@ -64,12 +75,16 @@ const Searcher = ({ set, setIsLoading }) => {
                   <input
                     id="lowerPriceInput"
                     onBlur={() => {
-                      if (lowerPriceInput.value > 500_000)
-                        lowerPriceInput.value = 500_000;
+                      if (
+                        lowerPriceInput.value >
+                        dataForInputs.price.highest.price
+                      )
+                        lowerPriceInput.value =
+                          dataForInputs.price.highest.price;
                       if (lowerPriceInput.value < 1) lowerPriceInput.value = 1;
                     }}
                     min={0}
-                    max={500_000}
+                    max={dataForInputs.price.highest.price}
                     type="number"
                     name="lowerPrice"
                     className="inputNumber ms-1"
@@ -80,13 +95,17 @@ const Searcher = ({ set, setIsLoading }) => {
                   <input
                     id="highestPriceInput"
                     onBlur={() => {
-                      if (highestPriceInput.value > 500_000)
-                        highestPriceInput.value = 500_000;
+                      if (
+                        highestPriceInput.value >
+                        dataForInputs.price.highest.price
+                      )
+                        highestPriceInput.value =
+                          dataForInputs.price.highest.price;
                       if (highestPriceInput.value < 1)
                         lowerPriceInput.value = 1;
                     }}
                     min={0}
-                    max={500_000}
+                    max={dataForInputs.price.highest.price}
                     type="number"
                     name="highestPrice"
                     className="inputNumber ms-1"
@@ -117,9 +136,12 @@ const Searcher = ({ set, setIsLoading }) => {
                   <option hidden className="default" value="">
                     {filters.current?.bedrooms}
                   </option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  {dataForInputs?.bedrooms?.length > 0 &&
+                    dataForInputs.bedrooms
+                      .sort((a, b) => a - b)
+                      .map((dormitorio) => (
+                        <option value={dormitorio}>{dormitorio}</option>
+                      ))}
                 </select>
               </div>
             </label>
@@ -133,9 +155,10 @@ const Searcher = ({ set, setIsLoading }) => {
                   <option hidden className="default" value="">
                     {filters.current?.bathrooms}
                   </option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  {dataForInputs?.bathrooms?.length > 0 &&
+                    dataForInputs.bathrooms
+                      .sort((a, b) => a - b)
+                      .map((banio) => <option value={banio}>{banio}</option>)}
                 </select>
               </div>
             </label>
@@ -146,17 +169,14 @@ const Searcher = ({ set, setIsLoading }) => {
                   <option hidden className="default" value="">
                     {filters.current?.bathrooms}
                   </option>
-                  <option value="0">Planta baja</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
+                  {dataForInputs?.floors?.length > 0 &&
+                    dataForInputs.floors
+                      .sort((a, b) => a - b)
+                      .map((planta) => (
+                        <option value={planta}>
+                          {planta == 0 ? "Planta baja" : planta}
+                        </option>
+                      ))}
                 </select>
               </div>
             </label>
