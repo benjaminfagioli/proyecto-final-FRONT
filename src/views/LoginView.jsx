@@ -39,6 +39,10 @@ const LoginView = () => {
         }
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("token-Auth", fixedToken);
+
+        localStorage.setItem("token", res.data.token);
+
+
         navigate("/");
         window.location.reload();
       });
