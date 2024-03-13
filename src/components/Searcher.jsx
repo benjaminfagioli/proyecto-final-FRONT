@@ -77,14 +77,14 @@ const Searcher = ({ set, setIsLoading }) => {
                     onBlur={() => {
                       if (
                         lowerPriceInput.value >
-                        dataForInputs.price.highest.price
+                        dataForInputs.price?.highest?.price
                       )
                         lowerPriceInput.value =
-                          dataForInputs.price.highest.price;
+                          dataForInputs.price?.highest?.price;
                       if (lowerPriceInput.value < 1) lowerPriceInput.value = 1;
                     }}
                     min={0}
-                    max={dataForInputs.price.highest.price}
+                    max={dataForInputs.price?.highest?.price}
                     type="number"
                     name="lowerPrice"
                     className="inputNumber ms-1"
@@ -97,15 +97,15 @@ const Searcher = ({ set, setIsLoading }) => {
                     onBlur={() => {
                       if (
                         highestPriceInput.value >
-                        dataForInputs.price.highest.price
+                        dataForInputs.price?.highest?.price
                       )
                         highestPriceInput.value =
-                          dataForInputs.price.highest.price;
+                          dataForInputs.price?.highest?.price;
                       if (highestPriceInput.value < 1)
                         lowerPriceInput.value = 1;
                     }}
                     min={0}
-                    max={dataForInputs.price.highest.price}
+                    max={dataForInputs.price?.highest?.price}
                     type="number"
                     name="highestPrice"
                     className="inputNumber ms-1"

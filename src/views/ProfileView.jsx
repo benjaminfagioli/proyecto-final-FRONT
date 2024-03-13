@@ -79,7 +79,7 @@ const ProfileView = () => {
             >
               {rooms.map((room) => (
                 <>
-                  <Col className="d-flex align-items-start" md={7} lg={3}>
+                  <Col className="d-flex align-items-center" md={7} lg={3}>
                     <Room image={room.images[0]} title={room.number} />
                   </Col>
                   <Col
