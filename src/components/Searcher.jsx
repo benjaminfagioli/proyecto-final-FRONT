@@ -7,6 +7,7 @@ import "../styles/searcher.css";
 import { Container } from "react-bootstrap";
 import cadenaABooleano from "../utils/cadenaABooleano";
 import convertStarsToString from "../utils/convertStarstoString";
+import { NumberInput } from "@mui/base/Unstable_NumberInput/NumberInput";
 const Searcher = ({ set, setIsLoading }) => {
   const [useParams, setUseParams] = useSearchParams({});
   const filters = useRef({});
@@ -21,7 +22,6 @@ const Searcher = ({ set, setIsLoading }) => {
 
   const reset = (e) => {
     filters.current = {};
-    console.log(e.target.form);
     e.target.form.reset();
     setUseParams({});
   };
@@ -62,6 +62,14 @@ const Searcher = ({ set, setIsLoading }) => {
                 <span className="fw-light ms-2">
                   desde
                   <input
+                    id="lowerPriceInput"
+                    onBlur={() => {
+                      if (lowerPriceInput.value > 500_000)
+                        lowerPriceInput.value = 500_000;
+                      if (lowerPriceInput.value < 1) lowerPriceInput.value = 1;
+                    }}
+                    min={0}
+                    max={500_000}
                     type="number"
                     name="lowerPrice"
                     className="inputNumber ms-1"
@@ -70,6 +78,15 @@ const Searcher = ({ set, setIsLoading }) => {
                 <span className="fw-light ms-2">
                   hasta
                   <input
+                    id="highestPriceInput"
+                    onBlur={() => {
+                      if (highestPriceInput.value > 500_000)
+                        highestPriceInput.value = 500_000;
+                      if (highestPriceInput.value < 1)
+                        lowerPriceInput.value = 1;
+                    }}
+                    min={0}
+                    max={500_000}
                     type="number"
                     name="highestPrice"
                     className="inputNumber ms-1"
