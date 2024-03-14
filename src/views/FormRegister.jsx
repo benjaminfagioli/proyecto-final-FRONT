@@ -6,6 +6,7 @@ import "../styles/register.css";
 import registerUser from "../utils/registerUsers.js";
 import Swal from "sweetalert2";
 import { validateFormData } from "../validators/userValidators.js";
+import { Container } from "react-bootstrap";
 
 function FormRegister() {
   const navigate = useNavigate();
@@ -48,59 +49,64 @@ function FormRegister() {
         navigate("/");
       });
     } catch (error) {
-      console.error("Error creando el usuario:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Hubo un problema al registrar el usuario. Por favor, inténtalo de nuevo.",
+        text: error.message,
       });
     }
   };
   return (
-    <Form className="login-box register-box" onSubmit={handleSubmit}>
-      <h2>Regístrate</h2>
-      <Form.Group className="user-box mb-3" controlId="name">
-        <Form.Control
-          type="text"
-          name="name"
-          placeholder="Ingresa tu nombre"
-          className="input"
-          value={userData.name}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group className="user-box mb-3" controlId="email">
-        <Form.Control
-          type="email"
-          name="email"
-          placeholder="Ingresa tu correo electrónico"
-          className="input"
-          value={userData.email}
-          onChange={handleChange}
-        />
-      </Form.Group>
+    <Container>
+      <div className="d-flex justify-content-center py-5">
+        <form className="loginForm" onSubmit={handleSubmit}>
+          <h2 className="loginForm-title">Regístrate</h2>
+          <Form.Group className="input-container mb-3" controlId="name">
+            <Form.Label className="mb-0">Nombre</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              autoComplete="off"
+              placeholder="Ingresa tu nombre"
+              className="input"
+              value={userData.name}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group className="input-container mb-3" controlId="email">
+            <Form.Label className="mb-0">Email</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              autoComplete="off"
+              placeholder="Ingresa tu correo electrónico"
+              className="input"
+              value={userData.email}
+              onChange={handleChange}
+            />
+          </Form.Group>
 
-      <Form.Group className="user-box mb-3" controlId="password">
-        <Form.Control
-          type="password"
-          name="password"
-          placeholder="Ingresa tu contraseña"
-          className="input"
-          value={userData.password}
-          onChange={handleChange}
-        />
-      </Form.Group>
+          <Form.Group className="input-container mb-3" controlId="password">
+            <Form.Label className="mb-0">Contraseña</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              autoComplete="off"
+              placeholder="Ingresa tu contraseña"
+              className="input"
+              value={userData.password}
+              onChange={handleChange}
+            />
+          </Form.Group>
 
-      <div className="styled-button-container">
-        <Button variant="primary" type="submit" className="styled-button">
-          Enviar
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </Button>
+          <div className="">
+            <button variant="primary" type="submit" className="submit">
+              Enviar
+            </button>
+          </div>
+        </form>
       </div>
-    </Form>
+    </Container>
   );
 }
 

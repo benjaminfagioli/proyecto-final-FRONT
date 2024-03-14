@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import "../styles/loginForm.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import regexEmail from "../utils/regexEmail";
 import axios from "axios";
@@ -37,6 +37,7 @@ const LoginView = () => {
         } else {
           fixedToken = "42c08349-9d0b-4b43-80ab-7241767da1b7";
         }
+        localStorage.setItem("token", res.data.token);
         localStorage.setItem("token-Auth", fixedToken);
 
         localStorage.setItem("token", res.data.token);
@@ -66,12 +67,14 @@ const LoginView = () => {
     <>
       <Container>
         <div className="d-flex justify-content-center py-5">
-          <form className="login-box" onSubmit={handleSubmit(onSubmit)}>
-            <h2>Ingresa a tu cuenta</h2>
-            <div className="user-box">
-              <input
+          <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
+            <h2 className="loginForm-title">Ingresa a tu cuenta</h2>
+            <div className="input-container">
+              <Form.Label className="mb-0">Email</Form.Label>
+              <Form.Control
                 name="email"
                 type="text"
+                autoComplete="off"
                 placeholder="Ingresa tu email "
                 {...register("email", {
                   required: {
@@ -84,7 +87,7 @@ const LoginView = () => {
                   },
                 })}
               />
-              <label>Email</label>
+              {/* <label>Email</label> */}
               {errors?.email?.message && (
                 <div className="d-flex align-items-center text-danger">
                   <i className="bi fs-5 bi-exclamation-lg"></i>
@@ -92,8 +95,9 @@ const LoginView = () => {
                 </div>
               )}
             </div>
-            <div className="user-box">
-              <input
+            <div className="input-container">
+              <Form.Label className="mb-0">Contraseña</Form.Label>
+              <Form.Control
                 name="password"
                 type="password"
                 placeholder="Ingresa tu contraseña"
@@ -108,7 +112,7 @@ const LoginView = () => {
                   },
                 })}
               />
-              <label>Contraseña</label>
+              {/* <label>Contraseña</label> */}
               {errors?.password?.message && (
                 <div className="d-flex align-items-center text-danger">
                   <i className="bi fs-5 bi-exclamation-lg"></i>
@@ -116,15 +120,11 @@ const LoginView = () => {
                 </div>
               )}
             </div>
-            <button type="submit" className="styled-button">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
+            <button type="submit" className="submit">
               Ingresar
             </button>
 
-            <p className="signup-link mt-2">
+            <p className="signup-link mt-3 mb-2">
               No tienes una cuenta?
               <Link className="ms-1 text-decoration-none" to={"/register"}>
                 Registrate

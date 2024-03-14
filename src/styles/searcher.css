@@ -1,6 +1,27 @@
+.inputNumber {
+  width: 90px;
+  appearance: textfield !important;
+  -webkit-appearance: textfield !important;
+  margin: 0;
+  -moz-appearance: textfield !important;
+}
+.endButtons {
+  /* margin-top: 10px; */
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  display: grid;
+  justify-items: end;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 #searchForm {
   background-color: #ab8171;
-  padding: 50px 0;
+  padding: 40px 0;
   margin: 10px 0 0 0;
   display: flex;
   border-radius: 7px;

@@ -8,7 +8,9 @@ const registerUser = async (userData) => {
     console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error("Error al registrar usuario");
+    if (error?.response?.data?.errors?.length > 0)
+      throw new Error(error.response.data.errors.map((e) => e.msg));
+    throw new Error(error.message);
   }
 };
 
