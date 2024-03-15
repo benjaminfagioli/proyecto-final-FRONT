@@ -10,7 +10,7 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
   const [stars, setStars] = useState("");
   const [description, setDescription] = useState("");
   const [isVisible, setIsVisible] = useState(true);
-  const [imageURL, setImageURL] = useState("");
+  const [imageURLs, setImageURLs] = useState([]);
   const [bedrooms, setBedrooms] = useState("");
   const [bathrooms, setBathrooms] = useState("");
   const [m2, setM2] = useState("");
@@ -46,7 +46,7 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
     }
 
     try {
-      validateImages([imageURL]);
+      validateImages(imageURLs);
     } catch (error) {
       console.error("Error validating images:", error);
       Swal.fire({
@@ -85,7 +85,7 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
       stars: parseInt(stars),
       description,
       isVisible,
-      images: [imageURL],
+      images: imageURLs,
       properties: {
         bedrooms: parseInt(bedrooms),
         bathrooms: parseInt(bathrooms),
@@ -240,13 +240,13 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
             />
           </Form.Group>
           <Form.Group controlId="formImageURL">
-            <Form.Label>URL de la Imagen:</Form.Label>
+            <Form.Label>URLs de las Imágenes:</Form.Label>
             <Form.Control
               type="text"
-              value={imageURL}
-              onChange={(e) => setImageURL(e.target.value)}
+              value={imageURLs.join(",")}
+              onChange={(e) => setImageURLs(e.target.value.split(","))}
               pattern="https?://.+"
-              title="Por favor ingrese una URL válida que comience con http:// o https://"
+              title="Por favor ingrese URLs válidas que comiencen con http:// o https://"
               required
             />
           </Form.Group>
