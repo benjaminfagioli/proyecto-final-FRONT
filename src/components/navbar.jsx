@@ -2,11 +2,12 @@ import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import "../styles/navbar.css";
 import { Link } from "react-router-dom";
+import { ADMIN_KEY, USER_KEY } from "../config/config";
 
 const NavBar = () => {
   const token = localStorage.getItem("token-Auth");
-  const isAdmin = token === "2c128f52-26da-4bc9-bfc3-1014cd10b04a";
-  const isUser = token === "42c08349-9d0b-4b43-80ab-7241767da1b7";
+  const isAdmin = token === ADMIN_KEY;
+  const isUser = token === USER_KEY;
 
   const handleLogout = () => {
     localStorage.removeItem("token-Auth");
