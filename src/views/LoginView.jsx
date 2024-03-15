@@ -5,7 +5,7 @@ import { Container, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import regexEmail from "../utils/regexEmail";
 import axios from "axios";
-import { URL_BASE } from "../config/config";
+import { ADMIN_KEY, URL_BASE, USER_KEY } from "../config/config";
 import Swal from "sweetalert2";
 import Loader from "../components/Loader";
 
@@ -31,17 +31,9 @@ const LoginView = () => {
         timer: 3000,
         timerProgressBar: true,
       }).then(() => {
-        let fixedToken;
-        if (res.data.isadmin) {
-          fixedToken = "2c128f52-26da-4bc9-bfc3-1014cd10b04a";
-        } else {
-          fixedToken = "42c08349-9d0b-4b43-80ab-7241767da1b7";
-        }
+        let fixedToken = res.data.key === ADMIN_KEY ? ADMIN_KEY : USER_KEY;
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("token-Auth", fixedToken);
-
-        localStorage.setItem("token", res.data.token);
-
 
         navigate("/");
         window.location.reload();

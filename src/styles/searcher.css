@@ -19,6 +19,10 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+select[name="bedrooms"],
+select[name="bathrooms"] {
+  min-width: 54px;
+}
 #searchForm {
   background-color: #ab8171;
   padding: 40px 0;
@@ -66,7 +70,9 @@ input[type="number"]::-webkit-outer-spin-button {
 .containerCbx input {
   display: none;
 }
-
+.selectFloor {
+  min-width: 125px;
+}
 .containerCbx svg {
   overflow: visible;
 }
