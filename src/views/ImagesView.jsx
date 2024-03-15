@@ -47,16 +47,19 @@ const ImagesView = () => {
   }, [images]);
   return (
     <>
-      <Container className=" py-4 p-md-5" fluid>
-        <Container id="galleryContainer">
-          {images.map(
-            (imagen, i) =>
-              i < 10 && (
-                <div key={i} className={`containerImage containerImage-${i}`}>
-                  <ImageFullscreen image={imagen} />
-                </div>
-              )
-          )}
+      <Container className="  " fluid>
+        <Container>
+          <h1 className="display-6 pt-4">Descubre nuestro hotel</h1>
+          <div id="galleryContainer">
+            {images.map(
+              (imagen, i) =>
+                i < 10 && (
+                  <div key={i} className={`containerImage containerImage-${i}`}>
+                    <ImageFullscreen image={imagen} />
+                  </div>
+                )
+            )}
+          </div>
         </Container>
       </Container>
     </>

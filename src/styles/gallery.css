@@ -3,7 +3,7 @@
   box-sizing: border-box;
   padding: 15px;
   border-radius: 7px;
-  background: #00000092;
+  background: #00000097;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-auto-rows: 250px;
@@ -11,20 +11,27 @@
   .containerImage {
     overflow: hidden;
     border-radius: 7px;
+    transition: 0.4s;
+
     & div {
       height: 100%;
       width: 100%;
     }
+    &:hover {
+      box-shadow: 0 0 10px 3px #ab8171;
+    }
   }
   & img {
     width: 100%;
-
+    /* filter: blur(0.8px); */
     object-fit: cover;
     height: 100%;
     transition: 0.4s;
     scale: 1;
     &:hover {
       scale: 1.03;
+
+      filter: blur(0);
     }
   }
 }
