@@ -1,6 +1,7 @@
 import App from "../App";
 import AdminView from "../views/AdminView";
 import FormRegister from "../views/FormRegister";
+import ImagesView from "../views/ImagesView.jsx";
 import LoginView from "../views/LoginView";
 import ProfileView from "../views/ProfileView";
 import RoomView from "../views/RoomView";
@@ -35,4 +36,5 @@ export const routes = [
     Path: "/aboutUs",
     Element: SobreNosotros,
   },
+  { Path: "/gallery", Element: ImagesView },
 ];
