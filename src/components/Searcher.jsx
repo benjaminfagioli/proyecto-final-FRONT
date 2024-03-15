@@ -51,7 +51,6 @@ const Searcher = ({ set, setIsLoading }) => {
       console.log(error);
     }
   };
-  console.log(dataForInputs);
   useEffect(() => {
     updateStateWithQuery();
   }, [useParams]);
@@ -165,7 +164,11 @@ const Searcher = ({ set, setIsLoading }) => {
             <label htmlFor="">
               Planta
               <div className="select">
-                <select name="floor" defaultValue={filters.current?.floor}>
+                <select
+                  name="floor"
+                  className="selectFloor"
+                  defaultValue={filters.current?.floor}
+                >
                   <option hidden className="default" value="">
                     {filters.current?.bathrooms}
                   </option>
