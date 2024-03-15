@@ -8,16 +8,17 @@ import Swal from "sweetalert2";
 import "../styles/admin.css";
 import { crearRoom } from "../utils/agregarRoom.js";
 import ModalRoomAdmin from "../components/modalRoomAdmin.jsx";
-import registerUser from "../utils/registerUsers.js";
+import Bb8Toggle from "../components/switchAdmin.jsx";
+import { crearUsuario } from "../helpers/crearUsuarioAdmin.jsx";
+import CreateUserModal from "../components/modalUsersAdmin.jsx";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState([]);
-
   const [showModal, setShowModal] = useState(false);
-
   const [newRoomData, setNewRoomData] = useState({});
-  const [newUserData, setNewUserData] = useState({});
+  const [showUserModal, setShowUserModal] = useState(false);
+  const [showUsersTab, setShowUsersTab] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,17 +81,6 @@ const AdminView = () => {
     }
   };
 
-  const crearUsuario = async () => {
-    try {
-      await registerUser(newUserData);
-      const updateUserData = await getAllUsers();
-      setUsers(updateUserData);
-      setNewRoomData({});
-    } catch (error) {
-      console.error("Error creating user:", error);
-    }
-  };
-
   const guardarHabitacion = async (newRoomData) => {
     try {
       await crearRoom(newRoomData);
@@ -105,70 +95,141 @@ const AdminView = () => {
     }
   };
 
+  const guardarUsuario = async (userData) => {
+    console.log("user creado");
+  };
+
   return (
     <div className="admin-container">
-      <div className="admin-buttons"></div>
-      <div className="admin-table">
-        <h2>Habitaciones</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Número</th>
-              <th>Estrellas</th>
-              <th>Visible</th>
-              <th>Ocupada</th>
-              <th>Editar</th>
-              <th>Eliminar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rooms.map((room, index) => (
-              <tr key={index}>
-                <td>{room.number}</td>
-                <td>{room.stars}</td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={room.isVisible}
-                    onChange={() => {}}
-                    disabled
-                  />
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={room.isBusy}
-                    onChange={() => toggleIsBusy(room._id)}
-                    disabled
-                  />
-                </td>
-                <td>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className="admin-icon"
-                    onClick={() => editRoom(room._id)}
-                  />
-                </td>
-                <td>
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className="admin-icon"
-                    onClick={() => confirmarEliminarRoom(room._id)}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <button onClick={() => setShowModal(true)} className="create-button">
-          Crear Habitación
-        </button>
+      <div className="admin-buttons">
+        <Bb8Toggle
+          checked={!showUsersTab}
+          onChange={() => setShowUsersTab(!showUsersTab)}
+        />
+        <label>Mostrar {showUsersTab ? "Habitaciones" : "Usuarios"}</label>
       </div>
+
+      {!showUsersTab && (
+        <div className="admin-table">
+          <h2>Habitaciones</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Número</th>
+                <th>Estrellas</th>
+                <th>Visible</th>
+                <th>Ocupada</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rooms.map((room, index) => (
+                <tr key={index}>
+                  <td>{room.number}</td>
+                  <td>{room.stars}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={room.isVisible}
+                      onChange={() => {}}
+                      disabled
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={room.isBusy}
+                      onChange={() => toggleIsBusy(room._id)}
+                      disabled
+                    />
+                  </td>
+                  <td>
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      className="admin-icon"
+                      onClick={() => editRoom(room._id)}
+                    />
+                  </td>
+                  <td>
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      className="admin-icon"
+                      onClick={() => confirmarEliminarRoom(room._id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button onClick={() => setShowModal(true)} className="create-button">
+            Crear Habitación
+          </button>
+        </div>
+      )}
+      {showUsersTab && (
+        <div className="admin-table">
+          <h2>Usuarios</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Eliminar</th>
+                <th>Habilitado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map(
+                (user, index) =>
+                  user.email !== "Admin@gmail.com" && (
+                    <tr key={index}>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>{user.role}</td>
+                      {user.email !== "Admin@gmail.com" && (
+                        <>
+                          <td>
+                            <FontAwesomeIcon
+                              icon={faTrash}
+                              className="admin-icon"
+                              onClick={() => confirmarEliminarUsuario(user._id)}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={user.enabled}
+                              onChange={() => toggleHabilitadoUsuario(user._id)}
+                            />
+                          </td>
+                        </>
+                      )}
+                    </tr>
+                  )
+              )}
+            </tbody>
+          </table>
+          <button
+            onClick={() => setShowUserModal(true)}
+            className="create-button"
+          >
+            Crear Usuario
+          </button>
+        </div>
+      )}
+
       <ModalRoomAdmin
         show={showModal}
         handleClose={() => setShowModal(false)}
         guardarHabitacion={guardarHabitacion}
+      />
+
+      <CreateUserModal
+        show={showUserModal}
+        handleClose={() => setShowUserModal(false)}
+        createUser={guardarUsuario}
       />
     </div>
   );
