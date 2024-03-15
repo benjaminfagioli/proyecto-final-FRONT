@@ -3,6 +3,7 @@ const URL_BASE = import.meta.env.VITE_URL_BASE;
 
 export const crearRoom = async (roomData) => {
   try {
+    console.log(roomData);
     const token = localStorage.getItem("token");
     console.log("Token:", token);
     const response = await axios.post(
