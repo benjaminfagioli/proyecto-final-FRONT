@@ -1,42 +1,55 @@
 #galleryContainer {
   margin: auto;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 25px;
   border-radius: 7px;
-  background: #00000097;
+  background: #000000a1;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-auto-rows: 250px;
-  gap: 15px;
+  gap: 25px;
   .containerImage {
+    padding: 2.7px;
     overflow: hidden;
-    border-radius: 7px;
+    border-radius: 10px;
     transition: 0.4s;
+    position: relative;
 
     & div {
       height: 100%;
       width: 100%;
     }
-    &:hover {
-      box-shadow: 0 0 10px 3px #ab8171;
-    }
   }
   & img {
     width: 100%;
-    /* filter: blur(0.8px); */
+    border-radius: 7px;
     object-fit: cover;
     height: 100%;
     transition: 0.4s;
     scale: 1;
-    &:hover {
-      scale: 1.03;
-
-      filter: blur(0);
-    }
   }
 }
 
 @media screen and (width > 992px) {
+  .containerImage::before {
+    content: "";
+    position: absolute;
+    background: radial-gradient(#c8a598, transparent, transparent);
+    width: 700px;
+    height: 700px;
+    top: var(--y);
+    left: var(--x);
+    transform: translate(-50%, -50%);
+    transition: 0.5s, top 0, left 0;
+  }
+  .containerImage::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: 10px;
+    z-index: -1;
+    /* background: #00000097; */
+  }
   .containerImage-0 {
     grid-column: span 1;
   }

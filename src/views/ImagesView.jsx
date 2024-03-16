@@ -19,6 +19,15 @@ const ImagesView = () => {
     }
   };
   shuffle(images);
+  let cards = document.querySelectorAll(".containerImage");
+  cards?.forEach((card) => {
+    card.onmousemove = function (e) {
+      let x = e.pageX - card.offsetLeft;
+      let y = e.pageY - card.offsetTop;
+      card.style.setProperty("--x", x + "px");
+      card.style.setProperty("--y", y + "px");
+    };
+  });
   // let columns = 5;
   // let rows = 3;
   // let amounts = [1, 2, 3];
