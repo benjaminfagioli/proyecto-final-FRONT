@@ -11,6 +11,7 @@ import ModalRoomAdmin from "../components/modalRoomAdmin.jsx";
 import Bb8Toggle from "../components/switchAdmin.jsx";
 import CreateUserModal from "../components/modalUsersAdmin.jsx";
 import eliminarUsuario from "../utils/eliminarUsuario.js";
+import registerUser from "../utils/registerUsers.js";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -34,7 +35,7 @@ const AdminView = () => {
     };
 
     fetchData();
-  }, [users, rooms]);
+  }, []);
 
   const toggleIsBusy = (roomId) => {
     console.log("cambiando estado isBusy de", roomId);
@@ -93,10 +94,6 @@ const AdminView = () => {
     } catch (error) {
       console.error("Error creating room:", error);
     }
-  };
-
-  const guardarUsuario = async (userData) => {
-    console.log("user creado");
   };
 
   const confirmarEliminarUsuario = async (userId) => {
@@ -262,7 +259,7 @@ const AdminView = () => {
       <CreateUserModal
         show={showUserModal}
         handleClose={() => setShowUserModal(false)}
-        createUser={guardarUsuario}
+        createUser={registerUser}
       />
     </div>
   );
