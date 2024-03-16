@@ -92,7 +92,9 @@
 @media screen and (width <= 992px) {
   #galleryContainer {
     grid-template-columns: 1fr 1fr;
-    & img:nth-child(9) {
+    padding: 10px;
+    gap: 10px;
+    .containerImage-10 {
       display: none;
     }
   }
@@ -100,7 +102,8 @@
 @media screen and (width < 768px) {
   #galleryContainer {
     grid-template-columns: 1fr;
-
-    grid-template-rows: 200px 350px 150px 250px 350px 200px 250px 150px 250px;
+    padding: 10px;
+    gap: 10px;
+    grid-template-rows: 200px 350px 150px 250px 350px 200px 250px 150px 250px 350px;
   }
 }

@@ -57,7 +57,7 @@ const ImagesView = () => {
   return (
     <>
       <Container className="  " fluid>
-        <Container>
+        <Container className="px-0 px-sm-2">
           <h1 className="display-6 pt-4">Descubre nuestro hotel</h1>
           <div id="galleryContainer">
             {images.map(
