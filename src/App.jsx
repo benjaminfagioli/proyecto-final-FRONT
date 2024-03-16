@@ -8,6 +8,7 @@ import { Container } from "react-bootstrap";
 import Searcher from "./components/Searcher";
 
 import Loader from "./components/Loader";
+import { Link } from "react-router-dom";
 
 const App = () => {
   const [rooms, setRooms] = useState([]);
@@ -42,6 +43,7 @@ const App = () => {
                   ))
                 )}
               </div>
+              <Link to={"/gallery"}>Galeria de fotos</Link>
             </Container>
           </>
         )}
