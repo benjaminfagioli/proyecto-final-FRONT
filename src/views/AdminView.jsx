@@ -9,8 +9,8 @@ import "../styles/admin.css";
 import { crearRoom } from "../utils/agregarRoom.js";
 import ModalRoomAdmin from "../components/modalRoomAdmin.jsx";
 import Bb8Toggle from "../components/switchAdmin.jsx";
-import { crearUsuario } from "../helpers/crearUsuarioAdmin.jsx";
 import CreateUserModal from "../components/modalUsersAdmin.jsx";
+import eliminarUsuario from "../utils/eliminarUsuario.js";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -34,7 +34,7 @@ const AdminView = () => {
     };
 
     fetchData();
-  }, []);
+  }, [users, rooms]);
 
   const toggleIsBusy = (roomId) => {
     console.log("cambiando estado isBusy de", roomId);
@@ -97,6 +97,39 @@ const AdminView = () => {
 
   const guardarUsuario = async (userData) => {
     console.log("user creado");
+  };
+
+  const confirmarEliminarUsuario = async (userId) => {
+    const confirmed = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción eliminará el usuario permanentemente",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (confirmed.isConfirmed) {
+      try {
+        await eliminarUsuario(userId);
+        await Swal.fire({
+          icon: "success",
+          title: "¡Usuario eliminado!",
+          showConfirmButton: true,
+          confirmButtonText: "OK",
+        });
+      } catch (error) {
+        await Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.",
+          showConfirmButton: true,
+          confirmButtonText: "OK",
+        });
+      }
+    }
   };
 
   return (
