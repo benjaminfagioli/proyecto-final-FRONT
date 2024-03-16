@@ -9,7 +9,7 @@
   grid-auto-rows: 250px;
   gap: 25px;
   .containerImage {
-    padding: 2px;
+    padding: 2.5px;
     overflow: hidden;
     border-radius: 10px;
     transition: 0.4s;
