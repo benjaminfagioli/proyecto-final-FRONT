@@ -62,7 +62,7 @@ const ImagesView = () => {
           <div id="galleryContainer">
             {images.map(
               (imagen, i) =>
-                i < 10 && (
+                i < 11 && (
                   <div key={i} className={`containerImage containerImage-${i}`}>
                     <ImageFullscreen image={imagen} />
                   </div>
