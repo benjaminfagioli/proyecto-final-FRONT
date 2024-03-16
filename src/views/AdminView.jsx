@@ -12,6 +12,7 @@ import Bb8Toggle from "../components/switchAdmin.jsx";
 import CreateUserModal from "../components/modalUsersAdmin.jsx";
 import eliminarUsuario from "../utils/eliminarUsuario.js";
 import registerUser from "../utils/registerUsers.js";
+import updateUserStatus from "../utils/editUserStatus.js";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -129,6 +130,32 @@ const AdminView = () => {
     }
   };
 
+  const toggleHabilitadoUsuario = async (userId, enabled) => {
+    try {
+      const updatedUsers = users.map((user) =>
+        user._id === userId ? { ...user, enabled } : user
+      );
+      setUsers(updatedUsers);
+      await updateUserStatus(userId, enabled);
+      await Swal.fire({
+        icon: "success",
+        title: "¡Estado de usuario actualizado!",
+        text: "El estado del usuario ha sido actualizado correctamente",
+        showConfirmButton: true,
+        confirmButtonText: "OK",
+      });
+    } catch (error) {
+      console.error("Error updating user status:", error);
+      await Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un error al actualizar el estado del usuario. Por favor, inténtalo de nuevo más tarde.",
+        showConfirmButton: true,
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
   return (
     <div className="admin-container">
       <div className="admin-buttons">
@@ -230,8 +257,13 @@ const AdminView = () => {
                           <td>
                             <input
                               type="checkbox"
-                              checked={user.enabled}
-                              onChange={() => toggleHabilitadoUsuario(user._id)}
+                              checked={user.isActive}
+                              onChange={() =>
+                                toggleHabilitadoUsuario(
+                                  user._id,
+                                  !user.isActive
+                                )
+                              }
                             />
                           </td>
                         </>
