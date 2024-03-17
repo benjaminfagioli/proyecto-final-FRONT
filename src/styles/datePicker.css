@@ -24,3 +24,8 @@
   border-radius: 7px !important;
   overflow: hidden;
 }
+@media screen and (width>=992px) {
+  .rdrDateRangeWrapper {
+    width: 100%;
+  }
+}
