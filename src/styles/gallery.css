@@ -9,7 +9,7 @@
   grid-auto-rows: 250px;
   gap: 25px;
   .containerImage {
-    padding: 2px;
+    padding: 3px;
     overflow: hidden;
     border-radius: 10px;
     transition: 0.4s;
@@ -35,8 +35,8 @@
     content: "";
     position: absolute;
     background: radial-gradient(#c8a598, transparent, transparent);
-    width: 700px;
-    height: 700px;
+    width: 950px;
+    height: 950px;
     top: var(--y);
     left: var(--x);
     transform: translate(-50%, -50%);
@@ -58,33 +58,43 @@
   }
   .containerImage-2 {
     grid-column: span 2;
+    grid-row: span 2;
   }
   .containerImage-3 {
-    grid-column: span 1;
+    grid-column: span 3;
+    /* grid-row: span 2; */
   }
   .containerImage-4 {
-    grid-column: span 2;
+    grid-column: span 3;
+    grid-row: span 2;
   }
   .containerImage-5 {
-    grid-column: span 1;
+    grid-column: span 2;
   }
   .containerImage-6 {
     grid-column: span 3;
   }
   .containerImage-7 {
-    grid-column: span 1;
+    grid-column: span 2;
+    grid-row: span 2;
   }
   .containerImage-8 {
     grid-column: span 2;
+    grid-row: span 2;
   }
   .containerImage-9 {
+    grid-column: span 1;
+  }
+  .containerImage-10 {
     grid-column: span 3;
   }
 }
 @media screen and (width <= 992px) {
   #galleryContainer {
     grid-template-columns: 1fr 1fr;
-    & img:nth-child(9) {
+    padding: 10px;
+    gap: 10px;
+    .containerImage-10 {
       display: none;
     }
   }
@@ -92,7 +102,8 @@
 @media screen and (width < 768px) {
   #galleryContainer {
     grid-template-columns: 1fr;
-
-    grid-template-rows: 200px 350px 150px 250px 350px 200px 250px 150px 250px;
+    padding: 10px;
+    gap: 10px;
+    grid-template-rows: 200px 350px 150px 250px 350px 200px 250px 150px 250px 350px;
   }
 }

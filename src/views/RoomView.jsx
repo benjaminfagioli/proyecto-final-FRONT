@@ -35,12 +35,20 @@ import { useNavigate } from "react-router-dom";
 import "../styles/RoomView.css";
 import numberToOrdinal from "../utils/numberToOrdinal";
 import DatePicker from "../components/DatePicker";
-import { addDays, differenceInCalendarDays } from "date-fns";
+import {
+  addDays,
+  differenceInCalendarDays,
+  intervalToDuration,
+} from "date-fns";
+
 import Swal from "sweetalert2";
 import axios from "axios";
 import { URL_BASE } from "../config/config";
+import PaymentButton from "../components/PaymentButton";
+import ReserveInfo from "../components/ReserveInfo";
 const RoomView = () => {
   const { number } = useParams();
+  const [user, setUser] = useState(null);
   const [room, setRoom] = useState(null);
   const [isLoading, setisLoading] = useState(null);
   const infoReserve = useRef({
@@ -50,7 +58,6 @@ const RoomView = () => {
   });
   const navigate = useNavigate();
   const handleReserve = async () => {
-    console.log(new Date(infoReserve.current.from).toLocaleDateString("es-AR"));
     const token = localStorage.getItem("token");
     if (!token) {
       return Swal.fire({
@@ -68,51 +75,103 @@ const RoomView = () => {
         }
       });
     }
-    console.log(token);
-    try {
-      const res = await axios.post(
-        `${URL_BASE}/rooms/reserve`,
-        infoReserve.current,
-        {
-          headers: {
-            "auth-token": token,
-          },
-        }
-      );
-      if (res.status == 200)
-        Swal.fire({
-          icon: "success",
-          title: "Reservada con éxito",
-          html: `Has reservado la habitacion <b>n°${number}</b> desde <b>${new Date(
-            infoReserve.current.from
-          ).toLocaleDateString("es-AR")}</b> hasta <b>${new Date(
-            infoReserve.current.to
-          ).toLocaleDateString("es-AR")}</b>. Disfruta tu estadía en el Hotel`,
-          showConfirmButton: true,
-        }).then(() => {
-          navigate(`/`);
-        });
-    } catch (error) {
-      if (error.response.status == 401);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: `${error.response.data.error}`,
-        showConfirmButton: true,
+    if (infoReserve.current.from === "" || infoReserve.current.to === "")
+      return Swal.fire({
+        title: "",
+        text: "Debes elegir una fecha antes de reservar",
+        icon: "info",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
       });
-      if (error.response.status == 400)
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          html: `${error.response.data.errors.map((e) => `${e.msg} <br>`)}`,
-          showConfirmButton: true,
-        });
+    Swal.fire({
+      title: "¿Estás seguro de tu reservación?",
+      html: `Elegiste la habitacion <b>n°${number}</b> desde <b>${new Date(
+        infoReserve.current.from
+      ).toLocaleDateString("es-AR")}</b> hasta <b>${new Date(
+        infoReserve.current.to
+      ).toLocaleDateString("es-AR")}</b>. La cuota total seria de $${
+        room.price *
+        (intervalToDuration({
+          start: new Date(infoReserve.current.from),
+          end: new Date(infoReserve.current.to),
+        }).days + 1 || 1)
+      }`,
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Reservar",
+      cancelButtonText: "Ahora no",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.post(
+            `${URL_BASE}/rooms/reserve`,
+            infoReserve.current,
+            {
+              headers: {
+                "auth-token": token,
+              },
+            }
+          );
+          if (res.status == 200)
+            Swal.fire({
+              icon: "success",
+              title: "Reservada con éxito",
+              html: `Has reservado la habitacion <b>n°${number}</b> desde <b>${new Date(
+                infoReserve.current.from
+              ).toLocaleDateString("es-AR")}</b> hasta <b>${new Date(
+                infoReserve.current.to
+              ).toLocaleDateString(
+                "es-AR"
+              )}</b>. Disfruta tu estadía en el Hotel`,
+              showConfirmButton: true,
+            }).then(() => {
+              navigate(`/`);
+            });
+        } catch (error) {
+          console.log(error);
+          if (error.response.status == 401);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: `${error.response.data.error}`,
+            showConfirmButton: true,
+          });
+          if (error.response.status == 400)
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              html: `${error.response.data.errors.map((e) => `${e.msg} <br>`)}`,
+              showConfirmButton: true,
+            });
+          console.log(error);
+        }
+      }
+    });
+  };
+  const token = localStorage.getItem("token");
+  const getProfile = async () => {
+    setisLoading(true);
+    try {
+      const userFound = await axios.get(`${URL_BASE}/users/profile`, {
+        headers: {
+          "auth-token": token,
+        },
+      });
+      setUser(userFound.data);
+    } catch (error) {
       console.log(error);
+    } finally {
+      setisLoading(false);
     }
   };
-  console.log(room);
+  console.log(room?.reserves?.find((reserve) => reserve.userId == user?.id));
+
   useEffect(() => {
     getASingleRoom(number, setRoom);
+    getProfile();
   }, []);
   return (
     <>
@@ -211,11 +270,44 @@ const RoomView = () => {
       </Container>
       <Container id="roomSecondSection" className="py-4">
         <Row>
-          <Col md={8} lg={7} className="d-flex justify-content-center">
+          <Col md={12} lg={7} className="d-flex justify-content-center">
             <DatePicker room={room} infoReserve={infoReserve} />
           </Col>
-          <Col lg={5}>
-            <button onClick={handleReserve}>Reservar</button>
+          <Col className="mt-4 mt-lg-0 ps-0 d-flex flex-column" lg={5}>
+            <div className="mb-3">
+              <h5 className="display-5 fs-5 fw-bold">
+                A tan solo ${room?.price} por noche
+              </h5>
+              <PaymentButton onClick={handleReserve}>Reservar </PaymentButton>
+            </div>
+            {user &&
+            room?.reserves?.find((reserve) => reserve.userId == user.id) ? (
+              <div>
+                <h5 className="display-5 fs-5 fw-bold">Mis reservas</h5>
+                {room?.reserves?.map((reserve, i) => {
+                  if (reserve.userId == user.id)
+                    return (
+                      <ReserveInfo
+                        key={i}
+                        from={reserve.from}
+                        to={reserve.to}
+                        userId={reserve.userId}
+                        room={room.number}
+                      />
+                    );
+                })}
+              </div>
+            ) : (
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.1060679525185!2d-65.20974728915576!3d-26.83657848992945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94225d3ad7f30f1d%3A0xf8606cd659b8e3e4!2sRollingCode%20School!5e0!3m2!1ses-419!2sar!4v1710628449002!5m2!1ses-419!2sar"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            )}
           </Col>
         </Row>
       </Container>

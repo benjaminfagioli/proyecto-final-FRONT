@@ -56,7 +56,7 @@
   scale: 1.05;
 }
 .roomCard:hover * .card-title {
-  transition: all 1s;
+  transition: all 0.7s;
   background-color: #ad86745c !important;
   background: linear-gradient(
     0deg,

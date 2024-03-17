@@ -57,12 +57,12 @@ const ImagesView = () => {
   return (
     <>
       <Container className="  " fluid>
-        <Container>
+        <Container className="px-0 px-sm-2">
           <h1 className="display-6 pt-4">Descubre nuestro hotel</h1>
           <div id="galleryContainer">
             {images.map(
               (imagen, i) =>
-                i < 10 && (
+                i < 11 && (
                   <div key={i} className={`containerImage containerImage-${i}`}>
                     <ImageFullscreen image={imagen} />
                   </div>
