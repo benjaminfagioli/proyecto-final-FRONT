@@ -13,6 +13,8 @@ import CreateUserModal from "../components/modalUsersAdmin.jsx";
 import eliminarUsuario from "../utils/eliminarUsuario.js";
 import registerUser from "../utils/registerUsers.js";
 import updateUserStatus from "../utils/editUserStatus.js";
+import getASingleRoom from "../utils/getASingleRoom";
+import RoomEditModal from "../components/RoomEditModal.jsx";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -21,6 +23,9 @@ const AdminView = () => {
   const [newRoomData, setNewRoomData] = useState({});
   const [showUserModal, setShowUserModal] = useState(false);
   const [showUsersTab, setShowUsersTab] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedRoomDetails, setSelectedRoomDetails] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,8 +47,9 @@ const AdminView = () => {
     console.log("cambiando estado isBusy de", roomId);
   };
 
-  const editRoom = (roomId) => {
-    console.log(`Editar habitación ${roomId}`);
+  const handleSelectRoom = (room) => {
+    setSelectedRoom(room);
+    setShowEditModal(true);
   };
 
   const confirmarEliminarRoom = async (roomId) => {
@@ -156,6 +162,8 @@ const AdminView = () => {
     }
   };
 
+  console.log("Selected room in AdminView:", selectedRoom);
+
   return (
     <div className="admin-container">
       <div className="admin-buttons">
@@ -174,38 +182,20 @@ const AdminView = () => {
               <tr>
                 <th>Número</th>
                 <th>Estrellas</th>
-                <th>Visible</th>
-                <th>Ocupada</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
               </tr>
             </thead>
             <tbody>
               {rooms.map((room, index) => (
-                <tr key={index}>
+                <tr key={index} onClick={() => handleSelectRoom(room)}>
                   <td>{room.number}</td>
                   <td>{room.stars}</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={room.isVisible}
-                      onChange={() => {}}
-                      disabled
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={room.isBusy}
-                      onChange={() => toggleIsBusy(room._id)}
-                      disabled
-                    />
-                  </td>
                   <td>
                     <FontAwesomeIcon
                       icon={faEdit}
                       className="admin-icon"
-                      onClick={() => editRoom(room._id)}
+                      onClick={() => setShowEditModal(true)}
                     />
                   </td>
                   <td>
@@ -292,6 +282,12 @@ const AdminView = () => {
         show={showUserModal}
         handleClose={() => setShowUserModal(false)}
         createUser={registerUser}
+      />
+
+      <RoomEditModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        selectedRoom={selectedRoom}
       />
     </div>
   );
