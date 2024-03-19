@@ -48,7 +48,9 @@ const AdminView = () => {
     setShowEditModal(true);
   };
 
-  const confirmarEliminarRoom = async (roomId) => {
+  const confirmarEliminarRoom = async (roomId, event) => {
+    event.stopPropagation(); // Detener la propagación del evento
+
     const confirmed = await Swal.fire({
       title: "¿Estás seguro?",
       text: "Esta acción eliminará la habitación permanentemente",
@@ -208,7 +210,7 @@ const AdminView = () => {
                           <FontAwesomeIcon
                             icon={faTrash}
                             className="admin-icon"
-                            onClick={() => confirmarEliminarRoom(room._id)}
+                            onClick={(e) => confirmarEliminarRoom(room._id, e)}
                           />
                         </td>
                       </tr>
