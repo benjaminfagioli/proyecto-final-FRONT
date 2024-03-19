@@ -3,9 +3,8 @@ import { useParams } from "react-router";
 import getASingleRoom from "../utils/getASingleRoom";
 import { Col, Container, Row } from "react-bootstrap";
 
-// Import Swiper React components
+//  Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper React components
 import {
   Navigation,
   Pagination,
@@ -16,13 +15,12 @@ import {
 } from "swiper/modules";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-cards";
+
 import {
   faArrowsUpDownLeftRight,
   faBath,
@@ -43,7 +41,7 @@ import {
 
 import Swal from "sweetalert2";
 import axios from "axios";
-import { URL_BASE } from "../config/config";
+import { ADMIN_KEY, URL_BASE } from "../config/config";
 import PaymentButton from "../components/PaymentButton";
 import ReserveInfo from "../components/ReserveInfo";
 const RoomView = () => {
@@ -51,12 +49,14 @@ const RoomView = () => {
   const [user, setUser] = useState(null);
   const [room, setRoom] = useState(null);
   const [isLoading, setisLoading] = useState(null);
+  const navigate = useNavigate();
   const infoReserve = useRef({
     from: "",
     to: "",
     room: Number(number),
   });
-  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const authToken = localStorage.getItem("token-Auth");
   const handleReserve = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -84,19 +84,35 @@ const RoomView = () => {
         timer: 3000,
         timerProgressBar: true,
       });
+    console.log(
+      Intl.NumberFormat("ES-LA", {
+        currency: "ARS",
+      }).format(
+        room.price *
+          (intervalToDuration({
+            start: new Date(infoReserve.current.from),
+            end: new Date(infoReserve.current.to),
+          }).days + 1 || 1)
+      )
+    );
     Swal.fire({
       title: "¿Estás seguro de tu reservación?",
       html: `Elegiste la habitacion <b>n°${number}</b> desde <b>${new Date(
         infoReserve.current.from
       ).toLocaleDateString("es-AR")}</b> hasta <b>${new Date(
         infoReserve.current.to
-      ).toLocaleDateString("es-AR")}</b>. La cuota total seria de $${
+      ).toLocaleDateString(
+        "es-AR"
+      )}</b>. La cuota total seria de $${Intl.NumberFormat("ES-LA", {
+        style: "currency",
+        currency: "ARS",
+      }).format(
         room.price *
-        (intervalToDuration({
-          start: new Date(infoReserve.current.from),
-          end: new Date(infoReserve.current.to),
-        }).days + 1 || 1)
-      }`,
+          (intervalToDuration({
+            start: new Date(infoReserve.current.from),
+            end: new Date(infoReserve.current.to),
+          }).days + 1 || 1)
+      )}`,
       icon: "info",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -151,7 +167,6 @@ const RoomView = () => {
       }
     });
   };
-  const token = localStorage.getItem("token");
   const getProfile = async () => {
     setisLoading(true);
     try {
@@ -167,12 +182,13 @@ const RoomView = () => {
       setisLoading(false);
     }
   };
-  console.log(room?.reserves?.find((reserve) => reserve.userId == user?.id));
 
+  console.log(room);
   useEffect(() => {
     getASingleRoom(number, setRoom);
     getProfile();
   }, []);
+
   return (
     <>
       <Container fluid id="roomSection">
@@ -276,7 +292,12 @@ const RoomView = () => {
           <Col className="mt-4 mt-lg-0 ps-0 d-flex flex-column" lg={5}>
             <div className="mb-3">
               <h5 className="display-5 fs-5 fw-bold">
-                A tan solo ${room?.price} por noche
+                A tan solo $
+                {Intl.NumberFormat("ES-LA", {
+                  style: "currency",
+                  currency: "ARS",
+                }).format(room?.price)}{" "}
+                por noche
               </h5>
               <PaymentButton onClick={handleReserve}>Reservar </PaymentButton>
             </div>
@@ -303,14 +324,41 @@ const RoomView = () => {
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
-                allowfullscreen=""
+                allowFullScreen=""
                 loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
+                referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             )}
           </Col>
         </Row>
       </Container>
+      {authToken === ADMIN_KEY && (
+        <Container id="roomAdminSection">
+          <Row>
+            <h2>Reservas de los usuarios</h2>
+            <Col>
+              {Array.isArray(room?.reserves) && room?.reserves?.length > 0 ? (
+                room?.reserves?.map((reserve, i) => {
+                  return (
+                    <>
+                      <h4>{reserve?.email}</h4>
+                      <ReserveInfo
+                        key={i}
+                        from={reserve?.from}
+                        to={reserve?.to}
+                        userId={reserve?.userId}
+                        room={room.number}
+                      />
+                    </>
+                  );
+                })
+              ) : (
+                <p>No se encontraron reservas</p>
+              )}
+            </Col>
+          </Row>
+        </Container>
+      )}
     </>
   );
 };
