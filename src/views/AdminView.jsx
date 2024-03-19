@@ -15,6 +15,7 @@ import registerUser from "../utils/registerUsers.js";
 import updateUserStatus from "../utils/editUserStatus.js";
 import getASingleRoom from "../utils/getASingleRoom";
 import RoomEditModal from "../components/RoomEditModal.jsx";
+import { useNavigate } from "react-router-dom";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -27,16 +28,28 @@ const AdminView = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedRoomDetails, setSelectedRoomDetails] = useState(null);
 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const roomsData = await getAllRooms();
-        setRooms(roomsData);
 
         const usersData = await getAllUsers();
+        console.log(roomsData, usersData);
+        if (
+          roomsData?.response?.status === 403 ||
+          usersData?.response?.status === 403
+        )
+          Swal.fire({
+            title: "No tienes permiso de administrador",
+            icon: "warning",
+          }).then((result) => {
+            if (result.isConfirmed || result.isDismissed) navigate("/");
+          });
+        setRooms(roomsData);
         setUsers(usersData);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.log(error);
       }
     };
 
@@ -162,7 +175,7 @@ const AdminView = () => {
     }
   };
 
-  console.log("Selected room in AdminView:", selectedRoom);
+  // console.log("Selected room in AdminView:", selectedRoom);
 
   return (
     <div className="admin-container">
@@ -187,26 +200,27 @@ const AdminView = () => {
               </tr>
             </thead>
             <tbody>
-              {rooms.map((room, index) => (
-                <tr key={index} onClick={() => handleSelectRoom(room)}>
-                  <td>{room.number}</td>
-                  <td>{room.stars}</td>
-                  <td>
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      className="admin-icon"
-                      onClick={() => setShowEditModal(true)}
-                    />
-                  </td>
-                  <td>
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      className="admin-icon"
-                      onClick={() => confirmarEliminarRoom(room._id)}
-                    />
-                  </td>
-                </tr>
-              ))}
+              {Array.isArray(rooms) &&
+                rooms.map((room, index) => (
+                  <tr key={index} onClick={() => handleSelectRoom(room)}>
+                    <td>{room.number}</td>
+                    <td>{room.stars}</td>
+                    <td>
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        className="admin-icon"
+                        onClick={() => setShowEditModal(true)}
+                      />
+                    </td>
+                    <td>
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        className="admin-icon"
+                        onClick={() => confirmarEliminarRoom(room._id)}
+                      />
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
           <button onClick={() => setShowModal(true)} className="create-button">
@@ -228,39 +242,42 @@ const AdminView = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map(
-                (user, index) =>
-                  user.email !== "Admin@gmail.com" && (
-                    <tr key={index}>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.role}</td>
-                      {user.email !== "Admin@gmail.com" && (
-                        <>
-                          <td>
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              className="admin-icon"
-                              onClick={() => confirmarEliminarUsuario(user._id)}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="checkbox"
-                              checked={user.isActive}
-                              onChange={() =>
-                                toggleHabilitadoUsuario(
-                                  user._id,
-                                  !user.isActive
-                                )
-                              }
-                            />
-                          </td>
-                        </>
-                      )}
-                    </tr>
-                  )
-              )}
+              {Array.isArray(rooms) &&
+                users.map(
+                  (user, index) =>
+                    user.email !== "Admin@gmail.com" && (
+                      <tr key={index}>
+                        <td>{user.name}</td>
+                        <td>{user.email}</td>
+                        <td>{user.role}</td>
+                        {user.email !== "Admin@gmail.com" && (
+                          <>
+                            <td>
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                className="admin-icon"
+                                onClick={() =>
+                                  confirmarEliminarUsuario(user._id)
+                                }
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="checkbox"
+                                checked={user.isActive}
+                                onChange={() =>
+                                  toggleHabilitadoUsuario(
+                                    user._id,
+                                    !user.isActive
+                                  )
+                                }
+                              />
+                            </td>
+                          </>
+                        )}
+                      </tr>
+                    )
+                )}
             </tbody>
           </table>
           <button

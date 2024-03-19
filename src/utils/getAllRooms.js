@@ -1,20 +1,20 @@
+import axios from "axios";
+
 const URL_BASE = import.meta.env.VITE_URL_BASE;
 
 const getAllRooms = async (set) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await fetch(`${URL_BASE}/rooms/search`, {
-      method: "GET",
+    const response = await axios.get(`${URL_BASE}/rooms/allrooms`, {
       headers: {
-        "Content-Type": "application/json",
         "auth-token": token,
       },
     });
-    const results = await response.json();
-    if (!set) return results;
-    set(results);
+    if (!set) return response.data;
+    set(response.data);
   } catch (error) {
-    console.error(error.message);
+    console.log(error);
+    return error;
   }
 };
 

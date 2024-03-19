@@ -93,8 +93,8 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
         floor: parseInt(floor),
         wifi,
         airConditional,
-        price: parseInt(price),
       },
+      price: parseInt(price),
       reserves: [],
     };
 
