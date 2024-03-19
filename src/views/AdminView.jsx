@@ -13,9 +13,13 @@ import CreateUserModal from "../components/modalUsersAdmin.jsx";
 import eliminarUsuario from "../utils/eliminarUsuario.js";
 import registerUser from "../utils/registerUsers.js";
 import updateUserStatus from "../utils/editUserStatus.js";
-import getASingleRoom from "../utils/getASingleRoom";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import RoomEditModal from "../components/RoomEditModal.jsx";
+
 import { useNavigate } from "react-router-dom";
+
+import { Container, Row, Col, Table, Button } from "react-bootstrap";
+
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -26,7 +30,6 @@ const AdminView = () => {
   const [showUsersTab, setShowUsersTab] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedRoomDetails, setSelectedRoomDetails] = useState(null);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -55,10 +58,6 @@ const AdminView = () => {
 
     fetchData();
   }, []);
-
-  const toggleIsBusy = (roomId) => {
-    console.log("cambiando estado isBusy de", roomId);
-  };
 
   const handleSelectRoom = (room) => {
     setSelectedRoom(room);
@@ -176,16 +175,26 @@ const AdminView = () => {
   };
 
   // console.log("Selected room in AdminView:", selectedRoom);
-
   return (
     <div className="admin-container">
-      <div className="admin-buttons">
-        <Bb8Toggle
-          checked={!showUsersTab}
-          onChange={() => setShowUsersTab(!showUsersTab)}
-        />
-        <label>Mostrar {showUsersTab ? "Habitaciones" : "Usuarios"}</label>
-      </div>
+      <Container>
+        <Row>
+          <Col xs={12}>
+            <div className="admin-buttons">
+              <Bb8Toggle
+                checked={!showUsersTab}
+                onChange={() => setShowUsersTab(!showUsersTab)}
+              />
+              <label className="toggle-label">
+                <FontAwesomeIcon
+                  icon={showUsersTab ? faAngleRight : faAngleLeft}
+                />
+                {showUsersTab ? "Cambiar tablero " : "Cambiar tablero "}
+              </label>
+            </div>
+          </Col>
+        </Row>
+
 
       {!showUsersTab && (
         <div className="admin-table">
@@ -289,23 +298,89 @@ const AdminView = () => {
         </div>
       )}
 
-      <ModalRoomAdmin
-        show={showModal}
-        handleClose={() => setShowModal(false)}
-        guardarHabitacion={guardarHabitacion}
-      />
 
-      <CreateUserModal
-        show={showUserModal}
-        handleClose={() => setShowUserModal(false)}
-        createUser={registerUser}
-      />
+        {showUsersTab && (
+          <Row>
+            <Col xs={12}>
+              <div className="admin-table">
+                <h2>Usuarios</h2>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Email</th>
+                      <th>Rol</th>
+                      <th>Eliminar</th>
+                      <th>Habilitado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map(
+                      (user, index) =>
+                        user.email !== "Admin@gmail.com" && (
+                          <tr key={index}>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>{user.role}</td>
+                            {user.email !== "Admin@gmail.com" && (
+                              <>
+                                <td>
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="admin-icon"
+                                    onClick={() =>
+                                      confirmarEliminarUsuario(user._id)
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="checkbox"
+                                    checked={user.isActive}
+                                    onChange={() =>
+                                      toggleHabilitadoUsuario(
+                                        user._id,
+                                        !user.isActive
+                                      )
+                                    }
+                                  />
+                                </td>
+                              </>
+                            )}
+                          </tr>
+                        )
+                    )}
+                  </tbody>
+                </Table>
+                <Button
+                  onClick={() => setShowUserModal(true)}
+                  className="create-button"
+                >
+                  Crear Usuario
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        )}
 
-      <RoomEditModal
-        show={showEditModal}
-        handleClose={() => setShowEditModal(false)}
-        selectedRoom={selectedRoom}
-      />
+        <ModalRoomAdmin
+          show={showModal}
+          handleClose={() => setShowModal(false)}
+          guardarHabitacion={guardarHabitacion}
+        />
+
+        <CreateUserModal
+          show={showUserModal}
+          handleClose={() => setShowUserModal(false)}
+          createUser={registerUser}
+        />
+
+        <RoomEditModal
+          show={showEditModal}
+          handleClose={() => setShowEditModal(false)}
+          selectedRoom={selectedRoom}
+        />
+      </Container>
     </div>
   );
 };
