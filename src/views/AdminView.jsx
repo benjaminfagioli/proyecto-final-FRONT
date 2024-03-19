@@ -13,8 +13,9 @@ import CreateUserModal from "../components/modalUsersAdmin.jsx";
 import eliminarUsuario from "../utils/eliminarUsuario.js";
 import registerUser from "../utils/registerUsers.js";
 import updateUserStatus from "../utils/editUserStatus.js";
-import getASingleRoom from "../utils/getASingleRoom";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import RoomEditModal from "../components/RoomEditModal.jsx";
+import { Container, Row, Col, Table, Button } from "react-bootstrap";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -25,7 +26,6 @@ const AdminView = () => {
   const [showUsersTab, setShowUsersTab] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedRoomDetails, setSelectedRoomDetails] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,10 +42,6 @@ const AdminView = () => {
 
     fetchData();
   }, []);
-
-  const toggleIsBusy = (roomId) => {
-    console.log("cambiando estado isBusy de", roomId);
-  };
 
   const handleSelectRoom = (room) => {
     setSelectedRoom(room);
@@ -162,133 +158,156 @@ const AdminView = () => {
     }
   };
 
-  console.log("Selected room in AdminView:", selectedRoom);
-
   return (
     <div className="admin-container">
-      <div className="admin-buttons">
-        <Bb8Toggle
-          checked={!showUsersTab}
-          onChange={() => setShowUsersTab(!showUsersTab)}
-        />
-        <label>Mostrar {showUsersTab ? "Habitaciones" : "Usuarios"}</label>
-      </div>
+      <Container>
+        <Row>
+          <Col xs={12}>
+            <div className="admin-buttons">
+              <Bb8Toggle
+                checked={!showUsersTab}
+                onChange={() => setShowUsersTab(!showUsersTab)}
+              />
+              <label className="toggle-label">
+                <FontAwesomeIcon
+                  icon={showUsersTab ? faAngleRight : faAngleLeft}
+                />
+                {showUsersTab ? "Cambiar tablero " : "Cambiar tablero "}
+              </label>
+            </div>
+          </Col>
+        </Row>
 
-      {!showUsersTab && (
-        <div className="admin-table">
-          <h2>Habitaciones</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Número</th>
-                <th>Estrellas</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rooms.map((room, index) => (
-                <tr key={index} onClick={() => handleSelectRoom(room)}>
-                  <td>{room.number}</td>
-                  <td>{room.stars}</td>
-                  <td>
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      className="admin-icon"
-                      onClick={() => setShowEditModal(true)}
-                    />
-                  </td>
-                  <td>
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      className="admin-icon"
-                      onClick={() => confirmarEliminarRoom(room._id)}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button onClick={() => setShowModal(true)} className="create-button">
-            Crear Habitación
-          </button>
-        </div>
-      )}
-      {showUsersTab && (
-        <div className="admin-table">
-          <h2>Usuarios</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Rol</th>
-                <th>Eliminar</th>
-                <th>Habilitado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map(
-                (user, index) =>
-                  user.email !== "Admin@gmail.com" && (
-                    <tr key={index}>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.role}</td>
-                      {user.email !== "Admin@gmail.com" && (
-                        <>
-                          <td>
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              className="admin-icon"
-                              onClick={() => confirmarEliminarUsuario(user._id)}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="checkbox"
-                              checked={user.isActive}
-                              onChange={() =>
-                                toggleHabilitadoUsuario(
-                                  user._id,
-                                  !user.isActive
-                                )
-                              }
-                            />
-                          </td>
-                        </>
-                      )}
+        {!showUsersTab && (
+          <Row>
+            <Col xs={12}>
+              <div className="admin-table">
+                <h2>Habitaciones</h2>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Número</th>
+                      <th>Estrellas</th>
+                      <th>Editar</th>
+                      <th>Eliminar</th>
                     </tr>
-                  )
-              )}
-            </tbody>
-          </table>
-          <button
-            onClick={() => setShowUserModal(true)}
-            className="create-button"
-          >
-            Crear Usuario
-          </button>
-        </div>
-      )}
+                  </thead>
+                  <tbody>
+                    {rooms.map((room, index) => (
+                      <tr key={index} onClick={() => handleSelectRoom(room)}>
+                        <td>{room.number}</td>
+                        <td>{room.stars}</td>
+                        <td>
+                          <FontAwesomeIcon
+                            icon={faEdit}
+                            className="admin-icon"
+                            onClick={() => setShowEditModal(true)}
+                          />
+                        </td>
+                        <td>
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            className="admin-icon"
+                            onClick={() => confirmarEliminarRoom(room._id)}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+                <Button
+                  onClick={() => setShowModal(true)}
+                  className="create-button"
+                >
+                  Crear Habitación
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        )}
 
-      <ModalRoomAdmin
-        show={showModal}
-        handleClose={() => setShowModal(false)}
-        guardarHabitacion={guardarHabitacion}
-      />
+        {showUsersTab && (
+          <Row>
+            <Col xs={12}>
+              <div className="admin-table">
+                <h2>Usuarios</h2>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Email</th>
+                      <th>Rol</th>
+                      <th>Eliminar</th>
+                      <th>Habilitado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map(
+                      (user, index) =>
+                        user.email !== "Admin@gmail.com" && (
+                          <tr key={index}>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>{user.role}</td>
+                            {user.email !== "Admin@gmail.com" && (
+                              <>
+                                <td>
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="admin-icon"
+                                    onClick={() =>
+                                      confirmarEliminarUsuario(user._id)
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="checkbox"
+                                    checked={user.isActive}
+                                    onChange={() =>
+                                      toggleHabilitadoUsuario(
+                                        user._id,
+                                        !user.isActive
+                                      )
+                                    }
+                                  />
+                                </td>
+                              </>
+                            )}
+                          </tr>
+                        )
+                    )}
+                  </tbody>
+                </Table>
+                <Button
+                  onClick={() => setShowUserModal(true)}
+                  className="create-button"
+                >
+                  Crear Usuario
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        )}
 
-      <CreateUserModal
-        show={showUserModal}
-        handleClose={() => setShowUserModal(false)}
-        createUser={registerUser}
-      />
+        <ModalRoomAdmin
+          show={showModal}
+          handleClose={() => setShowModal(false)}
+          guardarHabitacion={guardarHabitacion}
+        />
 
-      <RoomEditModal
-        show={showEditModal}
-        handleClose={() => setShowEditModal(false)}
-        selectedRoom={selectedRoom}
-      />
+        <CreateUserModal
+          show={showUserModal}
+          handleClose={() => setShowUserModal(false)}
+          createUser={registerUser}
+        />
+
+        <RoomEditModal
+          show={showEditModal}
+          handleClose={() => setShowEditModal(false)}
+          selectedRoom={selectedRoom}
+        />
+      </Container>
     </div>
   );
 };
