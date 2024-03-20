@@ -29,7 +29,7 @@ const RoomEditModal = ({ show, handleClose, selectedRoom }) => {
 
   useEffect(() => {
     if (!Object.values(imageURLs).length)
-      for (let index = 0; index < selectedRoom.images.length; index++) {
+      for (let index = 0; index < selectedRoom?.images?.length; index++) {
         const element = selectedRoom.images[index];
         setImageURLs((prev) => ({ ...prev, [index]: element }));
       }
@@ -48,8 +48,13 @@ const RoomEditModal = ({ show, handleClose, selectedRoom }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // setEditedRoom((prev) => ({ ...prev, images: Object.values(imageURLs) }));
+    // console.log(editedRoom);
     try {
-      await editRoom(editedRoom._id, editedRoom);
+      await editRoom(editedRoom._id, {
+        ...editedRoom,
+        images: Object.values(imageURLs),
+      });
       handleClose();
       Swal.fire({
         icon: "success",
