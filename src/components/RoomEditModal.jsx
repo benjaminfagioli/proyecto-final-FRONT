@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import editRoom from "../utils/editRoom";
-import getASingleRoom from "../utils/getASingleRoom";
 
-const RoomEditModal = ({ show, handleClose, selectedRoom }) => {
+const RoomEditModal = ({
+  show,
+  handleClose,
+  selectedRoom,
+  updatePageHandler,
+}) => {
   const [editedRoom, setEditedRoom] = useState({
     number: "",
     stars: "",
@@ -56,6 +60,7 @@ const RoomEditModal = ({ show, handleClose, selectedRoom }) => {
         images: Object.values(imageURLs),
       });
       handleClose();
+      updatePageHandler((prevState) => !prevState);
       Swal.fire({
         icon: "success",
         title: "Habitación actualizada",

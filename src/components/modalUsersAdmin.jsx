@@ -4,7 +4,12 @@ import Swal from "sweetalert2";
 import { passwordRegex } from "../validators/regexPassword";
 import getAllUsers from "../utils/getAllUsers";
 
-const CreateUserModal = ({ show, handleClose, createUser }) => {
+const CreateUserModal = ({
+  show,
+  handleClose,
+  createUser,
+  updatePageHandler,
+}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,6 +55,7 @@ const CreateUserModal = ({ show, handleClose, createUser }) => {
     try {
       await createUser(newUser);
       handleClose();
+      updatePageHandler((prevState) => !prevState);
       Swal.fire({
         icon: "success",
         title: "Usuario creado",
