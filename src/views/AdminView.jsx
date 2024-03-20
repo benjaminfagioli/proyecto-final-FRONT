@@ -16,6 +16,7 @@ import updateUserStatus from "../utils/editUserStatus.js";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import RoomEditModal from "../components/RoomEditModal.jsx";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -28,16 +29,28 @@ const AdminView = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [updatePage, setUpdatePage] = useState(false);
 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const roomsData = await getAllRooms();
-        setRooms(roomsData);
 
         const usersData = await getAllUsers();
+        console.log(roomsData, usersData);
+        if (
+          roomsData?.response?.status === 403 ||
+          usersData?.response?.status === 403
+        )
+          Swal.fire({
+            title: "No tienes permiso de administrador",
+            icon: "warning",
+          }).then((result) => {
+            if (result.isConfirmed || result.isDismissed) navigate("/");
+          });
+        setRooms(roomsData);
         setUsers(usersData);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.log(error);
       }
     };
 

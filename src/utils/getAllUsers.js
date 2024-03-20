@@ -12,8 +12,8 @@ const getAllUsers = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
-    return [];
+    console.log(error);
+    return error;
   }
 };
 
