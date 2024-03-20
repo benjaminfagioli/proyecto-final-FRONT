@@ -4,16 +4,26 @@
   --Color-opcional: #ffe3d1;
 }
 
+.toggle-content {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-content svg {
+  margin-right: 5px;
+}
+
 .admin-container {
   display: flex;
   justify-content: space-between;
+  overflow-x: hidden;
 }
 
 .admin-table {
   flex: 1;
   margin-right: 10px;
+  overflow-y: auto;
 }
-
 .admin-table:last-child {
   margin-right: 0;
 }
@@ -34,6 +44,10 @@
   text-align: left;
 }
 
+.admin-buttons {
+  margin-top: 20px;
+}
+
 .admin-icon {
   cursor: pointer;
 }
@@ -51,7 +65,6 @@
 .create-button:hover {
   background-color: var(--Color-secundario);
 }
-/* Modal estilos */
 
 .formularioRoom {
   display: flex;
