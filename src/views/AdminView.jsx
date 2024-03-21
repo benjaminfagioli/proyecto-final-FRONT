@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import getAllRooms from "../utils/getAllRooms.js";
 import getAllUsers from "../utils/getAllUsers.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +16,6 @@ import updateUserStatus from "../utils/editUserStatus.js";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import RoomEditModal from "../components/RoomEditModal.jsx";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
-import getAllRoomsAdmin from "../utils/getAllRoomsAdmin.js";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -31,7 +31,7 @@ const AdminView = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const roomsData = await getAllRoomsAdmin();
+        const roomsData = await getAllRooms();
         setRooms(roomsData);
 
         const usersData = await getAllUsers();

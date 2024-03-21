@@ -14,7 +14,7 @@ const NavBar = () => {
     localStorage.removeItem("token");
     window.location.href = "/";
   };
-  console.log(isAdmin);
+  console.log("Es admin?", isAdmin);
   return (
     <Navbar expand="lg">
       <Container>

@@ -18,7 +18,7 @@ export const crearRoom = async (roomData) => {
     console.log("Respuesta del servidor:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error creating room:", error.response.data);
+    console.error("Error creating room:", error.response);
     throw new Error(error.response.data.message || "Error creating room");
   }
 };

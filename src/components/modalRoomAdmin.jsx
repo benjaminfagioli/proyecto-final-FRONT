@@ -10,14 +10,17 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
   const [stars, setStars] = useState("");
   const [description, setDescription] = useState("");
   const [isVisible, setIsVisible] = useState(true);
-  const [imageURLs, setImageURLs] = useState([]);
+  const [imageURLs, setImageURLs] = useState({});
   const [bedrooms, setBedrooms] = useState("");
   const [bathrooms, setBathrooms] = useState("");
   const [m2, setM2] = useState("");
   const [floor, setFloor] = useState("");
   const [wifi, setWifi] = useState(false);
   const [airConditional, setAirConditional] = useState(false);
-  const [price, setPrice] = useState(0);
+
+  const [price, setPrice] = useState("");
+  const [images, setImages] = useState({});
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,7 +92,7 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
       stars: parseInt(stars),
       description,
       isVisible,
-      images: imageURLs,
+      images: Object.values(imageURLs),
       properties: {
         bedrooms: parseInt(bedrooms),
         bathrooms: parseInt(bathrooms),
@@ -101,7 +104,7 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
       price: parseInt(price),
       reserves: [],
     };
-
+    console.log(newRoom);
     try {
       await crearRoom(newRoom);
       updatePageHandler((prevState) => !prevState);
@@ -132,7 +135,7 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
       }
     }
   };
-
+  console.log(Object.values(imageURLs));
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -244,16 +247,55 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
               required
             />
           </Form.Group>
-          <Form.Group controlId="formImageURL">
+          <Form.Group>
             <Form.Label>URLs de las Imágenes:</Form.Label>
             <Form.Control
+              className="mb-1"
               type="text"
-              value={imageURLs.join(",")}
-              onChange={(e) => setImageURLs(e.target.value.split(","))}
+              id="imagen"
+              autoComplete="off"
+              placeholder="Imagen 1"
+              defaultValue={imageURLs[0]}
+              onChange={(e) => {
+                if (imagen.value == "") {
+                  delete imageURLs[0];
+                  setImageURLs(imageURLs);
+                } else {
+                  setImageURLs({ ...imageURLs, 0: imagen.value });
+                }
+              }}
               pattern="https?://.+"
               title="Por favor ingrese URLs válidas que comiencen con http:// o https://"
               required
             />
+            {Object.values(imageURLs).map((e, i) => (
+              <Form.Control
+                className="mb-1"
+                type="text"
+                placeholder={`Imagen ${i + 2}`}
+                autoComplete="off"
+                id={`imagen${i + 1}`}
+                defaultValue={imageURLs[i + 1]}
+                onChange={(e) => {
+                  let myNumber = parseInt(i + 1);
+                  if (
+                    document.getElementById(`imagen${myNumber}`).value === ""
+                  ) {
+                    delete imageURLs[myNumber];
+                    setImageURLs(imageURLs);
+                  } else {
+                    setImageURLs({
+                      ...imageURLs,
+                      [myNumber]: document.getElementById(`imagen${myNumber}`)
+                        .value,
+                    });
+                  }
+                }}
+                pattern="https?://.+"
+                title="Por favor ingrese URLs válidas que comiencen con http:// o https://"
+              />
+            ))}
+            {}
           </Form.Group>
           <Button variant="primary" type="submit">
             Guardar

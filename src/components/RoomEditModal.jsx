@@ -24,17 +24,41 @@ const RoomEditModal = ({
       airConditional: false,
     },
   });
+  const [imageURLs, setImageURLs] = useState({});
+
+  console.log(editedRoom);
+  useEffect(() => {
+    setImageURLs({});
+  }, [handleClose]);
 
   useEffect(() => {
+    if (!Object.values(imageURLs).length)
+      for (let index = 0; index < selectedRoom?.images?.length; index++) {
+        const element = selectedRoom.images[index];
+        setImageURLs((prev) => ({ ...prev, [index]: element }));
+      }
+  }, [show]);
+
+  useEffect(() => {
+    console.log("se cambio de habitacion");
     if (selectedRoom) {
       setEditedRoom(selectedRoom);
+      for (let index = 0; index < selectedRoom.images.length; index++) {
+        const element = selectedRoom.images[index];
+        setImageURLs((prev) => ({ ...prev, [index]: element }));
+      }
     }
   }, [selectedRoom]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // setEditedRoom((prev) => ({ ...prev, images: Object.values(imageURLs) }));
+    // console.log(editedRoom);
     try {
-      await editRoom(editedRoom._id, editedRoom);
+      await editRoom(editedRoom._id, {
+        ...editedRoom,
+        images: Object.values(imageURLs),
+      });
       handleClose();
       updatePageHandler((prevState) => !prevState);
       Swal.fire({
@@ -95,19 +119,53 @@ const RoomEditModal = ({
               required
             />
           </Form.Group>
-          <Form.Group controlId="formImages">
+
+          <Form.Group>
             <Form.Label>Imágenes:</Form.Label>
             <Form.Control
               type="text"
-              value={editedRoom.images.join(", ")}
-              onChange={(e) =>
-                setEditedRoom({
-                  ...editedRoom,
-                  images: e.target.value.split(", "),
-                })
-              }
+              id="imagen"
+              autoComplete="off"
+              defaultValue={imageURLs[0]}
+              onChange={() => {
+                setImageURLs((prev) => ({
+                  ...prev,
+                  0: imagen.value,
+                }));
+                console.log(imageURLs);
+              }}
               required
             />
+
+            {Object.values(imageURLs).map((e, i) => {
+              return (
+                <Form.Control
+                  className="mb-1"
+                  type="text"
+                  placeholder={`Imagen ${i + 2}`}
+                  autoComplete="off"
+                  id={`imagen${i + 1}`}
+                  defaultValue={imageURLs[i + 1]}
+                  onChange={() => {
+                    let myNumber = parseInt(i + 1);
+                    if (
+                      document.getElementById(`imagen${myNumber}`).value === ""
+                    ) {
+                      delete imageURLs[myNumber];
+                      setImageURLs(imageURLs);
+                    } else {
+                      setImageURLs((prev) => ({
+                        ...prev,
+                        [myNumber]: document.getElementById(`imagen${myNumber}`)
+                          .value,
+                      }));
+                    }
+                  }}
+                  pattern="https?://.+"
+                  title="Por favor ingrese URLs válidas que comiencen con http:// o https://"
+                />
+              );
+            })}
           </Form.Group>
           <Form.Group controlId="formIsVisible">
             <Form.Check
