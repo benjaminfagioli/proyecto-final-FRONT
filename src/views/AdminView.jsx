@@ -17,6 +17,7 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import RoomEditModal from "../components/RoomEditModal.jsx";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import deleteAllReserves from "../utils/deleteAllReserves.js";
 
 const AdminView = () => {
   const [users, setUsers] = useState([]);
@@ -34,9 +35,7 @@ const AdminView = () => {
     const fetchData = async () => {
       try {
         const roomsData = await getAllRooms();
-
         const usersData = await getAllUsers();
-        console.log(roomsData, usersData);
         if (
           roomsData?.response?.status === 403 ||
           usersData?.response?.status === 403
@@ -132,9 +131,11 @@ const AdminView = () => {
     if (confirmed.isConfirmed) {
       try {
         await eliminarUsuario(userId);
+        await deleteAllReserves(userId);
         await Swal.fire({
           icon: "success",
-          title: "¡Usuario eliminado!",
+          title:
+            "¡Usuario eliminado! Se han eliminado tambien sus reservaciones.",
           showConfirmButton: true,
           confirmButtonText: "OK",
         });
@@ -152,6 +153,10 @@ const AdminView = () => {
   };
 
   const toggleHabilitadoUsuario = async (userId, enabled) => {
+    console.log(enabled);
+    const message = !enabled
+      ? "El estado del usuario se ha deshabilitado. ¿Desea tambien eliminar sus reservaciones?"
+      : "El usuario ahora está activo";
     try {
       const updatedUsers = users.map((user) =>
         user._id === userId ? { ...user, enabled } : user
@@ -161,10 +166,26 @@ const AdminView = () => {
       await Swal.fire({
         icon: "success",
         title: "¡Estado de usuario actualizado!",
-        text: "El estado del usuario ha sido actualizado correctamente",
-        showConfirmButton: true,
+        text: message,
+        showConfirmButton: !enabled ? true : false,
+        showCancelButton: !enabled ? true : false,
+        confirmButtonColor: "#ab8171",
+        cancelButtonColor: "#eacbb9",
+        cancelButtonText: "Por ahora no",
         confirmButtonText: "OK",
-      });
+      })
+        .then((result) => {
+          if (result.isConfirmed)
+            deleteAllReserves(userId, localStorage.getItem("token"));
+        })
+        .catch((error) =>
+          Swal.fire({
+            icon: "error",
+            text: error.message,
+            showConfirmButton: true,
+            confirmButtonText: "OK",
+          })
+        );
       setUpdatePage((prevState) => !prevState);
     } catch (error) {
       console.error("Error updating user status:", error);

@@ -26,7 +26,6 @@ const RoomEditModal = ({
   });
   const [imageURLs, setImageURLs] = useState({});
 
-  console.log(editedRoom);
   useEffect(() => {
     setImageURLs({});
   }, [handleClose]);
