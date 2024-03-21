@@ -138,8 +138,10 @@ const Searcher = ({ set, setIsLoading }) => {
                   {dataForInputs?.bedrooms?.length > 0 &&
                     dataForInputs.bedrooms
                       .sort((a, b) => a - b)
-                      .map((dormitorio) => (
-                        <option value={dormitorio}>{dormitorio}</option>
+                      .map((dormitorio, i) => (
+                        <option key={i} value={dormitorio}>
+                          {dormitorio}
+                        </option>
                       ))}
                 </select>
               </div>
@@ -157,7 +159,11 @@ const Searcher = ({ set, setIsLoading }) => {
                   {dataForInputs?.bathrooms?.length > 0 &&
                     dataForInputs.bathrooms
                       .sort((a, b) => a - b)
-                      .map((banio) => <option value={banio}>{banio}</option>)}
+                      .map((banio, i) => (
+                        <option key={i} value={banio}>
+                          {banio}
+                        </option>
+                      ))}
                 </select>
               </div>
             </label>
@@ -175,8 +181,8 @@ const Searcher = ({ set, setIsLoading }) => {
                   {dataForInputs?.floors?.length > 0 &&
                     dataForInputs.floors
                       .sort((a, b) => a - b)
-                      .map((planta) => (
-                        <option value={planta}>
+                      .map((planta, i) => (
+                        <option key={i} value={planta}>
                           {planta == 0 ? "Planta baja" : planta}
                         </option>
                       ))}

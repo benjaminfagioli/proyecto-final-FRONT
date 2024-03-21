@@ -185,10 +185,9 @@ const RoomView = () => {
     }
   };
 
-  console.log(room);
   useEffect(() => {
     getASingleRoom(number, setRoom);
-    getProfile();
+    if (token) getProfile();
   }, []);
 
   return (
