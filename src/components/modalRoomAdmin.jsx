@@ -18,7 +18,6 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
   const [wifi, setWifi] = useState(false);
   const [airConditional, setAirConditional] = useState(false);
   const [price, setPrice] = useState("");
-  const [images, setImages] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -128,7 +127,7 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
       }
     }
   };
-  console.log(Object.values(imageURLs));
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>

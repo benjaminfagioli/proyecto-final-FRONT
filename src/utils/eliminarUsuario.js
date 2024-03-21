@@ -12,6 +12,7 @@ const eliminarUsuario = async (userId) => {
         },
       }
     );
+    console.log(userId);
     return response;
   } catch (error) {
     console.error("Error al eliminar usuario:", error);
