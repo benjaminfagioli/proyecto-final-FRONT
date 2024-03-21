@@ -27,6 +27,7 @@ const AdminView = () => {
   const [showUsersTab, setShowUsersTab] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [updatePage, setUpdatePage] = useState(false);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -54,7 +55,7 @@ const AdminView = () => {
     };
 
     fetchData();
-  }, []);
+  }, [updatePage]);
 
   const handleSelectRoom = (room) => {
     setSelectedRoom(room);
@@ -62,8 +63,7 @@ const AdminView = () => {
   };
 
   const confirmarEliminarRoom = async (roomId, event) => {
-    event.stopPropagation(); // Detener la propagación del evento
-
+    event.stopPropagation();
     const confirmed = await Swal.fire({
       title: "¿Estás seguro?",
       text: "Esta acción eliminará la habitación permanentemente",
@@ -90,6 +90,7 @@ const AdminView = () => {
         "La habitación ha sido eliminada correctamente",
         "success"
       );
+      setUpdatePage((prevState) => !prevState);
     } catch (error) {
       console.error("Error deleting room:", error);
       Swal.fire(
@@ -104,10 +105,12 @@ const AdminView = () => {
     try {
       await crearRoom(newRoomData);
       setShowModal(false);
-      const updatedRooms = await getAllRooms();
-      setRooms(updatedRooms);
-      const updatedRoomsData = await getAllRooms();
-      setRooms(updatedRoomsData);
+      await Swal.fire(
+        "¡Habitación creada!",
+        "La habitación ha sido creada correctamente",
+        "success"
+      );
+      setUpdatePage((prevState) => !prevState);
       setNewRoomData({});
     } catch (error) {
       console.error("Error creating room:", error);
@@ -135,6 +138,7 @@ const AdminView = () => {
           showConfirmButton: true,
           confirmButtonText: "OK",
         });
+        setUpdatePage((prevState) => !prevState);
       } catch (error) {
         await Swal.fire({
           icon: "error",
@@ -161,6 +165,7 @@ const AdminView = () => {
         showConfirmButton: true,
         confirmButtonText: "OK",
       });
+      setUpdatePage((prevState) => !prevState);
     } catch (error) {
       console.error("Error updating user status:", error);
       await Swal.fire({
@@ -308,6 +313,7 @@ const AdminView = () => {
         <ModalRoomAdmin
           show={showModal}
           handleClose={() => setShowModal(false)}
+          updatePageHandler={setUpdatePage}
           guardarHabitacion={guardarHabitacion}
         />
 
@@ -315,12 +321,14 @@ const AdminView = () => {
           show={showUserModal}
           handleClose={() => setShowUserModal(false)}
           createUser={registerUser}
+          updatePageHandler={setUpdatePage}
         />
 
         <RoomEditModal
           show={showEditModal}
           handleClose={() => setShowEditModal(false)}
           selectedRoom={selectedRoom}
+          updatePageHandler={setUpdatePage}
         />
       </Container>
     </div>

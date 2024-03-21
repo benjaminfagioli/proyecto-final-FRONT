@@ -5,7 +5,7 @@ import validateImages from "../validators/validateImages.js";
 import existsNumberRoom from "../validators/existisNumberRoom.js";
 import Swal from "sweetalert2";
 
-const ModalRoomAdmin = ({ show, handleClose }) => {
+const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
   const [number, setNumber] = useState("");
   const [stars, setStars] = useState("");
   const [description, setDescription] = useState("");
@@ -17,10 +17,16 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
   const [floor, setFloor] = useState("");
   const [wifi, setWifi] = useState(false);
   const [airConditional, setAirConditional] = useState(false);
+
   const [price, setPrice] = useState("");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Número:", number);
+    console.log("Estrellas:", stars);
+    console.log("Descripción:", description);
+    console.log("Precio:", price);
     if (description.length < 10 || description.length > 800) {
       Swal.fire({
         icon: "error",
@@ -100,6 +106,7 @@ const ModalRoomAdmin = ({ show, handleClose }) => {
     console.log(newRoom);
     try {
       await crearRoom(newRoom);
+      updatePageHandler((prevState) => !prevState);
       handleClose();
       Swal.fire({
         icon: "success",
