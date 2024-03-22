@@ -26,9 +26,10 @@ const RoomEditModal = ({
     price: 0,
   });
   const [imageURLs, setImageURLs] = useState({});
-  console.log(editedRoom);
+  console.log(selectedRoom);
   useEffect(() => {
     setImageURLs({});
+    setEditedRoom({ ...editedRoom, stars: 0 });
   }, [handleClose]);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const RoomEditModal = ({
         const element = selectedRoom.images[index];
         setImageURLs((prev) => ({ ...prev, [index]: element }));
       }
+    // setEditedRoom((prev) => ({ ...prev, stars: selectedRoom.stars }));
   }, [show]);
 
   useEffect(() => {
@@ -95,17 +97,28 @@ const RoomEditModal = ({
             />
           </Form.Group>
           <Form.Group controlId="formStars">
-            <Form.Label>Estrellas:</Form.Label>
-            <Form.Control
-              type="number"
-              value={editedRoom.stars}
+            <Form.Label>Tipo:</Form.Label>
+            <select
+              type="select"
+              defaultValue={editedRoom.stars}
               onChange={(e) =>
-                setEditedRoom({ ...editedRoom, stars: e.target.value })
+                setEditedRoom({
+                  ...editedRoom,
+                  stars: parseInt(e.target.value),
+                })
               }
-              min="1"
-              max="3"
               required
-            />
+            >
+              <option hidden value="">
+                {editedRoom.stars == 0 && "Tipo de habitacion"}
+                {editedRoom.stars == 1 && "Basica"}
+                {editedRoom.stars == 2 && "Media"}
+                {editedRoom.stars == 3 && "Premium"}
+              </option>
+              <option value="1">Basica</option>
+              <option value="2">Media</option>
+              <option value="3">Premium</option>
+            </select>
           </Form.Group>
           <Form.Group controlId="formPrice">
             <Form.Label>Precio:</Form.Label>
