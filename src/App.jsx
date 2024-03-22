@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <>
-      <Container className="mb-4 pt-3">
+      <Container className="mb-4 pt-3 overflow-hidden">
         <Carrousel />
       </Container>
       <Container className="">
