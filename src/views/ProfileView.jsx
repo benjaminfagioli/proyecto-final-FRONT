@@ -67,8 +67,9 @@ const ProfileView = () => {
         <h3 className="mt-3 display-6  ">
           {rooms.length > 1 ? "Mis habitaciones" : "Mi habitacion"}
         </h3>
-        {isLoading ? <Loader /> : ""}
-        {rooms.length > 0 ? (
+        {isLoading ? (
+          <Loader />
+        ) : rooms.length > 0 ? (
           <Container id="" className="px-0">
             <Row
               style={{
@@ -80,7 +81,7 @@ const ProfileView = () => {
               {rooms.map((room, i) => (
                 <>
                   <Col
-                    key={i}
+                    key={i + 1000}
                     className="d-flex align-items-center"
                     md={7}
                     lg={3}

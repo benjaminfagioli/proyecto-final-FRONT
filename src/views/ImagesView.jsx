@@ -7,18 +7,21 @@ import "../styles/gallery.css";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import ImageFullscreen from "../components/ImageFullscreen";
+import Loader from "../components/Loader";
 const ImagesView = () => {
-  const [images, setImages] = useState([]);
-  let queryImages;
+  const [images, setImages] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const getImages = async () => {
+    setIsLoading(true);
     try {
       const { data } = await axios.get(`${URL_BASE}/rooms/getImagesFromRooms`);
       setImages(data);
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
-  shuffle(images);
   let cards = document.querySelectorAll(".containerImage");
   cards?.forEach((card) => {
     card.onmousemove = function (e) {
@@ -28,47 +31,39 @@ const ImagesView = () => {
       card.style.setProperty("--y", y + "px");
     };
   });
-  // let columns = 5;
-  // let rows = 3;
-  // let amounts = [1, 2, 3];
-  // const divideColumns = () => {
-  //   let spaces = columns * rows;
-  //   let spacePerImage = [];
-  //   for (let i = 0; i < images.length; i++) {
-  //     let imageSpace = amounts[parseInt(Math.random() * amounts.length)];
-  //     if (spaces - imageSpace > 0) {
-  //       spacePerImage.push({ image: images[i], space: imageSpace });
-  //       spaces = spaces - imageSpace;
-  //     } else {
-  //       imageSpace = spaces;
-  //       spacePerImage.push({ image: images[i], space: imageSpace });
-  //       console.log(spacePerImage.map((s) => s.space));
-  //       return spacePerImage;
-  //     }
-  //   }
-  // };
-  // divideColumns();
   useEffect(() => {
     getImages();
   }, []);
   useEffect(() => {
-    shuffle(images);
+    if (Array.isArray(images)) shuffle(images);
   }, [images]);
   return (
     <>
       <Container className="  " fluid>
         <Container className="px-0 px-sm-2">
           <h1 className="display-6 pt-4">Descubre nuestro hotel</h1>
-          <div id="galleryContainer">
-            {images.map(
-              (imagen, i) =>
-                i < 11 && (
-                  <div key={i} className={`containerImage containerImage-${i}`}>
-                    <ImageFullscreen image={imagen} />
-                  </div>
-                )
-            )}
-          </div>
+
+          {isLoading ? (
+            <div className="d-flex justify-content-center">
+              <Loader />
+            </div>
+          ) : Array.isArray(images) ? (
+            <div id="galleryContainer">
+              {images.map(
+                (imagen, i) =>
+                  i < 11 && (
+                    <div
+                      key={i}
+                      className={`containerImage containerImage-${i}`}
+                    >
+                      <ImageFullscreen image={imagen} />
+                    </div>
+                  )
+              )}
+            </div>
+          ) : (
+            <h2>Lo sentimos, no se pudieron cargar las imágenes</h2>
+          )}
         </Container>
       </Container>
     </>
