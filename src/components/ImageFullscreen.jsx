@@ -1,7 +1,8 @@
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import React from "react";
 import Fancybox from "./FancyBox";
-
+import ImageComponent from "./ImageComponent";
+import imagePlaceholder from "../assets/placeholder-image.jpg";
 const ImageFullscreen = ({ image, description, id }) => {
   return (
     <Fancybox
@@ -19,7 +20,7 @@ const ImageFullscreen = ({ image, description, id }) => {
       }}
     >
       <a data-fancybox href={image} data-caption={description}>
-        <img id={id} src={image} />
+        <ImageComponent src={image} notFoundSrc={imagePlaceholder} />
       </a>
     </Fancybox>
   );

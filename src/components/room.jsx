@@ -3,6 +3,9 @@ import Card from "react-bootstrap/Card";
 import "../styles/rooms.css";
 import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import imagePlaceholder from "../../src/assets/placeholder-image.jpg";
+import ImageComponent from "./ImageComponent";
+
 const Room = ({ image, text, title }) => {
   const navigate = useNavigate();
   const handleNagivate = (e) => {
@@ -12,7 +15,7 @@ const Room = ({ image, text, title }) => {
   return (
     <div className="roomCard">
       <div className="imgContainer">
-        <Card.Img variant="top" src={image} />
+        <ImageComponent src={image} notFoundSrc={imagePlaceholder} />
       </div>
       <Card.Body className="d-flex flex-column justify-content-between">
         <div>

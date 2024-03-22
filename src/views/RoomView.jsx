@@ -44,6 +44,8 @@ import axios from "axios";
 import { ADMIN_KEY, URL_BASE } from "../config/config";
 import PaymentButton from "../components/PaymentButton";
 import ReserveInfo from "../components/ReserveInfo";
+import ImageComponent from "../components/ImageComponent";
+import imagePlaceholder from "../assets/placeholder-image.jpg";
 const RoomView = () => {
   const { number } = useParams();
   const [user, setUser] = useState(null);
@@ -183,10 +185,9 @@ const RoomView = () => {
     }
   };
 
-  console.log(room);
   useEffect(() => {
     getASingleRoom(number, setRoom);
-    getProfile();
+    if (token) getProfile();
   }, []);
 
   return (
@@ -215,7 +216,10 @@ const RoomView = () => {
                 >
                   {room?.images?.map((imagen, i) => (
                     <SwiperSlide key={i}>
-                      <img src={imagen} alt="" />
+                      <ImageComponent
+                        src={imagen}
+                        notFoundSrc={imagePlaceholder}
+                      />
                     </SwiperSlide>
                   ))}
                 </Swiper>

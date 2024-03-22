@@ -22,7 +22,6 @@ const LoginView = () => {
     const { email, password } = data;
     try {
       const res = await axios.post(`${URL_BASE}/users/login`, data);
-      console.log(res);
       Swal.fire({
         icon: "success",
         title: "¡Inicio de sesión exitoso!",
@@ -93,6 +92,7 @@ const LoginView = () => {
                 name="password"
                 type="password"
                 placeholder="Ingresa tu contraseña"
+                autoComplete="off"
                 {...register("password", {
                   required: {
                     value: true,

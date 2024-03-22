@@ -6,9 +6,10 @@ const URL_BASE = import.meta.env.VITE_URL_BASE;
 import Carrousel from "./components/carrousel";
 import { Container } from "react-bootstrap";
 import Searcher from "./components/Searcher";
-
+import imagePlaceholder from "../src/assets/placeholder-image.jpg";
 import Loader from "./components/Loader";
 import { Link } from "react-router-dom";
+import ImageComponent from "./components/ImageComponent";
 
 const App = () => {
   const [rooms, setRooms] = useState([]);
@@ -16,7 +17,7 @@ const App = () => {
 
   return (
     <>
-      <Container className="mb-4 pt-3">
+      <Container className="mb-4 pt-3 overflow-hidden">
         <Carrousel />
       </Container>
       <Container className="">
@@ -36,7 +37,7 @@ const App = () => {
                   rooms.map((r, i) => (
                     <Room
                       key={i}
-                      image={r.images[0]}
+                      image={r.images[0] || imagePlaceholder}
                       title={r.number}
                       text={r.description}
                     />

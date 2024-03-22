@@ -38,12 +38,12 @@ const ProfileView = () => {
       });
       setRooms(results.data);
     } catch (error) {
-      console.log(error.message);
+      if (error.response.status != 404) console.log(error.message);
     } finally {
       setisLoading(false);
     }
   };
-  console.log(rooms);
+
   useState(() => {
     getProfile(token, setUser);
   }, []);
@@ -67,8 +67,9 @@ const ProfileView = () => {
         <h3 className="mt-3 display-6  ">
           {rooms.length > 1 ? "Mis habitaciones" : "Mi habitacion"}
         </h3>
-        {isLoading ? <Loader /> : ""}
-        {rooms.length > 0 ? (
+        {isLoading ? (
+          <Loader />
+        ) : rooms.length > 0 ? (
           <Container id="" className="px-0">
             <Row
               style={{
@@ -77,12 +78,18 @@ const ProfileView = () => {
                   : "35px 0",
               }}
             >
-              {rooms.map((room) => (
+              {rooms.map((room, i) => (
                 <>
-                  <Col className="d-flex align-items-center" md={7} lg={3}>
+                  <Col
+                    key={i + 1000}
+                    className="d-flex align-items-center"
+                    md={7}
+                    lg={3}
+                  >
                     <Room image={room.images[0]} title={room.number} />
                   </Col>
                   <Col
+                    key={i}
                     className="d-flex flex-column mt-1 mb-5 my-md-0"
                     md={4}
                     lg={3}
@@ -93,6 +100,7 @@ const ProfileView = () => {
                         if (reserve.userId == user.id)
                           return (
                             <ReserveInfo
+                              key={i}
                               from={reserve.from}
                               to={reserve.to}
                               userId={reserve.userId}

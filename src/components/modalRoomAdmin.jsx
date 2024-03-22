@@ -19,9 +19,8 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
   const [airConditional, setAirConditional] = useState(false);
 
   const [price, setPrice] = useState("");
-  const [images, setImages] = useState({});
 
-
+  console.log(stars);
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Número:", number);
@@ -135,7 +134,7 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
       }
     }
   };
-  console.log(Object.values(imageURLs));
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -154,15 +153,19 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
             />
           </Form.Group>
           <Form.Group controlId="formStars">
-            <Form.Label>Estrellas:</Form.Label>
-            <Form.Control
-              type="number"
-              value={stars}
-              onChange={(e) => setStars(e.target.value)}
+            <Form.Label>Tipo:</Form.Label>
+            <select
+              type="select"
+              // defaultValue={"Basica / Media / Premium"}
+              onChange={(e) => setStars(parseInt(e.target.value))}
               min="1"
               max="3"
               required
-            />
+            >
+              <option value="1">Basica</option>
+              <option value="2">Media</option>
+              <option value="3">Premium</option>
+            </select>
           </Form.Group>
           <Form.Group controlId="formDescription">
             <Form.Label>Descripción:</Form.Label>
