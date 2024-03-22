@@ -23,9 +23,10 @@ const RoomEditModal = ({
       wifi: false,
       airConditional: false,
     },
+    price: 0,
   });
   const [imageURLs, setImageURLs] = useState({});
-
+  console.log(editedRoom);
   useEffect(() => {
     setImageURLs({});
   }, [handleClose]);
@@ -103,6 +104,17 @@ const RoomEditModal = ({
               }
               min="1"
               max="3"
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="formPrice">
+            <Form.Label>Precio:</Form.Label>
+            <Form.Control
+              type="number"
+              value={editedRoom.price}
+              onChange={(e) =>
+                setEditedRoom({ ...editedRoom, price: e.target.value })
+              }
               required
             />
           </Form.Group>
