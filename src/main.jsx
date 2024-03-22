@@ -12,6 +12,8 @@ import {
 } from "react-router-dom";
 import { routes } from "./routes/routes.js";
 import RootLayout from "./components/layout.jsx";
+import ProtectedAdminRoute from "./routes/protectedAdminRoutes.jsx";
+import AdminView from "./views/AdminView.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +22,14 @@ const router = createBrowserRouter(
         return <Route path={Path} key={Path} Component={Element} />;
       })}
       <Route path="*" Component={Error} />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedAdminRoute>
+            <AdminView />
+          </ProtectedAdminRoute>
+        }
+      />
     </Route>
   )
 );

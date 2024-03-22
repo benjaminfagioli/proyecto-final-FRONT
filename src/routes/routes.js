@@ -21,10 +21,6 @@ export const routes = [
     Element: LoginView,
   },
   {
-    Path: "/admin",
-    Element: AdminView,
-  },
-  {
     Path: "/room/:number",
     Element: RoomView,
   },
