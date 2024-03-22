@@ -32,7 +32,6 @@ const AdminView = () => {
   const [updatePage, setUpdatePage] = useState(false);
   const authToken = localStorage.getItem("token-Auth");
 
-  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,7 +50,7 @@ const AdminView = () => {
         setRooms(roomsData);
         setUsers(usersData);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching data:", error);
       }
     };
 
