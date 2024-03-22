@@ -1,4 +1,5 @@
 import App from "../App";
+import ContactoForm from "../components/formContact.jsx";
 import AdminView from "../views/AdminView";
 import FormRegister from "../views/FormRegister";
 import ImagesView from "../views/ImagesView.jsx";
@@ -37,4 +38,8 @@ export const routes = [
     Element: SobreNosotros,
   },
   { Path: "/gallery", Element: ImagesView },
+  {
+    Path: "/contacto",
+    Element: ContactoForm,
+  },
 ];
