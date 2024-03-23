@@ -42,7 +42,7 @@ const Footer = () => {
           <Col
             md={6}
             lg={3}
-            className="d-flex flex-column justify-content-center px-3 my-3 my-md-5"
+            className="d-flex flex-column justify-content-center px-3 my-3 my-md-5 order-md-1 order-lg-0"
           >
             <div className="d-flex align-items-center justify-content-between w-100 mb-1">
               <Link
@@ -66,10 +66,10 @@ const Footer = () => {
           <Col
             md={6}
             lg={3}
-            className="d-flex flex-column justify-content-center px-3 my-0 my-md-5"
+            className="d-flex flex-column justify-content-center px-3 my-0 my-md-5 pb-4 pb-md-0"
           >
             <div className="d-flex flex-column  justify-content-between px-lg-4">
-              <h3 className="display-6  fw-bold fs-4">
+              <h3 className="display-6  fw-bold fs-4 mb-2">
                 El hotel de tus sueños ™
               </h3>
               <h4 className="fw-bold fs-5">Nuestras Redes</h4>

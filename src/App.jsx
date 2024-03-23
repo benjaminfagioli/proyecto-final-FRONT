@@ -17,11 +17,13 @@ const App = () => {
 
   return (
     <>
-      <Container className="mb-4 pt-3 overflow-hidden">
-        <Carrousel />
+      <Container fluid className="pb-2 pt-2 overflow-hidden">
+        <Container>
+          <Carrousel />
+        </Container>
       </Container>
-      <Container className="">
-        <h3>Explora nuestras habitaciones</h3>
+      <Container>
+        <h3 className="poppins-bold">Explora nuestras habitaciones</h3>
       </Container>
       <Container fluid id="roomCardsContainerBG" className="px-0">
         <Searcher set={setRooms} setIsLoading={setIsLoading} />

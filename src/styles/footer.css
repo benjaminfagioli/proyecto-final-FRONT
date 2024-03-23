@@ -6,12 +6,15 @@ footer {
     rgba(0, 0, 0, 1) 100%
   );
   position: relative;
-  padding: 10px 0;
+  padding: 20px 0;
   background-position: top;
-  color: #b2b2b2;
-
+  color: #949494;
+  & *::selection {
+    background: white;
+    color: #000;
+  }
   & a {
-    color: #b2b2b2;
+    color: #949494;
     text-decoration: none;
     transition: 0.4s;
   }
@@ -20,13 +23,14 @@ footer {
     color: white;
   }
   .logoImg {
-    filter: drop-shadow(0px 0px 45px #424242);
+    /* filter: ; */
     transition: 0.4s;
     max-height: 200px;
     max-width: 200px;
+    filter: sepia(500%) drop-shadow(0px 0px 45px #424242);
   }
   .logoImg:hover {
-    filter: drop-shadow(0px 0px 50px #888888);
+    filter: sepia(500%) drop-shadow(0px 0px 50px #979797);
   }
 }
 #socials {

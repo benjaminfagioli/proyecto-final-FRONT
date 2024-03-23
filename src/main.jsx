@@ -15,7 +15,7 @@ import { routes } from "./routes/routes.js";
 import RootLayout from "./components/layout.jsx";
 import ProtectedAdminRoute from "./routes/protectedAdminRoutes.jsx";
 import AdminView from "./views/AdminView.jsx";
-
+import "./App.css";
 function ScrollToTop() {
   const { pathname } = useLocation();
 

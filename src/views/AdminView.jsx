@@ -203,7 +203,7 @@ const AdminView = () => {
   return (
     <>
       {authToken === ADMIN_KEY ? (
-        <div className="admin-container">
+        <div className="admin-container py-4">
           <Container>
             <Row>
               <Col xs={12}>

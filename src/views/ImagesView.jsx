@@ -41,7 +41,9 @@ const ImagesView = () => {
     <>
       <Container className="  " fluid>
         <Container className="px-0 px-sm-2">
-          <h1 className="display-6 pt-4">Descubre nuestro hotel</h1>
+          <h1 className="display-6 pt-4 poppins-semibold">
+            Descubre nuestro hotel
+          </h1>
 
           {isLoading ? (
             <div className="d-flex justify-content-center">
