@@ -3,7 +3,7 @@
   box-sizing: border-box;
   padding: 25px;
   border-radius: 7px;
-  background: #000000a1;
+  background: #171717;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-auto-rows: 250px;

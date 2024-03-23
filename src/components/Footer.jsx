@@ -26,7 +26,7 @@ const Footer = () => {
           >
             <div>
               <h4 className="fw-bold mb-2">Nuestra oficina</h4>
-              <span className="d-block">
+              <span className="d-block mb-2">
                 Gral. Paz 576, T4000 San Miguel de Tucumán, Tucumán
               </span>
               <a
@@ -42,9 +42,9 @@ const Footer = () => {
           <Col
             md={6}
             lg={3}
-            className="d-flex flex-column justify-content-center px-3 my-3 my-md-5 order-md-1 order-lg-0"
+            className="d-flex flex-column justify-content-center px-3 my-4 my-md-5 order-md-1 order-lg-0"
           >
-            <div className="d-flex align-items-center justify-content-between w-100 mb-1">
+            <div className="d-flex align-items-center justify-content-between w-100 ">
               <Link
                 className="fw-bold fs-5 d-flex align-items-center justify-content-between w-100"
                 to={"/contacto"}
