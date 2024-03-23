@@ -74,11 +74,21 @@ const Footer = () => {
               </h3>
               <h4 className="fw-bold fs-5">Nuestras Redes</h4>
               <div id="socials" className="fs-4 ">
-                <i className="bi bi-github"></i>
-                <i className="bi bi-instagram"></i>
-                <i className="bi bi-twitter"></i>
-                <i className="bi bi-facebook"></i>
-                <i className="bi bi-tiktok"></i>
+                <Link>
+                  <i className="bi bi-github"></i>
+                </Link>
+                <Link>
+                  <i className="bi bi-instagram"></i>
+                </Link>
+                <Link>
+                  <i className="bi bi-twitter"></i>
+                </Link>
+                <Link>
+                  <i className="bi bi-facebook"></i>
+                </Link>
+                <Link>
+                  <i className="bi bi-tiktok"></i>
+                </Link>
               </div>
             </div>
           </Col>
