@@ -293,7 +293,7 @@ const RoomView = () => {
           <Col md={12} lg={7} className="d-flex justify-content-center pe-lg-5">
             <DatePicker room={room} infoReserve={infoReserve} />
           </Col>
-          <Col className="mt-4 mt-lg-0 ps-0 d-flex flex-column" lg={5}>
+          <Col className="mt-4 mt-lg-0 ps-lg-0 d-flex flex-column" lg={5}>
             <div className="mb-3">
               <h5 className="display-5 fs-5 fw-bold">
                 A tan solo $

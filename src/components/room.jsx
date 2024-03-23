@@ -20,12 +20,12 @@ const Room = ({ image, text, title }) => {
       <Card.Body className="d-flex flex-column justify-content-between">
         <div>
           <Card.Title>
-            Habitación n°{title}
+            <span className="poppins-extralight">Habitación n°{title}</span>
+
             <Button variant="transparent" onClick={handleNagivate}>
               <i className="bi bi-box-arrow-in-up-right"></i>
             </Button>
           </Card.Title>
-          {/* <Card.Text>{text}</Card.Text> */}
         </div>
       </Card.Body>
     </div>

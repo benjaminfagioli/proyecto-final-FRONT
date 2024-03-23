@@ -67,9 +67,9 @@ const Searcher = ({ set, setIsLoading }) => {
         <Container className="display-flex justify-content-between w-100 position-relative pb-5">
           <div className="fs-6 fw-bold">
             <label htmlFor="">
-              Precio
+              <span className="poppins-bold">Precio</span>
               <div className="d-flex flex-column gap-2">
-                <span className="fw-light ms-2">
+                <span className="poppins-thin ms-2">
                   desde
                   <input
                     id="lowerPriceInput"
@@ -89,7 +89,7 @@ const Searcher = ({ set, setIsLoading }) => {
                     className="inputNumber ms-1"
                   />
                 </span>
-                <span className="fw-light ms-2">
+                <span className="poppins-thin ms-2">
                   hasta
                   <input
                     id="highestPriceInput"
@@ -113,7 +113,7 @@ const Searcher = ({ set, setIsLoading }) => {
               </div>
             </label>
             <label htmlFor="">
-              Tipo
+              <span className="poppins-bold">Tipo</span>
               <div className="select">
                 <select name="stars" defaultValue={filters.current?.stars}>
                   <option hidden value="">
@@ -126,7 +126,7 @@ const Searcher = ({ set, setIsLoading }) => {
               </div>
             </label>
             <label htmlFor="">
-              Dormitorios
+              <span className="poppins-bold">Dormitorios</span>
               <div className="select">
                 <select
                   name="bedrooms"
@@ -147,7 +147,7 @@ const Searcher = ({ set, setIsLoading }) => {
               </div>
             </label>
             <label htmlFor="">
-              Baños
+              <span className="poppins-bold">Baños</span>
               <div className="select">
                 <select
                   name="bathrooms"
@@ -168,7 +168,7 @@ const Searcher = ({ set, setIsLoading }) => {
               </div>
             </label>
             <label htmlFor="">
-              Planta
+              <span className="poppins-bold">Planta</span>
               <div className="select">
                 <select
                   name="floor"
@@ -190,7 +190,7 @@ const Searcher = ({ set, setIsLoading }) => {
               </div>
             </label>
             <label htmlFor="">
-              Wifi
+              <span className="poppins-bold">Wifi</span>
               <label className="containerCbx">
                 <input
                   name="wifi"
@@ -207,7 +207,7 @@ const Searcher = ({ set, setIsLoading }) => {
               </label>
             </label>
             <label htmlFor="">
-              Aire Acondicionado
+              <span className="poppins-bold">Aire Acondicionado</span>
               <label className="containerCbx">
                 <input
                   name="airConditioner"
@@ -225,8 +225,12 @@ const Searcher = ({ set, setIsLoading }) => {
             </label>
           </div>
           <div className="endButtons">
-            <button type="submit">Buscar</button>
-            <button onClick={reset}>Limpiar filtros</button>
+            <button className="poppins-medium" type="submit">
+              Buscar
+            </button>
+            <button className="poppins-medium" onClick={reset}>
+              Limpiar filtros
+            </button>
           </div>
         </Container>
       </form>
