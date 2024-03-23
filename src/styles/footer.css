@@ -1,0 +1,84 @@
+footer {
+  background: rgb(69, 69, 69);
+  background: radial-gradient(
+    circle,
+    rgb(33, 33, 33) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  position: relative;
+  padding: 10px 0;
+  background-position: top;
+  color: #b2b2b2;
+
+  & a {
+    color: #b2b2b2;
+    text-decoration: none;
+    transition: 0.4s;
+  }
+  & a:hover
+  /* span:hover  */ {
+    color: white;
+  }
+  .logoImg {
+    filter: drop-shadow(0px 0px 45px #424242);
+    transition: 0.4s;
+    max-height: 200px;
+    max-width: 200px;
+  }
+  .logoImg:hover {
+    filter: drop-shadow(0px 0px 50px #888888);
+  }
+}
+#socials {
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
+  max-width: 100%;
+  .bi {
+    padding: 3px;
+  }
+  .bi-github:hover {
+    color: white;
+  }
+  .bi-instagram:hover {
+    background: radial-gradient(
+      circle at 30% 107%,
+      #fdf497 0%,
+      #fdf497 5%,
+      #fd5949 45%,
+      #d6249f 60%,
+      #285aeb 90%
+    );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    transition: all 1s;
+  }
+  .bi-twitter:hover {
+    color: #00acee;
+  }
+  .bi-facebook:hover {
+    color: #3b5998;
+  }
+  .bi-tiktok:hover {
+    background: radial-gradient(
+      circle at 0% 10%,
+      #00f2ea 0%,
+
+      #00f2ea 45%,
+      #000 50%,
+      #d6249f 52%,
+      #d6249f 90%
+    );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    transition: all 1s;
+  }
+}

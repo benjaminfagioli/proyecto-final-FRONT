@@ -44,7 +44,6 @@ const App = () => {
                   ))
                 )}
               </div>
-              <Link to={"/gallery"}>Galeria de fotos</Link>
             </Container>
           </>
         )}
