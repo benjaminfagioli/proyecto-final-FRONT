@@ -7,6 +7,7 @@ import LoginView from "../views/LoginView";
 import ProfileView from "../views/ProfileView";
 import RoomView from "../views/RoomView";
 import SobreNosotros from "../views/SobreNosotros.jsx";
+import NotFound from "../views/error404.jsx";
 
 export const routes = [
   {
@@ -37,5 +38,10 @@ export const routes = [
   {
     Path: "/contacto",
     Element: ContactoForm,
+  },
+
+  {
+    Path: "*",
+    Element: NotFound,
   },
 ];
