@@ -1,0 +1,26 @@
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(1fr, 1fr));
+  gap: 20px;
+  padding: 20px 30px;
+  .card {
+    padding: 10px;
+    box-sizing: border-box;
+    background: url("/cardboard-flat.png");
+    background-color: #b57f5b;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    .card-title {
+      padding: 5px 0;
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
+
+    & img {
+      max-width: 200px;
+    }
+  }
+}

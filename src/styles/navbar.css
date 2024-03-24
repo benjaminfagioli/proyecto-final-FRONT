@@ -1,0 +1,47 @@
+.navbar {
+  font-weight: bold;
+  background-color: #ab8171 !important;
+  & a,
+  & button {
+    text-decoration: none;
+    color: black;
+    transition: 0.4s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  & a:hover,
+  & button:hover {
+    color: #f9f9f9;
+  }
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  /* overflow: hidden; */
+  .logoImg {
+    filter: sepia(500%) drop-shadow(0 0 23px #e2e2e2);
+    width: 50px;
+    height: 50px;
+    scale: 1.4;
+    transform: translateY(-2px);
+  }
+  .brandImg {
+    margin: 0 0 0 10px;
+    width: 90px;
+    height: 45px;
+    filter: sepia(500%);
+  }
+}
+.navbar-collapse {
+  flex-grow: 0 !important;
+  & div {
+    gap: 15px;
+  }
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 15px #29292982 !important;
+}
