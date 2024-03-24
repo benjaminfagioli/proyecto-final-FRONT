@@ -24,7 +24,7 @@ footer {
   }
   .logoImg {
     /* filter: ; */
-    transition: 0.4s;
+    transition: 0.2s;
     max-height: 200px;
     max-width: 200px;
     filter: sepia(500%) drop-shadow(0px 0px 45px #424242);
@@ -40,9 +40,26 @@ footer {
   max-width: 100%;
   .bi {
     padding: 3px;
+    transition: 0.2s !important;
   }
   .bi-github:hover {
     color: white;
+  }
+  .bi-instagram {
+    background: radial-gradient(
+      circle at 30% 107%,
+      #949494 0%,
+      #949494 5%,
+      #949494 45%,
+      #949494 60%,
+      #949494 90%
+    );
+    -webkit-background-clip: text;
+
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* transition: all 1s; */
   }
   .bi-instagram:hover {
     background: radial-gradient(
@@ -53,13 +70,10 @@ footer {
       #d6249f 60%,
       #285aeb 90%
     );
-
     -webkit-background-clip: text;
 
     background-clip: text;
     -webkit-text-fill-color: transparent;
-
-    transition: all 1s;
   }
   .bi-twitter:hover {
     color: #00acee;
@@ -82,7 +96,5 @@ footer {
 
     background-clip: text;
     -webkit-text-fill-color: transparent;
-
-    transition: all 1s;
   }
 }

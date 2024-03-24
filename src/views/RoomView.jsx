@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import getASingleRoom from "../utils/getASingleRoom";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 
 //  Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -46,6 +46,7 @@ import PaymentButton from "../components/PaymentButton";
 import ReserveInfo from "../components/ReserveInfo";
 import ImageComponent from "../components/ImageComponent";
 import imagePlaceholder from "../assets/placeholder-image.jpg";
+import Loader from "../components/Loader";
 const RoomView = () => {
   const { number } = useParams();
   const [user, setUser] = useState(null);
@@ -189,153 +190,178 @@ const RoomView = () => {
     getASingleRoom(number, setRoom);
     if (token) getProfile();
   }, []);
-
   return (
     <>
-      <Container fluid id="roomSection">
-        <Container>
-          <section>
-            <Col md={10} lg={9}>
-              <h1 className="fw-bold">
-                ¡Conoce nuestra habitación n°{room?.number}!{" "}
-              </h1>
-              <p className="mb-3 fs-6 ">{room?.description}</p>
-            </Col>
-            <div className="row">
-              <Col lg={9}>
-                <Swiper
-                  direction={"vertical"}
-                  pagination={{
-                    clickable: true,
-                  }}
-                  modules={[Pagination, Scrollbar, Mousewheel]}
-                  mousewheel={true}
-                  className="mySwiper swiperRoomView"
-                  spaceBetween={7}
-                  // loop={true}
-                >
-                  {room?.images?.map((imagen, i) => (
-                    <SwiperSlide key={i}>
-                      <ImageComponent
-                        src={imagen}
-                        notFoundSrc={imagePlaceholder}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </Col>
-              <Col className="py-4" lg={3}>
-                <div className="listRoomView fs-5 ">
-                  <div className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBed} />
-                    <span className="ms-3 me-2 fw-bold ">
-                      {room?.properties?.bedrooms}
-                    </span>
-                    <span className=" fw-light ">
-                      {room?.properties?.bedrooms == 1
-                        ? "Dormitorio"
-                        : "Dormitorios"}
-                    </span>
-                  </div>
-                  <div>
-                    <FontAwesomeIcon icon={faBath} />
-                    <span className="ms-3 me-2  fw-bold ">
-                      {room?.properties?.bathrooms}
-                    </span>
-                    <span className=" fw-light ">
-                      {room?.properties?.bathrooms == 1 ? "Baño" : "Baños"}
-                    </span>
-                  </div>
-                  <div>
-                    <FontAwesomeIcon icon={faStairs} />
-                    <span
-                      className={`ms-3 ${
-                        room?.properties?.floor == 0 ? "" : "me-1"
-                      }  fw-bold `}
-                    >
-                      {room?.properties?.floor == 0
-                        ? ""
-                        : numberToOrdinal(room?.properties?.floor)}
-                    </span>
-                    <span className=" fw-light ">
-                      {room?.properties?.floor == 0 ? "Planta baja" : "Piso"}
-                    </span>
-                  </div>
-                  <div>
-                    <FontAwesomeIcon icon={faArrowsUpDownLeftRight} />
-                    <span className="ms-3 me-2  fw-bold ">
-                      {room?.properties?.m2}
-                    </span>
-                    <span className=" fw-light ">M²</span>
-                  </div>
-                  <div>
-                    <FontAwesomeIcon icon={faWifi} />
-                    <span className="ms-3 me-2  fw-bold ">
-                      {room?.properties?.wifi ? "Con" : "Sin"}
-                    </span>
-                    <span className=" fw-light ">Wi-Fi</span>
-                  </div>
-                  <div>
-                    <FontAwesomeIcon icon={faWind} />
-                    <span className="ms-3 me-2  fw-bold ">
-                      {room?.properties?.airConditional ? "Con" : "Sin"}
-                    </span>
-                    <span className=" fw-light ">Aire acondicionado</span>
-                  </div>
-                </div>
-              </Col>
-            </div>
-          </section>
+      {!room ? (
+        <Container
+          fluid
+          id="roomSection"
+          style={{ minHeight: "calc(100vh - 80px - 260px)" }}
+        >
+          <Loader />
         </Container>
-      </Container>
-      <Container id="roomSecondSection" className="py-4">
-        <Row>
-          <Col md={12} lg={7} className="d-flex justify-content-center pe-lg-5">
-            <DatePicker room={room} infoReserve={infoReserve} />
-          </Col>
-          <Col className="mt-4 mt-lg-0 ps-lg-0 d-flex flex-column" lg={5}>
-            <div className="mb-3">
-              <h5 className="display-5 fs-5 fw-bold">
-                A tan solo $
-                {Intl.NumberFormat("ES-LA", {
-                  style: "currency",
-                  currency: "ARS",
-                }).format(room?.price)}{" "}
-                por noche
-              </h5>
-              <PaymentButton onClick={handleReserve}>Reservar </PaymentButton>
-            </div>
-            {user &&
-            room?.reserves?.find((reserve) => reserve.userId == user.id) ? (
-              <div>
-                <h5 className="display-5 fs-5 fw-bold">Mis reservas</h5>
-                {room?.reserves?.map((reserve, i) => {
-                  if (reserve.userId == user.id)
-                    return (
-                      <ReserveInfo
-                        key={i}
-                        from={reserve.from}
-                        to={reserve.to}
-                        userId={reserve.userId}
-                        room={room.number}
-                      />
-                    );
-                })}
-              </div>
-            ) : (
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.1060679525185!2d-65.20974728915576!3d-26.83657848992945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94225d3ad7f30f1d%3A0xf8606cd659b8e3e4!2sRollingCode%20School!5e0!3m2!1ses-419!2sar!4v1710628449002!5m2!1ses-419!2sar"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
-            )}
-          </Col>
-        </Row>
-      </Container>
+      ) : (
+        <>
+          <Container fluid id="roomSection">
+            <Container>
+              <section>
+                <Col md={10} lg={9}>
+                  <h1 className="poppins-bold">
+                    ¡Conoce nuestra habitación n°{room?.number}!{" "}
+                  </h1>
+                  <p className="mb-3 fs-6 poppins-regular fw-extralight  ">
+                    {room?.description}
+                  </p>
+                </Col>
+                <div className="row">
+                  <Col lg={9}>
+                    <Swiper
+                      direction={"vertical"}
+                      pagination={{
+                        clickable: true,
+                      }}
+                      modules={[Pagination, Scrollbar, Mousewheel]}
+                      mousewheel={true}
+                      className="mySwiper swiperRoomView"
+                      spaceBetween={7}
+                      // loop={true}
+                    >
+                      {room?.images?.map((imagen, i) => (
+                        <SwiperSlide key={i}>
+                          <ImageComponent
+                            src={imagen}
+                            notFoundSrc={imagePlaceholder}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  </Col>
+                  <Col className="py-4" lg={3}>
+                    <div className="listRoomView fs-5 ">
+                      <div className="d-flex align-items-center">
+                        <FontAwesomeIcon icon={faBed} />
+                        <span className="ms-3 me-2 poppins-bold ">
+                          {room?.properties?.bedrooms}
+                        </span>
+                        <span className=" poppins-light ">
+                          {room?.properties?.bedrooms == 1
+                            ? "Dormitorio"
+                            : "Dormitorios"}
+                        </span>
+                      </div>
+                      <div>
+                        <FontAwesomeIcon icon={faBath} />
+                        <span className="ms-3 me-2  poppins-bold   ">
+                          {room?.properties?.bathrooms}
+                        </span>
+                        <span className=" poppins-light ">
+                          {room?.properties?.bathrooms == 1 ? "Baño" : "Baños"}
+                        </span>
+                      </div>
+                      <div>
+                        <FontAwesomeIcon icon={faStairs} />
+                        <span
+                          className={`ms-3 ${
+                            room?.properties?.floor == 0 ? "" : "me-1"
+                          }  poppins-bold  `}
+                        >
+                          {room?.properties?.floor == 0
+                            ? ""
+                            : numberToOrdinal(room?.properties?.floor)}
+                        </span>
+                        <span className=" poppins-light ">
+                          {room?.properties?.floor == 0
+                            ? "Planta baja"
+                            : "Piso"}
+                        </span>
+                      </div>
+                      <div>
+                        <FontAwesomeIcon icon={faArrowsUpDownLeftRight} />
+                        <span className="ms-3 me-2  poppins-bold   ">
+                          {room?.properties?.m2}
+                        </span>
+                        <span className=" poppins-light ">M²</span>
+                      </div>
+                      <div>
+                        <FontAwesomeIcon icon={faWifi} />
+                        <span className="ms-3 me-2  poppins-bold   ">
+                          {room?.properties?.wifi ? "Con" : "Sin"}
+                        </span>
+                        <span className=" poppins-light ">Wi-Fi</span>
+                      </div>
+                      <div>
+                        <FontAwesomeIcon icon={faWind} />
+                        <span className="ms-3 me-2  poppins-bold   ">
+                          {room?.properties?.airConditional ? "Con" : "Sin"}
+                        </span>
+                        <span className=" poppins-light ">
+                          Aire acondicionado
+                        </span>
+                      </div>
+                    </div>
+                  </Col>
+                </div>
+              </section>
+            </Container>
+          </Container>
+          <Container id="roomSecondSection" className="py-4">
+            <Row>
+              <Col
+                md={12}
+                lg={7}
+                className="d-flex justify-content-center pe-lg-5"
+              >
+                <DatePicker room={room} infoReserve={infoReserve} />
+              </Col>
+              <Col className="mt-4 mt-lg-0 ps-lg-0 d-flex flex-column" lg={5}>
+                <div className="mb-3">
+                  <h5 className="display-5 fs-5 poppins-bold">
+                    A tan solo $
+                    {Intl.NumberFormat("ES-LA", {
+                      style: "currency",
+                      currency: "ARS",
+                    }).format(room?.price)}{" "}
+                    por noche
+                  </h5>
+                  <PaymentButton onClick={handleReserve}>
+                    Reservar{" "}
+                  </PaymentButton>
+                </div>
+                {user &&
+                room?.reserves?.find((reserve) => reserve.userId == user.id) ? (
+                  <div>
+                    <h5 className="display-5 fs-4 poppins-light">
+                      Mis reservas
+                    </h5>
+                    {room?.reserves?.map((reserve, i) => {
+                      if (reserve.userId == user.id)
+                        return (
+                          <ReserveInfo
+                            key={i}
+                            from={reserve.from}
+                            to={reserve.to}
+                            userId={reserve.userId}
+                            room={room.number}
+                          />
+                        );
+                    })}
+                  </div>
+                ) : (
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.1060679525185!2d-65.20974728915576!3d-26.83657848992945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94225d3ad7f30f1d%3A0xf8606cd659b8e3e4!2sRollingCode%20School!5e0!3m2!1ses-419!2sar!4v1710628449002!5m2!1ses-419!2sar"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                )}
+              </Col>
+            </Row>
+          </Container>
+        </>
+      )}
       {authToken === ADMIN_KEY && (
         <Container id="roomAdminSection">
           <Row>
