@@ -2,7 +2,6 @@ import axios from "axios";
 import { URL_BASE } from "../config/config";
 
 const deleteAllReserves = async (id, token) => {
-  console.log(token);
   try {
     await axios.patch(`${URL_BASE}/rooms/deleteManyReserves/${id}`, null, {
       headers: {
@@ -10,7 +9,7 @@ const deleteAllReserves = async (id, token) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 export default deleteAllReserves;

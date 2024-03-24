@@ -26,7 +26,6 @@ const RoomEditModal = ({
     price: 0,
   });
   const [imageURLs, setImageURLs] = useState({});
-  console.log(selectedRoom);
   useEffect(() => {
     setImageURLs({});
     setEditedRoom({ ...editedRoom, stars: 0 });
@@ -38,11 +37,9 @@ const RoomEditModal = ({
         const element = selectedRoom.images[index];
         setImageURLs((prev) => ({ ...prev, [index]: element }));
       }
-    // setEditedRoom((prev) => ({ ...prev, stars: selectedRoom.stars }));
   }, [show]);
 
   useEffect(() => {
-    console.log("se cambio de habitacion");
     if (selectedRoom) {
       setEditedRoom(selectedRoom);
       for (let index = 0; index < selectedRoom.images.length; index++) {
@@ -54,8 +51,6 @@ const RoomEditModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setEditedRoom((prev) => ({ ...prev, images: Object.values(imageURLs) }));
-    // console.log(editedRoom);
     try {
       await editRoom(editedRoom._id, {
         ...editedRoom,
@@ -156,7 +151,6 @@ const RoomEditModal = ({
                   ...prev,
                   0: imagen.value,
                 }));
-                console.log(imageURLs);
               }}
               required
             />

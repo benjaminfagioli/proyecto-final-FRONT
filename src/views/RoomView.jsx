@@ -86,17 +86,7 @@ const RoomView = () => {
         timer: 3000,
         timerProgressBar: true,
       });
-    console.log(
-      Intl.NumberFormat("ES-LA", {
-        currency: "ARS",
-      }).format(
-        room.price *
-          (intervalToDuration({
-            start: new Date(infoReserve.current.from),
-            end: new Date(infoReserve.current.to),
-          }).days + 1 || 1)
-      )
-    );
+
     Swal.fire({
       title: "¿Estás seguro de tu reservación?",
       html: `Elegiste la habitacion <b>n°${number}</b> desde <b>${new Date(
@@ -149,7 +139,7 @@ const RoomView = () => {
               navigate(`/`);
             });
         } catch (error) {
-          console.log(error);
+          console.error(error);
           if (error.response.status == 401);
           Swal.fire({
             icon: "error",
@@ -164,7 +154,7 @@ const RoomView = () => {
               html: `${error.response.data.errors.map((e) => `${e.msg} <br>`)}`,
               showConfirmButton: true,
             });
-          console.log(error);
+          console.error(error);
         }
       }
     });
@@ -179,7 +169,7 @@ const RoomView = () => {
       });
       setUser(userFound.data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setisLoading(false);
     }

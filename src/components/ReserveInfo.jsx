@@ -39,7 +39,7 @@ const ReserveInfo = ({ from, to, userId, room }) => {
             });
           }
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       }
     });

@@ -16,7 +16,6 @@ const Searcher = ({ set, setIsLoading }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.target));
-    console.log(formData);
     switchOnOffToBoolean(formData);
     setUseParams(formData);
   };
@@ -37,7 +36,7 @@ const Searcher = ({ set, setIsLoading }) => {
       set(request.data);
     } catch (error) {
       set([]);
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -48,7 +47,7 @@ const Searcher = ({ set, setIsLoading }) => {
       const { data } = await axios.get(`${URL_BASE}/rooms/getDataToSearcher`);
       await setDataForInputs(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   useEffect(() => {

@@ -154,7 +154,6 @@ const AdminView = () => {
   };
 
   const toggleHabilitadoUsuario = async (userId, enabled) => {
-    console.log(enabled);
     const message = !enabled
       ? "El estado del usuario se ha deshabilitado. ¿Desea tambien eliminar sus reservaciones?"
       : "El usuario ahora está activo";

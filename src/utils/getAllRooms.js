@@ -13,7 +13,7 @@ const getAllRooms = async (set) => {
     if (!set) return response.data;
     set(response.data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };

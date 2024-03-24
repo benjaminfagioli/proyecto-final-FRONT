@@ -22,7 +22,7 @@ const ProfileView = () => {
       });
       setUser(userFound.data);
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
     } finally {
       setisLoading(false);
     }
@@ -38,7 +38,7 @@ const ProfileView = () => {
       });
       setRooms(results.data);
     } catch (error) {
-      if (error.response.status != 404) console.log(error.message);
+      if (error.response.status != 404) console.error(error);
     } finally {
       setisLoading(false);
     }
@@ -49,9 +49,6 @@ const ProfileView = () => {
   }, []);
   useState(() => {
     getMyRooms(token, setRooms);
-    rooms.map((room, i) => {
-      console.log(room.reserves, room.number);
-    });
   }, [user]);
   return (
     <>

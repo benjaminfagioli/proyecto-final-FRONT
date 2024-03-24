@@ -17,7 +17,7 @@ const ImagesView = () => {
       const { data } = await axios.get(`${URL_BASE}/rooms/getImagesFromRooms`);
       setImages(data);
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

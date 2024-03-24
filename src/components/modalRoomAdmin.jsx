@@ -20,13 +20,8 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
 
   const [price, setPrice] = useState("");
 
-  console.log(stars);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Número:", number);
-    console.log("Estrellas:", stars);
-    console.log("Descripción:", description);
-    console.log("Precio:", price);
     if (description.length < 10 || description.length > 800) {
       Swal.fire({
         icon: "error",
@@ -103,7 +98,6 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
       price: parseInt(price),
       reserves: [],
     };
-    console.log(newRoom);
     try {
       await crearRoom(newRoom);
       updatePageHandler((prevState) => !prevState);

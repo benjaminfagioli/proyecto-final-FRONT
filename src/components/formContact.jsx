@@ -48,8 +48,6 @@ const ContactoForm = () => {
 
       .then(
         (response) => {
-          console.log("Params:", templateParams);
-
           Swal.fire({
             icon: "success",
             title: "¡Mensaje enviado!",
@@ -61,7 +59,6 @@ const ContactoForm = () => {
           });
         },
         (error) => {
-          console.log("Error al enviar el correo electrónico", error);
           Swal.fire({
             icon: "error",
             title: "Oops...",

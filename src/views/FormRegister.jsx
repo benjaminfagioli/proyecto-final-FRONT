@@ -36,7 +36,6 @@ function FormRegister() {
       }
 
       const response = await registerUser(userData);
-      console.log("User creado :", response);
 
       Swal.fire({
         icon: "success",
@@ -47,6 +46,7 @@ function FormRegister() {
         timerProgressBar: true,
       }).then(() => {
         navigate("/");
+        window.location.reload();
       });
     } catch (error) {
       Swal.fire({
