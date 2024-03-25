@@ -68,7 +68,7 @@ const Searcher = ({ set, setIsLoading }) => {
             <label htmlFor="">
               <span className="poppins-bold">Precio</span>
               <div className="d-flex flex-column gap-2">
-                <span className="poppins-thin ms-2">
+                <span className="poppins-light ms-2">
                   desde
                   <input
                     id="lowerPriceInput"
@@ -88,7 +88,7 @@ const Searcher = ({ set, setIsLoading }) => {
                     className="inputNumber ms-1"
                   />
                 </span>
-                <span className="poppins-thin ms-2">
+                <span className="poppins-light ms-2">
                   hasta
                   <input
                     id="highestPriceInput"
