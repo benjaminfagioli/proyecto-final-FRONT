@@ -6,10 +6,10 @@ function PersonaCard({ name, role, image, text }) {
     <Card>
       <Card.Img variant="top" style={{ aspectRatio: "1" }} src={image} />
       <Card.Body>
-        <Card.Title>
+        <Card.Title className="poppins-semibold">
           {name} como {role}
         </Card.Title>
-        <Card.Text>{text}</Card.Text>
+        <Card.Text className="poppins-light">{text}</Card.Text>
       </Card.Body>
     </Card>
   );

@@ -47,8 +47,13 @@ const ReserveInfo = ({ from, to, userId, room }) => {
   return (
     <div className="d-flex justify-content-between align-items-center mb-2 fs-5">
       <span>
-        <b>{new Date(from).toLocaleDateString("es-ar")}</b> al{" "}
-        <b>{new Date(to).toLocaleDateString("es-ar")}</b>
+        <b className="poppins-extrabold">
+          {new Date(from).toLocaleDateString("es-ar")}
+        </b>{" "}
+        al{" "}
+        <b className="poppins-extrabold">
+          {new Date(to).toLocaleDateString("es-ar")}
+        </b>
       </span>
       <button onClick={handleClick} className=" deleteReserve">
         <i className="bi bi-trash fs-5"></i>{" "}

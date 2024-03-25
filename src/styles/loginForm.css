@@ -37,7 +37,11 @@
   border-radius: 0.5rem;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
-
+.input-container input::placeholder {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
 .submit {
   display: block;
   padding-top: 0.75rem;
