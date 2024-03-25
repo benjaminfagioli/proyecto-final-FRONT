@@ -38,7 +38,6 @@ function FormRegister() {
       }
 
       const response = await registerUser(userData);
-      console.log("User creado :", response);
 
       Swal.fire({
         icon: "success",

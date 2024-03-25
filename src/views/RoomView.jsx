@@ -87,17 +87,7 @@ const RoomView = () => {
         timer: 3000,
         timerProgressBar: true,
       });
-    console.log(
-      Intl.NumberFormat("ES-LA", {
-        currency: "ARS",
-      }).format(
-        room.price *
-          (intervalToDuration({
-            start: new Date(infoReserve.current.from),
-            end: new Date(infoReserve.current.to),
-          }).days + 1 || 1)
-      )
-    );
+
     Swal.fire({
       title: "¿Estás seguro de tu reservación?",
       html: `Elegiste la habitacion <b>n°${number}</b> desde <b>${new Date(

@@ -50,9 +50,7 @@ const ProfileView = () => {
   }, []);
   useState(() => {
     getMyRooms(token, setRooms);
-    rooms.map((room, i) => {
-      console.log(room.reserves, room.number);
-    });
+    rooms.map((room, i) => {});
   }, [user]);
   return (
     <>

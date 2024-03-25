@@ -48,8 +48,6 @@ const ContactoForm = () => {
 
       .then(
         (response) => {
-          console.log("Params:", templateParams);
-
           Swal.fire({
             icon: "success",
             title: "¡Mensaje enviado!",

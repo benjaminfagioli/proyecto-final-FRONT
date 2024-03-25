@@ -16,7 +16,6 @@ const Searcher = ({ set, setIsLoading }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.target));
-    console.log(formData);
     switchOnOffToBoolean(formData);
     setUseParams(formData);
   };
