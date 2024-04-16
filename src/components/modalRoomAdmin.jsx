@@ -276,7 +276,7 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
                 />
                 <Form.Control
                   key={i + 1000}
-                  className="mb-1"
+                  className="mb-1 mt-3"
                   type="text"
                   placeholder={`Imagen ${i + 2}`}
                   autoComplete="off"

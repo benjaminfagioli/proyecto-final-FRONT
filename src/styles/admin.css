@@ -84,7 +84,8 @@
 }
 
 .imageComponent {
-  margin: 10px 0 15px 0;
+  /* margin: 10px 0 15px 0; */
+  margin: 0;
   border-radius: 7px;
   overflow: hidden;
   width: 100%;
