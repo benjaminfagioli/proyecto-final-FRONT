@@ -13,7 +13,7 @@ const validationUserCreate = yup.object().shape({
     .required("La contraseña es obligatoria ")
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,30}$/,
-      "La contrasña debe tener mínimo de 8 caracteres, máximo de 30. Debe contener al menos una letra y un número, no se permiten espacios ni caracteres especiales."
+      "La contraseña debe tener mínimo de 8 caracteres, máximo de 30. Debe contener al menos una letra y un número, no se permiten espacios ni caracteres especiales."
     ),
 });
 

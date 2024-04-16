@@ -25,7 +25,6 @@ const ContactoForm = () => {
     formState: { errors },
   } = useForm();
 
-  console.log(errors);
   const isSubmit = (data) => {
     console.log(data);
     const { asunto, message } = data;
