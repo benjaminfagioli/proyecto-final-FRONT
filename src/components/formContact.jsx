@@ -159,7 +159,7 @@ const ContactoForm = () => {
           </Form.Group>
 
           <Button variant="primary" type="submit" className="submit">
-            {isLoading ? <Spinner /> : "Enviar"}
+            {isLoading ? <Spinner size="sm" /> : "Enviar"}
           </Button>
         </Form>
       </div>
