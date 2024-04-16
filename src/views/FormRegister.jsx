@@ -91,7 +91,7 @@ function FormRegister() {
               })}
             />
             {errors?.name?.message && (
-              <div className="d-flex align-items-center text-danger flex-wrap w-100">
+              <div className="fadein d-flex align-items-center text-danger flex-wrap w-100">
                 <i className="bi fs-5 bi-exclamation-lg"></i>
                 <span>{errors?.name?.message}</span>
               </div>
@@ -118,7 +118,7 @@ function FormRegister() {
               })}
             />
             {errors?.email?.message && (
-              <div className="d-flex align-items-center text-danger flex-wrap w-100">
+              <div className="fadein d-flex align-items-center text-danger flex-wrap w-100">
                 <i className="bi fs-5 bi-exclamation-lg"></i>
                 <span>{errors?.email?.message}</span>
               </div>
@@ -148,7 +148,7 @@ function FormRegister() {
               })}
             />
             {errors?.password?.message && (
-              <div className="d-flex align-items-center text-danger w-100">
+              <div className="fadein h-0 d-flex align-items-center text-danger w-100">
                 <i className="bi fs-5 bi-exclamation-lg"></i>
                 <span style={{ maxWidth: "300px" }}>
                   {errors?.password?.message}

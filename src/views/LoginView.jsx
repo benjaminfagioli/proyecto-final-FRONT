@@ -82,7 +82,7 @@ const LoginView = () => {
               />
               {/* <label>Email</label> */}
               {errors?.email?.message && (
-                <div className="d-flex align-items-center text-danger">
+                <div className="fadein d-flex align-items-center text-danger">
                   <i className="bi fs-5 bi-exclamation-lg"></i>
                   <span>{errors?.email?.message}</span>
                 </div>
@@ -108,7 +108,7 @@ const LoginView = () => {
               />
               {/* <label>Contraseña</label> */}
               {errors?.password?.message && (
-                <div className="d-flex align-items-center text-danger">
+                <div className="fadein d-flex align-items-center text-danger">
                   <i className="bi fs-5 bi-exclamation-lg"></i>
                   <span>{errors?.password?.message}</span>
                 </div>

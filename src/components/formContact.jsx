@@ -120,7 +120,7 @@ const ContactoForm = () => {
               placeholder="Ingresa el asunto"
             />
             {errors?.asunto?.message && (
-              <div className="d-flex align-items-center text-danger flex-wrap w-100">
+              <div className="fadein d-flex align-items-center text-danger flex-wrap w-100">
                 <i className="bi fs-5 bi-exclamation-lg"></i>
                 <span>{errors?.asunto?.message}</span>
               </div>
@@ -151,7 +151,7 @@ const ContactoForm = () => {
               autoComplete="off"
             />
             {errors?.message?.message && (
-              <div className="d-flex align-items-center text-danger">
+              <div className="fadein d-flex align-items-center text-danger">
                 <i className="bi fs-5 bi-exclamation-lg"></i>
                 <span>{errors?.message?.message}</span>
               </div>

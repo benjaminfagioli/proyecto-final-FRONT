@@ -6,6 +6,7 @@
   max-width: 100%;
   border-radius: 0.5rem;
   box-shadow: 0 0px 45px 5px #00000070;
+  transition: all 0.5s;
 }
 
 .loginForm-title {
