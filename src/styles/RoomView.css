@@ -26,10 +26,11 @@
   color: rgb(35, 35, 35);
   font-family: sans-serif;
   padding: 15px 0 40px;
-  background: url("/home-bg-1.png");
+  background: url("/public/home-bg-1.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-color: var(--Color-principal);
+  /* min-height: calc(100vh - 80px); */
   & p {
     line-height: 25px;
   }

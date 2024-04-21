@@ -7,6 +7,7 @@ import registerUser from "../utils/registerUsers.js";
 import Swal from "sweetalert2";
 import { validateFormData } from "../validators/userValidators.js";
 import { Container, Spinner } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
 function FormRegister() {
   const navigate = useNavigate();
@@ -21,8 +22,14 @@ function FormRegister() {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleSubmit = async (e) => {
+  console.log(errors.password);
+  const isSubmit = async (e) => {
     e.preventDefault();
     try {
       setisLoading(true);
@@ -63,7 +70,7 @@ function FormRegister() {
   return (
     <Container>
       <div className="d-flex justify-content-center py-5">
-        <form className="loginForm" onSubmit={handleSubmit}>
+        <form className="loginForm" onSubmit={handleSubmit(isSubmit)}>
           <h2 className="loginForm-title poppins-semibold">Regístrate</h2>
           <Form.Group className="input-container mb-3" controlId="name">
             <Form.Label className="mb-0 poppins-light">Nombre</Form.Label>
@@ -73,21 +80,51 @@ function FormRegister() {
               autoComplete="off"
               placeholder="Ingresa tu nombre"
               className="input"
-              value={userData.name}
-              onChange={handleChange}
+              max={30}
+              {...register("name", {
+                required: {
+                  value: true,
+                  message: "Debes ingresar un nombre",
+                },
+              })}
             />
+            {/* Feedback Name */}
+            <div
+              className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
+                errors.name?.message ? "fadein" : ""
+              }`}
+            >
+              <i className="bi fs-5 bi-exclamation-lg"></i>
+              <span>{errors?.name?.message}</span>
+            </div>
           </Form.Group>
           <Form.Group className="input-container mb-3" controlId="email">
             <Form.Label className="mb-0 poppins-light">Email</Form.Label>
             <Form.Control
-              type="email"
               name="email"
               autoComplete="off"
               placeholder="Ingresa tu correo electrónico"
               className="input"
-              value={userData.email}
-              onChange={handleChange}
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "Debes ingresar un correo",
+                },
+                pattern: {
+                  value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                  message: "Debe tener un formato de email",
+                },
+              })}
             />
+            {/* Feedback Email */}
+            <div
+              className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
+                errors.email?.message ? "fadein" : ""
+              }`}
+            >
+              <i className="bi fs-5 bi-exclamation-lg"></i>
+              <span>{errors?.email?.message}</span>
+            </div>
           </Form.Group>
 
           <Form.Group className="input-container mb-3" controlId="password">
@@ -98,9 +135,29 @@ function FormRegister() {
               autoComplete="off"
               placeholder="Ingresa tu contraseña"
               className="input"
-              value={userData.password}
-              onChange={handleChange}
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "Debes ingresar una contraseña",
+                },
+                pattern: {
+                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,30}$/,
+                  message:
+                    "La contraseña debe tener mínimo de 8 caracteres, máximo de 30. Debe contener al menos una letra y un número, no se permiten espacios ni caracteres especiales.",
+                },
+              })}
             />
+            {/* Feedback Password */}
+            <div
+              className={`d-flex align-items-center text-danger w-100 feedbackForm ${
+                errors.password?.type === "required" ? "fadein" : ""
+              }
+              ${errors.password?.type === "pattern" ? "passwFF" : ""}
+              `}
+            >
+              <i className="bi fs-5 bi-exclamation-lg"></i>
+              <span>{errors?.password?.message}</span>
+            </div>
           </Form.Group>
 
           <div className="">
