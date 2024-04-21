@@ -63,56 +63,66 @@ const LoginView = () => {
               Ingresa a tu cuenta
             </h2>
             <div className="input-container">
-              <Form.Label className="mb-0 poppins-light">Email</Form.Label>
-              <Form.Control
-                name="email"
-                type="text"
-                autoComplete="off"
-                placeholder="Ingresa tu email "
-                {...register("email", {
-                  required: {
-                    value: true,
-                    message: "Debes ingresar un correo",
-                  },
-                  pattern: {
-                    value: regexEmail,
-                    message: "Debe tener un formato de correo",
-                  },
-                })}
-              />
-              {/* <label>Email</label> */}
-              {errors?.email?.message && (
-                <div className="fadein d-flex align-items-center text-danger">
+              <Form.Group controlId="email">
+                <Form.Label className="mb-0 poppins-light">Email</Form.Label>
+                <Form.Control
+                  name="email"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Ingresa tu email "
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: "Debes ingresar un correo",
+                    },
+                    pattern: {
+                      value: regexEmail,
+                      message: "Debe tener un formato de correo",
+                    },
+                  })}
+                />
+                {/* <label>Email</label> */}
+                <div
+                  className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
+                    errors.email?.message ? "fadein" : ""
+                  }`}
+                >
                   <i className="bi fs-5 bi-exclamation-lg"></i>
                   <span>{errors?.email?.message}</span>
                 </div>
-              )}
+              </Form.Group>
             </div>
+
             <div className="input-container">
-              <Form.Label className="mb-0 poppins-light">Contraseña</Form.Label>
-              <Form.Control
-                name="password"
-                type="password"
-                placeholder="Ingresa tu contraseña"
-                autoComplete="off"
-                {...register("password", {
-                  required: {
-                    value: true,
-                    message: "Debes ingresar una contraseña",
-                  },
-                  minLength: {
-                    value: 8,
-                    message: "Ingresa al menos 8 caracteres",
-                  },
-                })}
-              />
-              {/* <label>Contraseña</label> */}
-              {errors?.password?.message && (
-                <div className="fadein d-flex align-items-center text-danger">
+              <Form.Group controlId="password">
+                <Form.Label className="mb-0 poppins-light">
+                  Contraseña
+                </Form.Label>
+                <Form.Control
+                  name="password"
+                  type="password"
+                  placeholder="Ingresa tu contraseña"
+                  autoComplete="off"
+                  {...register("password", {
+                    required: {
+                      value: true,
+                      message: "Debes ingresar una contraseña",
+                    },
+                    minLength: {
+                      value: 8,
+                      message: "Ingresa al menos 8 caracteres",
+                    },
+                  })}
+                />
+                <div
+                  className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
+                    errors.password?.message ? "fadein" : ""
+                  }`}
+                >
                   <i className="bi fs-5 bi-exclamation-lg"></i>
                   <span>{errors?.password?.message}</span>
                 </div>
-              )}
+              </Form.Group>
             </div>
             <button type="submit" className="submit poppins-light">
               {isLoading ? <Spinner size="sm" /> : " Ingresar"}
@@ -120,7 +130,10 @@ const LoginView = () => {
 
             <p className="signup-link mt-3 mb-2 poppins-light">
               No tienes una cuenta?
-              <Link className="ms-1 text-decoration-none" to={"/register"}>
+              <Link
+                className="ms-1 text-decoration-none linkRegisterButton"
+                to={"/register"}
+              >
                 Registrate
               </Link>
             </p>

@@ -6,7 +6,6 @@
   max-width: 100%;
   border-radius: 0.5rem;
   box-shadow: 0 0px 45px 5px #00000070;
-  transition: all 0.5s;
 }
 
 .loginForm-title {
@@ -79,4 +78,10 @@
   border-color: #868686;
   outline: 0;
   box-shadow: none;
+}
+.linkRegisterButton {
+  transition: all 0.4s;
+  &:hover {
+    font-weight: 600;
+  }
 }

@@ -22,13 +22,13 @@ function FormRegister() {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  console.log(errors.password);
   const isSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -81,8 +81,6 @@ function FormRegister() {
               placeholder="Ingresa tu nombre"
               className="input"
               max={30}
-              // value={userData.name}
-              // onChange={handleChange}
               {...register("name", {
                 required: {
                   value: true,
@@ -90,12 +88,15 @@ function FormRegister() {
                 },
               })}
             />
-            {errors?.name?.message && (
-              <div className="fadein d-flex align-items-center text-danger flex-wrap w-100">
-                <i className="bi fs-5 bi-exclamation-lg"></i>
-                <span>{errors?.name?.message}</span>
-              </div>
-            )}
+            {/* Feedback Name */}
+            <div
+              className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
+                errors.name?.message ? "fadein" : ""
+              }`}
+            >
+              <i className="bi fs-5 bi-exclamation-lg"></i>
+              <span>{errors?.name?.message}</span>
+            </div>
           </Form.Group>
           <Form.Group className="input-container mb-3" controlId="email">
             <Form.Label className="mb-0 poppins-light">Email</Form.Label>
@@ -104,8 +105,6 @@ function FormRegister() {
               autoComplete="off"
               placeholder="Ingresa tu correo electrónico"
               className="input"
-              // value={userData.email}
-              // onChange={handleChange}
               {...register("email", {
                 required: {
                   value: true,
@@ -117,12 +116,15 @@ function FormRegister() {
                 },
               })}
             />
-            {errors?.email?.message && (
-              <div className="fadein d-flex align-items-center text-danger flex-wrap w-100">
-                <i className="bi fs-5 bi-exclamation-lg"></i>
-                <span>{errors?.email?.message}</span>
-              </div>
-            )}
+            {/* Feedback Email */}
+            <div
+              className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
+                errors.email?.message ? "fadein" : ""
+              }`}
+            >
+              <i className="bi fs-5 bi-exclamation-lg"></i>
+              <span>{errors?.email?.message}</span>
+            </div>
           </Form.Group>
 
           <Form.Group className="input-container mb-3" controlId="password">
@@ -133,8 +135,6 @@ function FormRegister() {
               autoComplete="off"
               placeholder="Ingresa tu contraseña"
               className="input"
-              // value={userData.password}
-              // onChange={handleChange}
               {...register("password", {
                 required: {
                   value: true,
@@ -147,14 +147,17 @@ function FormRegister() {
                 },
               })}
             />
-            {errors?.password?.message && (
-              <div className="fadein h-0 d-flex align-items-center text-danger w-100">
-                <i className="bi fs-5 bi-exclamation-lg"></i>
-                <span style={{ maxWidth: "300px" }}>
-                  {errors?.password?.message}
-                </span>
-              </div>
-            )}
+            {/* Feedback Password */}
+            <div
+              className={`d-flex align-items-center text-danger w-100 feedbackForm ${
+                errors.password?.type === "required" ? "fadein" : ""
+              }
+              ${errors.password?.type === "pattern" ? "passwFF" : ""}
+              `}
+            >
+              <i className="bi fs-5 bi-exclamation-lg"></i>
+              <span>{errors?.password?.message}</span>
+            </div>
           </Form.Group>
 
           <div className="">
