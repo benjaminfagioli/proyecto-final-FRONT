@@ -25,7 +25,7 @@ const LoginView = () => {
       Swal.fire({
         icon: "success",
         title: "¡Inicio de sesión exitoso!",
-        text: "Te has logueado correctamente.",
+        text: "Haz iniciado sesion correctamente!.",
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,

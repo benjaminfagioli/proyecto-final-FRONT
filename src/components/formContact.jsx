@@ -26,7 +26,7 @@ const ContactoForm = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Por favor, debes estar logeado para contactarte.",
+        text: "Por favor, debes iniciar sesion para contactarte.",
       });
       return;
     }

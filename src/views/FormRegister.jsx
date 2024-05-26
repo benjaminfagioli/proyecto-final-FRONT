@@ -101,7 +101,7 @@ function FormRegister() {
 
           <div className="">
             <button variant="primary" type="submit" className="submit">
-              Enviar
+              Registrarse
             </button>
           </div>
         </form>
