@@ -1,26 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import getASingleRoom from "../utils/getASingleRoom";
-import { Col, Container, Row, Spinner } from "react-bootstrap";
-
-//  Swiper
+import { Col, Container, Row } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  EffectCards,
-  Mousewheel,
-} from "swiper/modules";
-
+import { Pagination, Scrollbar, Mousewheel } from "swiper/modules";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-cards";
-
 import {
   faArrowsUpDownLeftRight,
   faBath,
@@ -33,11 +22,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/RoomView.css";
 import numberToOrdinal from "../utils/numberToOrdinal";
 import DatePicker from "../components/DatePicker";
-import {
-  addDays,
-  differenceInCalendarDays,
-  intervalToDuration,
-} from "date-fns";
+import { intervalToDuration } from "date-fns";
 
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -47,6 +32,8 @@ import ReserveInfo from "../components/ReserveInfo";
 import ImageComponent from "../components/ImageComponent";
 import imagePlaceholder from "../assets/placeholder-image.jpg";
 import Loader from "../components/Loader";
+import getProfile from "../utils/getProfile";
+
 const RoomView = () => {
   const { number } = useParams();
   const [user, setUser] = useState(null);
@@ -64,7 +51,7 @@ const RoomView = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       return Swal.fire({
-        title: "Para realizar una reserva debes estar logueado",
+        title: "Para realizar una reserva debes inciar sesion",
         text: "Inicia sesión para disfrutar de todas las caracteristicas de nuestra página!",
         icon: "info",
         showCancelButton: true,
@@ -159,21 +146,6 @@ const RoomView = () => {
         }
       }
     });
-  };
-  const getProfile = async () => {
-    setisLoading(true);
-    try {
-      const userFound = await axios.get(`${URL_BASE}/users/profile`, {
-        headers: {
-          "auth-token": token,
-        },
-      });
-      setUser(userFound.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setisLoading(false);
-    }
   };
 
   useEffect(() => {
