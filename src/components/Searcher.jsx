@@ -66,7 +66,7 @@ const Searcher = ({ set, setIsLoading }) => {
         <Container className="display-flex justify-content-between w-100 position-relative pb-5">
           <div className="fs-6 fw-bold">
             <label htmlFor="">
-              <span className="poppins-bold">Precio</span>
+              <span className="poppins-bold">Precio por noche($ARS)</span>
               <div className="d-flex flex-column gap-2">
                 <span className="poppins-light ms-2">
                   desde

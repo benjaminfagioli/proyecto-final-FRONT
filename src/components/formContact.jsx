@@ -26,7 +26,16 @@ const ContactoForm = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Por favor, debes iniciar sesion para contactarte.",
+        text: "Por favor, debes iniciar sesión para contactarte.",
+      });
+      return;
+    }
+
+    if (!asunto || !mensaje) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, completa todos los campos.",
       });
       return;
     }
@@ -45,14 +54,13 @@ const ContactoForm = () => {
         templateParams,
         "R57eWNNzjw06V4OeZ"
       )
-
       .then(
         (response) => {
           Swal.fire({
             icon: "success",
             title: "¡Mensaje enviado!",
             text: "Gracias por contactarnos.",
-            timer: 300000000,
+            timer: 3000,
             showConfirmButton: false,
           }).then(() => {
             window.location.href = "/";
@@ -105,7 +113,7 @@ const ContactoForm = () => {
               placeholder="Ingresa el asunto"
               value={asunto}
               onChange={(e) => setAsunto(e.target.value)}
-              required
+              maxLength={30}
             />
           </Form.Group>
 
@@ -117,7 +125,7 @@ const ContactoForm = () => {
               placeholder="Escribe tu mensaje aquí"
               value={mensaje}
               onChange={(e) => setMensaje(e.target.value)}
-              required
+              maxLength={300}
             />
           </Form.Group>
 
