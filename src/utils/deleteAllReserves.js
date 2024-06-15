@@ -3,9 +3,6 @@ import { URL_BASE } from "../config/config";
 
 const deleteAllReserves = async (id, token) => {
   try {
-    console.log(`ID a eliminar: ${id}`);
-    console.log(`Token de autenticación: ${token}`);
-
     const response = await axios.patch(
       `${URL_BASE}/deleteManyReserves/${id}`,
       null,
@@ -16,7 +13,6 @@ const deleteAllReserves = async (id, token) => {
       }
     );
 
-    console.log("Response from server:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al eliminar reservas:", error);
