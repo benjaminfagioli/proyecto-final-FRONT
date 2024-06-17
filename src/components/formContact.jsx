@@ -10,6 +10,8 @@ const ContactoForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
+  const [asunto, setAsunto] = useState("");
+  const [mensaje, setMensaje] = useState("");
 
   useEffect(() => {
     const usuario = obtenerToken();
@@ -50,7 +52,7 @@ const ContactoForm = () => {
       from_name: nombre,
       to_name: "Admin",
       asunto: asunto,
-      message: message,
+      message: mensaje,
     };
 
     emailjs
@@ -126,11 +128,9 @@ const ContactoForm = () => {
               type="text"
               autoComplete="off"
               placeholder="Ingresa el asunto"
-
               value={asunto}
               onChange={(e) => setAsunto(e.target.value)}
               maxLength={30}
-
             />
             {errors?.asunto?.message && (
               <div className="fadein d-flex align-items-center text-danger flex-wrap w-100">
@@ -159,12 +159,10 @@ const ContactoForm = () => {
               })}
               as="textarea"
               rows={4}
-
               placeholder="Escribe tu mensaje aquí"
               value={mensaje}
               onChange={(e) => setMensaje(e.target.value)}
               maxLength={300}
-
             />
             {errors?.message?.message && (
               <div className="fadein d-flex align-items-center text-danger">
