@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { crearRoom } from "../utils/agregarRoom.js";
 import validateImages from "../validators/validateImages.js";
 import existsNumberRoom from "../validators/existisNumberRoom.js";
 import Swal from "sweetalert2";
+import ImageComponent from "./ImageComponent.jsx";
+import imagePlaceholder from "../../src/assets/placeholder-image.jpg";
 
 const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
   const [number, setNumber] = useState("");
@@ -266,31 +268,40 @@ const ModalRoomAdmin = ({ show, handleClose, updatePageHandler }) => {
               required
             />
             {Object.values(imageURLs).map((e, i) => (
-              <Form.Control
-                className="mb-1"
-                type="text"
-                placeholder={`Imagen ${i + 2}`}
-                autoComplete="off"
-                id={`imagen${i + 1}`}
-                defaultValue={imageURLs[i + 1]}
-                onChange={(e) => {
-                  let myNumber = parseInt(i + 1);
-                  if (
-                    document.getElementById(`imagen${myNumber}`).value === ""
-                  ) {
-                    delete imageURLs[myNumber];
-                    setImageURLs(imageURLs);
-                  } else {
-                    setImageURLs({
-                      ...imageURLs,
-                      [myNumber]: document.getElementById(`imagen${myNumber}`)
-                        .value,
-                    });
-                  }
-                }}
-                pattern="https?://.+"
-                title="Por favor ingrese URLs válidas que comiencen con http:// o https://"
-              />
+              <>
+                <ImageComponent
+                  key={i}
+                  src={imageURLs[i]}
+                  notFoundSrc={imagePlaceholder}
+                />
+                <Form.Control
+                  key={i + 1000}
+                  className="mb-1 mt-3"
+                  type="text"
+                  placeholder={`Imagen ${i + 2}`}
+                  autoComplete="off"
+                  id={`imagen${i + 1}`}
+                  defaultValue={imageURLs[i + 1]}
+                  onChange={(e) => {
+                    let myNumber = parseInt(i + 1);
+                    console.log(imageURLs);
+                    if (
+                      document.getElementById(`imagen${myNumber}`).value === ""
+                    ) {
+                      delete imageURLs[myNumber];
+                      setImageURLs(imageURLs);
+                    } else {
+                      setImageURLs({
+                        ...imageURLs,
+                        [myNumber]: document.getElementById(`imagen${myNumber}`)
+                          .value,
+                      });
+                    }
+                  }}
+                  pattern="https?://.+"
+                  title="Por favor ingrese URLs válidas que comiencen con http:// o https://"
+                />
+              </>
             ))}
             {}
           </Form.Group>

@@ -66,6 +66,7 @@ const LoginView = () => {
               Ingresa a tu cuenta
             </h2>
             <div className="input-container">
+
               <Form.Label className="mb-0 poppins-light">Email</Form.Label>
               <Form.Control
                 name="email"
@@ -75,8 +76,11 @@ const LoginView = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+
             </div>
+
             <div className="input-container">
+
               <Form.Label className="mb-0 poppins-light">Contraseña</Form.Label>
               <Form.Control
                 name="password"
@@ -86,15 +90,18 @@ const LoginView = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+
             </div>
             <button type="submit" className="submit poppins-light">
               {isLoading ? <Spinner size="sm" /> : "Ingresar"}
             </button>
 
             <p className="signup-link mt-3 mb-2 poppins-light">
+
               ¿No tienes una cuenta?
               <Link className="ms-1 text-decoration-none" to={"/register"}>
                 Regístrate
+
               </Link>
             </p>
           </form>

@@ -6,8 +6,8 @@
   .card {
     padding: 10px;
     box-sizing: border-box;
-    background: url("/cardboard-flat.png");
-    background-color: #b57f5b;
+    background: url("../../public/cardboard-flat.png");
+    background-color: #9c7154;
     border-radius: 10px;
     display: flex;
     align-items: center;

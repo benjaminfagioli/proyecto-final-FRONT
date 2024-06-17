@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import editRoom from "../utils/editRoom";
+import ImageComponent from "./ImageComponent";
 
 const RoomEditModal = ({
   show,
@@ -55,6 +56,8 @@ const RoomEditModal = ({
       await editRoom(editedRoom._id, {
         ...editedRoom,
         images: Object.values(imageURLs),
+        stars:
+          editedRoom.stars < 1 || editedRoom.stars > 3 ? 1 : editedRoom.stars,
       });
       handleClose();
       updatePageHandler((prevState) => !prevState);
@@ -95,7 +98,7 @@ const RoomEditModal = ({
             <Form.Label>Tipo:</Form.Label>
             <select
               type="select"
-              defaultValue={editedRoom.stars}
+              // defaultValue={}
               onChange={(e) =>
                 setEditedRoom({
                   ...editedRoom,
@@ -104,7 +107,7 @@ const RoomEditModal = ({
               }
               required
             >
-              <option hidden value="">
+              <option hidden value={editedRoom.stars || 1}>
                 {editedRoom.stars == 0 && "Tipo de habitacion"}
                 {editedRoom.stars == 1 && "Basica"}
                 {editedRoom.stars == 2 && "Media"}
@@ -145,6 +148,7 @@ const RoomEditModal = ({
               type="text"
               id="imagen"
               autoComplete="off"
+              className="mb-1"
               defaultValue={imageURLs[0]}
               onChange={() => {
                 setImageURLs((prev) => ({
@@ -157,31 +161,40 @@ const RoomEditModal = ({
 
             {Object.values(imageURLs).map((e, i) => {
               return (
-                <Form.Control
-                  className="mb-1"
-                  type="text"
-                  placeholder={`Imagen ${i + 2}`}
-                  autoComplete="off"
-                  id={`imagen${i + 1}`}
-                  defaultValue={imageURLs[i + 1]}
-                  onChange={() => {
-                    let myNumber = parseInt(i + 1);
-                    if (
-                      document.getElementById(`imagen${myNumber}`).value === ""
-                    ) {
-                      delete imageURLs[myNumber];
-                      setImageURLs(imageURLs);
-                    } else {
-                      setImageURLs((prev) => ({
-                        ...prev,
-                        [myNumber]: document.getElementById(`imagen${myNumber}`)
-                          .value,
-                      }));
-                    }
-                  }}
-                  pattern="https?://.+"
-                  title="Por favor ingrese URLs válidas que comiencen con http:// o https://"
-                />
+                <>
+                  <ImageComponent
+                    key={i}
+                    src={imageURLs[i]}
+                    // notFoundSrc={imagePlaceholder}
+                  />
+                  <Form.Control
+                    className="mb-1 mt-3"
+                    type="text"
+                    placeholder={`Imagen ${i + 2}`}
+                    autoComplete="off"
+                    id={`imagen${i + 1}`}
+                    defaultValue={imageURLs[i + 1]}
+                    onChange={() => {
+                      let myNumber = parseInt(i + 1);
+                      if (
+                        document.getElementById(`imagen${myNumber}`).value ===
+                        ""
+                      ) {
+                        delete imageURLs[myNumber];
+                        setImageURLs(imageURLs);
+                      } else {
+                        setImageURLs((prev) => ({
+                          ...prev,
+                          [myNumber]: document.getElementById(
+                            `imagen${myNumber}`
+                          ).value,
+                        }));
+                      }
+                    }}
+                    pattern="https?://.+"
+                    title="Por favor ingrese URLs válidas que comiencen con http:// o https://"
+                  />
+                </>
               );
             })}
           </Form.Group>

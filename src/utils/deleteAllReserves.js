@@ -1,7 +1,8 @@
 import axios from "axios";
 import { URL_BASE } from "../config/config";
 
-const deleteAllReserves = async (id, token) => {
+const deleteAllReserves = async (id) => {
+  const token = localStorage.getItem("token");
   try {
     const response = await axios.patch(
       `${URL_BASE}/deleteManyReserves/${id}`,
