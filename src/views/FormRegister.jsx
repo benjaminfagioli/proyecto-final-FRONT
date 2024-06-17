@@ -5,9 +5,7 @@ import Form from "react-bootstrap/Form";
 import "../styles/register.css";
 import registerUser from "../utils/registerUsers.js";
 import Swal from "sweetalert2";
-import { validateFormData } from "../validators/userValidators.js";
 import { Container, Spinner } from "react-bootstrap";
-import { useForm } from "react-hook-form";
 
 function FormRegister() {
   const navigate = useNavigate();
@@ -23,13 +21,7 @@ function FormRegister() {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
-  console.log(errors.password);
   const isSubmit = async (e) => {
     e.preventDefault();
 
@@ -42,19 +34,17 @@ function FormRegister() {
       return;
     }
 
+    if (!userData.name || !userData.email || !userData.password) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Por favor completa todos los campos.",
+      });
+      return;
+    }
+
     try {
       setisLoading(true);
-      const { isValid, errorMessage } = await validateFormData(userData);
-
-      if (!isValid) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          html: errorMessage,
-        });
-        return;
-      }
-
       const response = await registerUser(userData);
 
       Swal.fire({
@@ -82,7 +72,7 @@ function FormRegister() {
   return (
     <Container>
       <div className="d-flex justify-content-center py-5">
-        <form className="loginForm" onSubmit={handleSubmit(isSubmit)}>
+        <form className="loginForm" onSubmit={isSubmit}>
           <h2 className="loginForm-title poppins-semibold">Regístrate</h2>
           <Form.Group className="input-container mb-3" controlId="name">
             <Form.Label className="mb-0 poppins-light">Nombre</Form.Label>
@@ -92,23 +82,9 @@ function FormRegister() {
               autoComplete="off"
               placeholder="Ingresa tu nombre"
               className="input"
-              max={30}
-              {...register("name", {
-                required: {
-                  value: true,
-                  message: "Debes ingresar un nombre",
-                },
-              })}
+              value={userData.name}
+              onChange={handleChange}
             />
-            {/* Feedback Name */}
-            <div
-              className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
-                errors.name?.message ? "fadein" : ""
-              }`}
-            >
-              <i className="bi fs-5 bi-exclamation-lg"></i>
-              <span>{errors?.name?.message}</span>
-            </div>
           </Form.Group>
           <Form.Group className="input-container mb-3" controlId="email">
             <Form.Label className="mb-0 poppins-light">Email</Form.Label>
@@ -117,26 +93,9 @@ function FormRegister() {
               autoComplete="off"
               placeholder="Ingresa tu correo electrónico"
               className="input"
-              {...register("email", {
-                required: {
-                  value: true,
-                  message: "Debes ingresar un correo",
-                },
-                pattern: {
-                  value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                  message: "Debe tener un formato de email",
-                },
-              })}
+              value={userData.email}
+              onChange={handleChange}
             />
-            {/* Feedback Email */}
-            <div
-              className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
-                errors.email?.message ? "fadein" : ""
-              }`}
-            >
-              <i className="bi fs-5 bi-exclamation-lg"></i>
-              <span>{errors?.email?.message}</span>
-            </div>
           </Form.Group>
           <Form.Group className="input-container mb-3" controlId="password">
             <Form.Label className="mb-0 poppins-light">Contraseña</Form.Label>
@@ -146,29 +105,9 @@ function FormRegister() {
               autoComplete="off"
               placeholder="Ingresa tu contraseña"
               className="input"
-              {...register("password", {
-                required: {
-                  value: true,
-                  message: "Debes ingresar una contraseña",
-                },
-                pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,30}$/,
-                  message:
-                    "La contraseña debe tener mínimo de 8 caracteres, máximo de 30. Debe contener al menos una letra y un número, no se permiten espacios ni caracteres especiales.",
-                },
-              })}
+              value={userData.password}
+              onChange={handleChange}
             />
-            {/* Feedback Password */}
-            <div
-              className={`d-flex align-items-center text-danger w-100 feedbackForm ${
-                errors.password?.type === "required" ? "fadein" : ""
-              }
-              ${errors.password?.type === "pattern" ? "passwFF" : ""}
-              `}
-            >
-              <i className="bi fs-5 bi-exclamation-lg"></i>
-              <span>{errors?.password?.message}</span>
-            </div>
           </Form.Group>
           <Form.Group
             className="input-container mb-3"
@@ -187,11 +126,12 @@ function FormRegister() {
               onChange={handleChange}
             />
           </Form.Group>
-          <div className="">
+          <div className="text-center">
             <button
               variant="primary"
               type="submit"
               className="submit poppins-light"
+              disabled={isLoading}
             >
               {isLoading ? <Spinner size="sm" /> : "Registrarse"}
             </button>
