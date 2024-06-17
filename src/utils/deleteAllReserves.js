@@ -4,13 +4,21 @@ import { URL_BASE } from "../config/config";
 const deleteAllReserves = async (id) => {
   const token = localStorage.getItem("token");
   try {
-    await axios.patch(`${URL_BASE}/rooms/deleteManyReserves/${id}`, null, {
-      headers: {
-        "auth-token": token,
-      },
-    });
+    const response = await axios.patch(
+      `${URL_BASE}/deleteManyReserves/${id}`,
+      null,
+      {
+        headers: {
+          "auth-token": token,
+        },
+      }
+    );
+
+    return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("Error al eliminar reservas:", error);
+    throw error;
   }
 };
+
 export default deleteAllReserves;

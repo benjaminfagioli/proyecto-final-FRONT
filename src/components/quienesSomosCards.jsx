@@ -1,7 +1,16 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import "../styles/sobreNosotros.css";
 
-function PersonaCard({ name, role, image, text }) {
+function PersonaCard({ name, role, image, text, github, linkedin }) {
+  const openGithubProfile = () => {
+    window.open(github, "_blank");
+  };
+  const openLinkedinProfile = () => {
+    window.open(linkedin, "_blank");
+  };
+
   return (
     <Card>
       <Card.Img variant="top" style={{ aspectRatio: "1" }} src={image} />
@@ -10,6 +19,12 @@ function PersonaCard({ name, role, image, text }) {
           {name} como {role}
         </Card.Title>
         <Card.Text className="poppins-light">{text}</Card.Text>
+        <Button className="create-button" onClick={openGithubProfile}>
+          Ve mis proyectos!
+        </Button>
+        <Button className="create-button" onClick={openLinkedinProfile}>
+          Mira mi Linkedin!
+        </Button>
       </Card.Body>
     </Card>
   );

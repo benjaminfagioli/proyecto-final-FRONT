@@ -16,7 +16,6 @@ import updateUserStatus from "../utils/editUserStatus.js";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import RoomEditModal from "../components/RoomEditModal.jsx";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import deleteAllReserves from "../utils/deleteAllReserves.js";
 import { ADMIN_KEY } from "../config/config.js";
 
@@ -131,17 +130,19 @@ const AdminView = () => {
 
     if (confirmed.isConfirmed) {
       try {
-        await eliminarUsuario(userId);
-        await deleteAllReserves(userId);
+        const authToken = localStorage.getItem("token");
+        await deleteAllReserves(userId, authToken);
+        //await eliminarUsuario(userId);
         await Swal.fire({
           icon: "success",
           title:
-            "¡Usuario eliminado! Se han eliminado tambien sus reservaciones.",
+            "¡Usuario eliminado! Se han eliminado también sus reservaciones.",
           showConfirmButton: true,
           confirmButtonText: "OK",
         });
         setUpdatePage((prevState) => !prevState);
       } catch (error) {
+        console.error("Error al eliminar usuario:", error);
         await Swal.fire({
           icon: "error",
           title: "Error",

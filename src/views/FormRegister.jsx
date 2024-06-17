@@ -16,6 +16,7 @@ function FormRegister() {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -31,6 +32,16 @@ function FormRegister() {
   console.log(errors.password);
   const isSubmit = async (e) => {
     e.preventDefault();
+
+    if (userData.password !== userData.confirmPassword) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Las contraseñas no coinciden.",
+      });
+      return;
+    }
+
     try {
       setisLoading(true);
       const { isValid, errorMessage } = await validateFormData(userData);
@@ -49,9 +60,9 @@ function FormRegister() {
       Swal.fire({
         icon: "success",
         title: "¡Registro exitoso!",
-        text: "El usuario se ha registrado correctamente.",
+        text: "El usuario se ha registrado correctamente y ha iniciado sesión.",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 4500,
         timerProgressBar: true,
       }).then(() => {
         navigate("/");
@@ -67,6 +78,7 @@ function FormRegister() {
       setisLoading(false);
     }
   };
+
   return (
     <Container>
       <div className="d-flex justify-content-center py-5">
@@ -126,7 +138,6 @@ function FormRegister() {
               <span>{errors?.email?.message}</span>
             </div>
           </Form.Group>
-
           <Form.Group className="input-container mb-3" controlId="password">
             <Form.Label className="mb-0 poppins-light">Contraseña</Form.Label>
             <Form.Control
@@ -159,14 +170,30 @@ function FormRegister() {
               <span>{errors?.password?.message}</span>
             </div>
           </Form.Group>
-
+          <Form.Group
+            className="input-container mb-3"
+            controlId="confirmPassword"
+          >
+            <Form.Label className="mb-0 poppins-light">
+              Confirmar Contraseña
+            </Form.Label>
+            <Form.Control
+              type="password"
+              name="confirmPassword"
+              autoComplete="off"
+              placeholder="Confirma tu contraseña"
+              className="input"
+              value={userData.confirmPassword}
+              onChange={handleChange}
+            />
+          </Form.Group>
           <div className="">
             <button
               variant="primary"
               type="submit"
               className="submit poppins-light"
             >
-              {isLoading ? <Spinner size="sm" /> : "Enviar"}
+              {isLoading ? <Spinner size="sm" /> : "Registrarse"}
             </button>
           </div>
         </form>

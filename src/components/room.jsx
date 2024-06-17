@@ -1,19 +1,24 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import "../styles/rooms.css";
-import { Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import imagePlaceholder from "../../src/assets/placeholder-image.jpg";
 import ImageComponent from "./ImageComponent";
 
-const Room = ({ image, text, title }) => {
+const Room = ({ image, title }) => {
   const navigate = useNavigate();
-  const handleNagivate = (e) => {
+
+  const handleNavigate = (e) => {
     e.preventDefault();
     navigate(`/room/${title}`);
   };
+
   return (
-    <div className="roomCard">
+    <div
+      className="roomCard"
+      onClick={handleNavigate}
+      style={{ cursor: "pointer" }}
+    >
       <div className="imgContainer">
         <ImageComponent src={image} notFoundSrc={imagePlaceholder} />
       </div>
@@ -21,10 +26,6 @@ const Room = ({ image, text, title }) => {
         <div>
           <Card.Title>
             <span className="poppins-light">Habitación n°{title}</span>
-
-            <Button variant="transparent" onClick={handleNagivate}>
-              <i className="bi bi-box-arrow-in-up-right"></i>
-            </Button>
           </Card.Title>
         </div>
       </Card.Body>

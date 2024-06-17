@@ -1,31 +1,40 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "../styles/loginForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Form, Spinner } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import regexEmail from "../utils/regexEmail";
 import axios from "axios";
 import { ADMIN_KEY, URL_BASE, USER_KEY } from "../config/config";
 import Swal from "sweetalert2";
-import Loader from "../components/Loader";
 
 const LoginView = () => {
   const [isLoading, setisLoading] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const onSubmit = async (data) => {
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
     setisLoading(true);
-    const { email, password } = data;
+
+    if (!email || !password) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Por favor, completa todos los campos.",
+      });
+      setisLoading(false);
+      return;
+    }
+
     try {
-      const res = await axios.post(`${URL_BASE}/users/login`, data);
+      const res = await axios.post(`${URL_BASE}/users/login`, {
+        email,
+        password,
+      });
       Swal.fire({
         icon: "success",
         title: "¡Inicio de sesión exitoso!",
-        text: "Te has logueado correctamente.",
+        text: "Has iniciado sesión correctamente.",
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
@@ -38,103 +47,61 @@ const LoginView = () => {
         window.location.reload();
       });
     } catch (error) {
-      const myErrors = [];
-      if (error?.response?.data?.errors) {
-        error.response.data.errors.forEach((e) => myErrors.push(e.msg));
-      } else {
-        myErrors.push(error.message);
-      }
-
-      return Swal.fire({
+      Swal.fire({
         icon: "error",
         title: "Error",
-        html: myErrors.length > 0 && myErrors.join("<br>"),
+        text: "Contraseña y/o usuario incorrecto.",
       });
     } finally {
       setisLoading(false);
     }
   };
+
   return (
     <>
       <Container>
         <div className="d-flex justify-content-center py-5">
-          <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
+          <form className="loginForm" onSubmit={onSubmit}>
             <h2 className="loginForm-title poppins-semibold">
               Ingresa a tu cuenta
             </h2>
             <div className="input-container">
-              <Form.Group controlId="email">
-                <Form.Label className="mb-0 poppins-light">Email</Form.Label>
-                <Form.Control
-                  name="email"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Ingresa tu email "
-                  {...register("email", {
-                    required: {
-                      value: true,
-                      message: "Debes ingresar un correo",
-                    },
-                    pattern: {
-                      value: regexEmail,
-                      message: "Debe tener un formato de correo",
-                    },
-                  })}
-                />
-                {/* <label>Email</label> */}
-                <div
-                  className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
-                    errors.email?.message ? "fadein" : ""
-                  }`}
-                >
-                  <i className="bi fs-5 bi-exclamation-lg"></i>
-                  <span>{errors?.email?.message}</span>
-                </div>
-              </Form.Group>
+
+              <Form.Label className="mb-0 poppins-light">Email</Form.Label>
+              <Form.Control
+                name="email"
+                type="text"
+                autoComplete="off"
+                placeholder="Ingresa tu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
             </div>
 
             <div className="input-container">
-              <Form.Group controlId="password">
-                <Form.Label className="mb-0 poppins-light">
-                  Contraseña
-                </Form.Label>
-                <Form.Control
-                  name="password"
-                  type="password"
-                  placeholder="Ingresa tu contraseña"
-                  autoComplete="off"
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: "Debes ingresar una contraseña",
-                    },
-                    minLength: {
-                      value: 8,
-                      message: "Ingresa al menos 8 caracteres",
-                    },
-                  })}
-                />
-                <div
-                  className={`d-flex align-items-center text-danger flex-wrap w-100 feedbackForm ${
-                    errors.password?.message ? "fadein" : ""
-                  }`}
-                >
-                  <i className="bi fs-5 bi-exclamation-lg"></i>
-                  <span>{errors?.password?.message}</span>
-                </div>
-              </Form.Group>
+
+              <Form.Label className="mb-0 poppins-light">Contraseña</Form.Label>
+              <Form.Control
+                name="password"
+                type="password"
+                placeholder="Ingresa tu contraseña"
+                autoComplete="off"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
             </div>
             <button type="submit" className="submit poppins-light">
-              {isLoading ? <Spinner size="sm" /> : " Ingresar"}
+              {isLoading ? <Spinner size="sm" /> : "Ingresar"}
             </button>
 
             <p className="signup-link mt-3 mb-2 poppins-light">
-              No tienes una cuenta?
-              <Link
-                className="ms-1 text-decoration-none linkRegisterButton"
-                to={"/register"}
-              >
-                Registrate
+
+              ¿No tienes una cuenta?
+              <Link className="ms-1 text-decoration-none" to={"/register"}>
+                Regístrate
+
               </Link>
             </p>
           </form>

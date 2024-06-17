@@ -32,7 +32,16 @@ const ContactoForm = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Por favor, debes estar logeado para contactarte.",
+        text: "Por favor, debes iniciar sesión para contactarte.",
+      });
+      return;
+    }
+
+    if (!asunto || !mensaje) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, completa todos los campos.",
       });
       return;
     }
@@ -51,14 +60,13 @@ const ContactoForm = () => {
         templateParams,
         "R57eWNNzjw06V4OeZ"
       )
-
       .then(
         (response) => {
           Swal.fire({
             icon: "success",
             title: "¡Mensaje enviado!",
             text: "Gracias por contactarnos.",
-            timer: 300000000,
+            timer: 3000,
             showConfirmButton: false,
           }).then(() => {
             window.location.href = "/";
@@ -118,6 +126,11 @@ const ContactoForm = () => {
               type="text"
               autoComplete="off"
               placeholder="Ingresa el asunto"
+
+              value={asunto}
+              onChange={(e) => setAsunto(e.target.value)}
+              maxLength={30}
+
             />
             {errors?.asunto?.message && (
               <div className="fadein d-flex align-items-center text-danger flex-wrap w-100">
@@ -146,9 +159,12 @@ const ContactoForm = () => {
               })}
               as="textarea"
               rows={4}
-              max={400}
-              placeholder="Escribe tu mensaje..."
-              autoComplete="off"
+
+              placeholder="Escribe tu mensaje aquí"
+              value={mensaje}
+              onChange={(e) => setMensaje(e.target.value)}
+              maxLength={300}
+
             />
             {errors?.message?.message && (
               <div className="fadein d-flex align-items-center text-danger">
